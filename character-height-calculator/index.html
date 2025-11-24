@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display Character Size Calculator</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <h1>Display Character Size Calculator</h1>
+  <p>The Display Character Size Calculator is designed to support clear and reliable text presentation. Its foundation is always a font that renders optimally, ensuring each character is recognizable and distinguishable. Once this is achieved, font size becomes the crucial factor for legibility. The calculator sets 9 dpx as a positive baseline, but this applies only if the website or application allows users to zoom in.</p>
+  <fieldset class="presets">
+    <legend>Presets:</legend>
+    <label for="presetSelect">Choose a device:</label>
+    <select id="presetSelect">
+      <!-- Options will be populated by JS -->
+    </select>
+  </fieldset>
+  <form id="displayForm">
+    <fieldset id="displayFieldset">
+      <legend>Display Parameters:</legend>
+      <label for="pixelWidth">
+        Pixel Width:
+        <input type="number" id="pixelWidth" min="1" required>
+      </label>
+      <label for="pixelHeight">
+        Pixel Height:
+        <input type="number" id="pixelHeight" min="1" required>
+      </label>
+      <label for="diagonal">
+        Diagonal (inches):
+        <input type="number" id="diagonal" step="0.01" min="1" required>
+      </label>
+    </fieldset>
+    <button type="submit">Calculate</button>
+    <button type="button" id="resetBtn">Reset</button>
+  </form>
+  <div class="result" id="result"></div>
+  <div class="table-wrapper">
+    <table id="charTable" style="display:none;">
+      <caption id="charTableCaption"></caption>
+      <thead>
+        <tr>
+          <th>Char Height (dpx)</th>
+          <th>100%</th>
+          <th>125%</th>
+          <th>150%</th>
+          <th>175%</th>
+          <th>200%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be inserted by JS -->
+      </tbody>
+    </table>
+    <div class="table-actions">
+      <button id="copy-screenshot">Copy Screenshot to Clipboard</button>
+      <button id="download-screenshot">Download Screenshot</button>
+    </div>
+  </div>
+  <div id="accessibility">
+    <h2>Accessibility</h2>
+    <div>
+      <input type="text" id="alt-text" value="" readonly>
+      <button id="copy-alt-text" aria-label="Copy alt text to clipboard">
+        📋
+      </button>
+    </div>
+    <output id="success-message" aria-live="polite"></output>
+    <p id="iframe-hint" class="hidden">Copying to clipboard may not work due to security reasons. Please download the image and manually copy the alt text.</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    // --- Load presets from external JSON file ---
+    // Example JSON structure (presets.json):
+    // [
+    //   {
+    //     "category": "Office Display",
+    //     "devices": [
+    //       { "key": "dell_u2720q", "label": "Dell 27\" 4K", "width": 3840, "height": 2160, "diagonal": 27 },
+    //       ...
+    //     ]
+    //   },
+    //   ...
+    // ]
+    let allPresets = [];
+    let presetMap = {};
+
+    fetch('presets.json')
+      .then(response => response.json())
+      .then(data => {
+        allPresets = data;
+        populatePresetSelect();
+      });
+
+function populatePresetSelect() {
+  const select = document.getElementById('presetSelect');
+  select.innerHTML = '';
+
+  allPresets.forEach(category => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = category.category;
+
+    category.devices.forEach(device => {
+      const option = document.createElement('option');
+      option.value = device.key;
+      option.textContent = device.label;
+      optgroup.appendChild(option);
+      presetMap[device.key] = device;
+    });
+
+    select.appendChild(optgroup);
+
+    // Add <hr> after each optgroup
+    const hr = document.createElement('hr');
+    select.appendChild(hr);
+  });
+
+  // Add custom option at the end
+  const customOption = document.createElement('option');
+  customOption.value = 'custom';
+  customOption.textContent = 'Custom';
+  select.appendChild(customOption);
+  select.value = 'custom';
+
+  updateFieldsetDisabled();
+}
+
+
+
+    // --- Fieldset Enable/Disable ---
+    function updateFieldsetDisabled() {
+      const select = document.getElementById('presetSelect');
+      const isCustom = select.value === 'custom';
+      const fieldset = document.getElementById('displayFieldset');
+      if (!isCustom) {
+        fieldset.disabled = true;
+        fieldset.classList.add('disabled-class');
+      } else {
+        fieldset.disabled = false;
+        fieldset.classList.remove('disabled-class');
+      }
+    }
+
+    document.getElementById('presetSelect').addEventListener('change', function() {
+      if (this.value === "custom") {
+        document.getElementById('displayForm').reset();
+      } else {
+        const preset = presetMap[this.value];
+        document.getElementById('pixelWidth').value = preset.width;
+        document.getElementById('pixelHeight').value = preset.height;
+        document.getElementById('diagonal').value = preset.diagonal;
+      }
+      updateFieldsetDisabled();
+    });
+
+    // --- Form Defaults ---
+    document.getElementById('pixelWidth').value = '';
+    document.getElementById('pixelHeight').value = '';
+    document.getElementById('diagonal').value = '';
+
+    // --- Calculation Functions ---
+    function calcPixelPitch(width, height, diagonal) {
+      const pixelDiagonal = Math.sqrt(width * width + height * height);
+      return diagonal * 25.4 / pixelDiagonal; // mm per pixel
+    }
+    function calcPPI(width, height, diagonal) {
+      const pixelDiagonal = Math.sqrt(width * width + height * height);
+      return pixelDiagonal / diagonal;
+    }
+    function charSizeMm(pixelPitch, dpx, zoom) {
+      return pixelPitch * dpx * zoom;
+    }
+    function getCharClassAndIcon(val, target, threshold) {
+      const lower = target * (1 - threshold);
+      if (val >= target) {
+        return { cls: 'char-green', icon: '✅', label: 'Fulfilled' };
+      } else if (val >= lower) {
+        return { cls: 'char-yellow', icon: '☑️', label: 'Acceptable' };
+      } else {
+        return { cls: 'char-red', icon: '❌', label: 'Below target' };
+      }
+    }
+
+    // --- Safari Detection ---
+    function isSafari() {
+      const ua = navigator.userAgent;
+      return ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Chromium");
+    }
+    if (isSafari()) {
+      document.getElementById("copy-screenshot").style.display = "none";
+    }
+
+    // --- Cache DOM Elements ---
+    const charTable = document.getElementById("charTable");
+    const successMessage = document.getElementById("success-message");
+    const iframeHint = document.getElementById("iframe-hint");
+    const altTextInput = document.getElementById("alt-text");
+    const copyScreenshotBtn = document.getElementById("copy-screenshot");
+    const downloadScreenshotBtn = document.getElementById("download-screenshot");
+
+    // --- Screenshot/Download Buttons State ---
+    function updateActionButtons() {
+      const visible = charTable.style.display !== "none";
+      copyScreenshotBtn.disabled = !visible;
+      downloadScreenshotBtn.disabled = !visible;
+    }
+
+    // --- Table Generation ---
+    document.getElementById('displayForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const width = parseInt(document.getElementById('pixelWidth').value, 10);
+      const height = parseInt(document.getElementById('pixelHeight').value, 10);
+      const diagonal = parseFloat(document.getElementById('diagonal').value);
+      if (
+        isNaN(width) || isNaN(height) || isNaN(diagonal) ||
+        width <= 0 || height <= 0 || diagonal <= 0
+      ) {
+        document.getElementById('result').innerHTML = '<span style="color:#b20000;font-weight:bold;">Please fill in all fields with valid numbers.</span>';
+        charTable.style.display = 'none';
+        updateActionButtons();
+        return;
+      }
+      const pixelPitch = calcPixelPitch(width, height, diagonal);
+      const ppi = calcPPI(width, height, diagonal);
+      document.getElementById('result').innerHTML =
+        `<strong>Pixel Pitch:</strong> ${pixelPitch.toFixed(3)} mm<br>
+         <strong>PPI:</strong> ${ppi.toFixed(1)}`;
+      // Table
+      const zooms = [1, 1.25, 1.5, 1.75, 2];
+      const zoomLabels = ['100%', '125%', '150%', '175%', '200%'];
+      const dpxs = [8, 9, 10, 11];
+      const targetCharHeight = 3.2;
+      const threshold = 0.10; // 10%
+      const tbody = charTable.querySelector('tbody');
+      tbody.innerHTML = '';
+      let acceptableZoomsFor9dpx = [];
+      // Use DocumentFragment for efficient DOM updates
+      const fragment = document.createDocumentFragment();
+      dpxs.forEach((dpx, rowIdx) => {
+        const row = document.createElement('tr');
+        row.setAttribute('tabindex', '0');
+        row.setAttribute('aria-label', `Row for character height ${dpx} dpx`);
+        const th = document.createElement('th');
+        th.textContent = `${dpx} dpx`;
+        row.appendChild(th);
+        zooms.forEach((zoom, colIdx) => {
+          const val = charSizeMm(pixelPitch, dpx, zoom);
+          const { cls, icon, label } = getCharClassAndIcon(val, targetCharHeight, threshold);
+          const td = document.createElement('td');
+          td.className = cls;
+          td.setAttribute('aria-label', label);
+          td.innerHTML = `<span class="char-icon" aria-hidden="true">${icon}</span>${val.toFixed(2)} mm`;
+          row.appendChild(td);
+          if (dpx === 9 && (label === 'Acceptable' || label === 'Fulfilled')) {
+            acceptableZoomsFor9dpx.push(zoomLabels[colIdx]);
+          }
+        });
+        fragment.appendChild(row);
+      });
+      tbody.appendChild(fragment);
+      // Dynamic caption summarising acceptable zoom levels for 9 dpx
+      const caption = document.getElementById('charTableCaption');
+      let captionText = '';
+      if (acceptableZoomsFor9dpx.length > 0) {
+        captionText = `Acceptable character size for 9 dpx starts at: ${acceptableZoomsFor9dpx[0]} zoom level${acceptableZoomsFor9dpx.length > 1 ? 's' : ''}.`;
+      } else {
+        captionText = 'No zoom level achieves the acceptable character size for 9 dpx.';
+      }
+      caption.textContent = captionText;
+      altTextInput.value = captionText;
+      charTable.style.display = '';
+      updateActionButtons();
+      // Focus first row for accessibility
+      const firstRow = charTable.querySelector('tbody tr');
+      if (firstRow) firstRow.focus();
+    });
+
+    // --- Table Keyboard Navigation (Event Delegation) ---
+    charTable.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'TR' && e.target.hasAttribute('tabindex')) {
+        const rows = Array.from(this.querySelectorAll('tbody tr[tabindex="0"]'));
+        const idx = rows.indexOf(e.target);
+        if (idx !== -1) {
+          if (e.key === 'ArrowDown' && idx < rows.length - 1) {
+            rows[idx + 1].focus();
+            e.preventDefault();
+          } else if (e.key === 'ArrowUp' && idx > 0) {
+            rows[idx - 1].focus();
+            e.preventDefault();
+          }
+        }
+      }
+    });
+
+    // --- Screenshot & Clipboard ---
+    copyScreenshotBtn.addEventListener("click", () => {
+      html2canvas(charTable, {
+        backgroundColor: "#ffffff",
+        logging: false,
+        useCORS: true,
+        ignoreElements: (element) => element.id === "charTableCaption"
+      }).then((canvas) => {
+        canvas.toBlob((blob) => {
+          navigator.clipboard
+            .write([new ClipboardItem({ "image/png": blob })])
+            .then(() => {
+              successMessage.textContent =
+                "Screenshot successfully copied to clipboard!";
+            })
+            .catch((err) => {
+              console.error("Could not copy screenshot: ", err);
+              successMessage.textContent =
+                "Could not copy screenshot. This feature may not be supported in your browser or context. Please use the Download Screenshot button instead.";
+              iframeHint.classList.remove("hidden");
+            });
+        });
+      });
+    });
+
+    downloadScreenshotBtn.addEventListener("click", () => {
+      html2canvas(charTable, {
+        backgroundColor: "#ffffff",
+        logging: false,
+        useCORS: true,
+        ignoreElements: (element) => element.id === "charTableCaption"
+      }).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "character-size-table.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    });
+
+    document.getElementById("copy-alt-text").addEventListener("click", () => {
+      const altTextValue = altTextInput.value;
+      navigator.clipboard
+        .writeText(altTextValue)
+        .then(() => {
+          successMessage.textContent =
+            "Caption text successfully copied to clipboard!";
+        })
+        .catch((err) => {
+          console.error("Could not copy caption text: ", err);
+        });
+    });
+
+    // --- Iframe Hint ---
+    if (window.self !== window.top) {
+      iframeHint.classList.remove("hidden");
+    }
+
+    // --- Reset ---
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      document.getElementById('displayForm').reset();
+      document.getElementById('result').innerHTML = '';
+      charTable.style.display = 'none';
+      altTextInput.value = '';
+      document.getElementById('presetCustom').checked = true;
+      updateFieldsetDisabled();
+      updateActionButtons();
+    });
+  </script>
+</body>
+</html>
