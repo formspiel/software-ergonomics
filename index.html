@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Ergonomics Projects</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg-light: #f8f9fa;
+            --bg-dark: #222;
+            --text-light: #222;
+            --text-dark: #f8f9fa;
+            --accent: #008080;
+            --border: #b2dfdb;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background-color: light-dark(var(--bg-light), var(--bg-dark));
+            color: light-dark(var(--text-light), var(--text-dark));
+            transition: background-color 0.2s, color 0.2s;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            border: 1px solid light-dark(var(--border), #444);
+            border-radius: 8px;
+            padding: 1.5rem;
+            background-color: light-dark(#fff, #333);
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 4px 12px light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+            transform: translateY(-2px);
+        }
+
+        .project-card h2 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            margin: 0 0 1rem 0;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .project-link:hover {
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <h1>Software Ergonomics Projects</h1>
+    
+    <div class="projects">
+        <a href="character-height-calculator/index.html" class="project-card">
+            <h2>Display Character Size Calculator</h2>
+            <p>Calculate optimal character size for displays based on pixel dimensions and diagonal measurements. Ensures clear and readable text presentation with zoom level recommendations.</p>
+            <span class="project-link">Open →</span>
+        </a>
+
+        <a href="theming/index.html" class="project-card">
+            <h2>Too late for the Meeting Joke generator</h2>
+            <p>A fun joke generator with modern CSS theming support. Demonstrates the modern <code>light-dark()</code> CSS function with manual theme switching (Auto, Light, Dark) and localStorage persistence.</p>
+            <span class="project-link">Open →</span>
+        </a>
+    </div>
+</body>
+</html>
