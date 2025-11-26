@@ -10,8 +10,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Too late for the Meeting Joke generator</h1>
-    <fieldset>
+    <h1>Too late for the Meeting Joke generator</h1>
+    <div class="theme-switcher">
+        <label for="theme-select" class="label">Theme:</label>
+        <select id="theme-select" aria-label="Theme">
+            <option value="auto">Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+    </div>
+        <fieldset>
       <legend>Choose</legend>
         <label for="joke-category" class="label">Joke category:</label>
         <select id="joke-category">

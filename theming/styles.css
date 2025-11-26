@@ -4,8 +4,13 @@
     --background-dark: #333;
     --text-light: #333;
     --text-dark: #f9f9f9;
-    --accent-color-light: #0E98CC;
+    --accent-color-light: #006699;
     --accent-color-dark: #00BFD9;
+}
+
+html[data-theme="dark"] body {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
 }
 		
 a {
@@ -75,3 +80,12 @@ blockquote {
 	animation: fadeIn 1s ease-in-out 0.5s forwards;
 	/* TODO: Doesn't work if new joke is requested */
 }
+
+/* User theme override: when the user explicitly picks a theme, force it
+   without removing the existing light-dark() usage elsewhere. */
+html[data-theme="light"] body {
+    background-color: var(--background-light);
+    color: var(--text-light);
+}
+
+
