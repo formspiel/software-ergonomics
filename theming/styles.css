@@ -1,0 +1,77 @@
+:root {
+	color-scheme: light dark;
+    --background-light: #f9f9f9;
+    --background-dark: #333;
+    --text-light: #333;
+    --text-dark: #f9f9f9;
+    --accent-color-light: #0E98CC;
+    --accent-color-dark: #00BFD9;
+}
+		
+a {
+    padding: .12rem;
+    outline-color: light-dark(transparent, transparent); /* TODO: to be tested in Windwows high contrast mode*/
+    transition: outline-color 0.4s ease, outline-width 0.4s ease;
+    color: light-dark(var(--text-light), var(--text-dark));
+}
+
+:focus {
+	outline: 3px solid light-dark(var(--accent-color-light), var(--accent-color-dark));
+	outline-offset: 2px;
+	border-radius: 5px;
+	background-color: light-dark(#f6f6f6, #444);
+}
+		
+@keyframes fadeIn {
+    from {
+            opacity: 0;
+    }
+    to {
+            opacity: 1;
+    }
+}
+
+body {
+    background-color: light-dark(var(--background-light), var(--background-dark));
+    color: light-dark(var(--text-light), var(--text-dark));
+    font-family: system-ui;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+fieldset {
+	border: 1px solid light-dark(var(--text-light), var(--text-dark));
+	/* TODO: Doesn't work with current implementation of dark mode toggle */
+	/* https://dev.to/web_dev-usman/building-a-smooth-darklight-mode-switch-with-modern-css-features-3jlc */
+	margin-bottom: 3rem;
+	color: light-dark(var(--text-light), var(--text-dark));
+}
+
+blockquote {
+    border-left: 5px solid light-dark(var(--accent-color-light), var(--accent-color-dark));
+    margin: 20px 0;
+    padding-left: 15px;
+    font-style: italic;
+    color: light-dark(var(--text-light), var(--text-dark));
+}
+
+.label {
+    font-weight: bold;
+    color: light-dark(var(--accent-color-light), var(--accent-color-dark));
+}
+
+.id-label {
+    font-size: 0.9em;
+    color: light-dark(var(--text-light), var(--text-dark));
+}
+
+.loading {
+    font-style: italic;
+    color: light-dark(var(--accent-color-light), var(--accent-color-dark));
+}
+		
+#joke-punchline {
+	opacity: 0;
+	animation: fadeIn 1s ease-in-out 0.5s forwards;
+	/* TODO: Doesn't work if new joke is requested */
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#c1f07c" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#9874d3" media="(prefers-color-scheme: dark)">
+    <title>Too late for the Meeting Joke generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Too late for the Meeting Joke generator</h1>
+    <fieldset>
+      <legend>Choose</legend>
+        <label for="joke-category" class="label">Joke category:</label>
+        <select id="joke-category">
+            <option value="general">General</option>
+            <option value="knock-knock">Knock-Knock</option>
+            <option value="programming" selected>Programming</option>
+            <option value="dad">Dad</option>
+        </select>
+        <button onclick="fetchJoke()">Get New Joke</button> or
+        <button onclick="fetchRandomJoke()">Get Random Joke</button>
+    </fieldset>
+    <div>
+        <span class="label">Type:</span> <span id="joke-type">Loading...</span>
+    </div>
+    <blockquote id="joke-blockquote" cite="">
+        <span class="setup" id="joke-setup">Loading...</span>
+        <br>
+        <span class="punchline" id="joke-punchline">Loading...</span>
+    </blockquote>
+
+    <script src="script.js"></script>
+</body>
+</html>
