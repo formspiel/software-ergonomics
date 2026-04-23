@@ -84,6 +84,7 @@
           <tr>
             <th>Arc minutes</th>
             <th>Min. character height (dpx)</th>
+            <th>Min. character height (CSS px)</th>
             <th>Meaning</th>
           </tr>
         </thead>
@@ -91,16 +92,19 @@
           <tr>
             <td>16′</td>
             <td id="arc16"></td>
+            <td id="arc16css"></td>
             <td>Secondary / non-work information</td>
           </tr>
           <tr>
             <td>20′</td>
             <td id="arc20"></td>
+            <td id="arc20css"></td>
             <td>Minimum character size</td>
           </tr>
           <tr>
             <td>22′</td>
             <td id="arc22"></td>
+            <td id="arc22css"></td>
             <td>Recommended character size</td>
           </tr>
         </tbody>
@@ -359,9 +363,16 @@
       // Arc-minute thresholds (only if viewing distance is provided)
       const arcSection = document.getElementById('arcMinuteResults');
       if (viewingDist > 0) {
-        document.getElementById('arc16').textContent = calcArcMinuteThreshold(pixelPitch, viewingDist, 16) + ' dpx';
-        document.getElementById('arc20').textContent = calcArcMinuteThreshold(pixelPitch, viewingDist, 20) + ' dpx';
-        document.getElementById('arc22').textContent = calcArcMinuteThreshold(pixelPitch, viewingDist, 22) + ' dpx';
+        [
+          { dpxId: 'arc16', cssId: 'arc16css', arcMin: 16 },
+          { dpxId: 'arc20', cssId: 'arc20css', arcMin: 20 },
+          { dpxId: 'arc22', cssId: 'arc22css', arcMin: 22 },
+        ].forEach(({ dpxId, cssId, arcMin }) => {
+          const dpxVal = calcArcMinuteThreshold(pixelPitch, viewingDist, arcMin);
+          document.getElementById(dpxId).textContent = dpxVal + ' dpx';
+          document.getElementById(cssId).textContent =
+            typeof dpxVal === 'number' ? Math.ceil(dpxVal / dpr) + ' CSS px' : dpxVal;
+        });
         document.getElementById('arcDistDisplay').textContent = viewingDist;
         arcSection.style.display = '';
       } else {
