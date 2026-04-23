@@ -1,0 +1,7 @@
+{
+  "actions" : {
+    "run" : {
+      "enabled" : true
+    }
+  }
+}
