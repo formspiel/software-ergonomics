@@ -341,7 +341,7 @@
           const td = document.createElement('td');
           td.className = cls;
           td.setAttribute('aria-label', label);
-          td.innerHTML = `<span class="char-icon" aria-hidden="true">${icon}</span>${Math.round(dpx * zoom)} dpx (${Math.ceil(dpx * zoom / dpr)} CSS px)`;
+          td.innerHTML = `<span class="char-icon" aria-hidden="true">${icon}</span>${Math.round(dpx * zoom)} dpx (${Math.ceil(dpx * zoom / dpr)} CSS px) · ${val.toFixed(2)} mm`;
           row.appendChild(td);
           if (dpx === 9 && (label === 'Acceptable' || label === 'Fulfilled')) {
             acceptableZoomsFor9dpx.push(zoomLabels[colIdx]);
