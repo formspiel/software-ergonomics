@@ -2,68 +2,46 @@
   {
     "category": "Office Display",
     "devices": [
-      { "key": "dell_u2720q",       "label": "Dell 27\" 4K",                        "width": 3840, "height": 2160, "diagonal": 27,   "dpr": 1 },
-      { "key": "lg_ultrafine_24",   "label": "LG UltraFine 24\"",                   "width": 3840, "height": 2160, "diagonal": 24,   "dpr": 2 },
-      { "key": "hp_elitedisplay_23","label": "HP EliteDisplay 23\"",                "width": 1920, "height": 1080, "diagonal": 23,   "dpr": 1 },
-      { "key": "benq_gw2780",       "label": "BenQ GW2780 27\"",                    "width": 1920, "height": 1080, "diagonal": 27,   "dpr": 1 },
-      { "key": "asus_proart_32",    "label": "ASUS ProArt 32\"",                    "width": 3840, "height": 2160, "diagonal": 32,   "dpr": 1 },
-      { "key": "fujitsu_b24w6",     "label": "Fujitsu B24W-6 LED 24\"",             "width": 1920, "height": 1200, "diagonal": 24,   "dpr": 1 },
-      { "key": "fujitsu_b278",      "label": "Fujitsu B27-8 TE Pro 27\"",           "width": 1920, "height": 1200, "diagonal": 27,   "dpr": 1 },
-      { "key": "nec_2690wuxi",      "label": "NEC 2690WUXI 26\"",                   "width": 1920, "height": 1200, "diagonal": 26,   "dpr": 1 },
-      { "key": "nec_b228",          "label": "NEC B22-8 WE Neo 22\"",               "width": 1680, "height": 1050, "diagonal": 22,   "dpr": 1 },
-      { "key": "nec_lcd2170nx",     "label": "NEC LCD2170NX 21.3\"",                "width": 1600, "height": 1200, "diagonal": 21.3, "dpr": 1 },
-      { "key": "nec_lcd225wnx",     "label": "NEC LCD225WNX 22\"",                  "width": 1680, "height": 1050, "diagonal": 22,   "dpr": 1 },
-      { "key": "nec_ea261wm",       "label": "NEC MultiSync EA261WM 26\" (old)",    "width": 1920, "height": 1200, "diagonal": 26,   "dpr": 1 },
-      { "key": "nec_ea273wmi",      "label": "NEC MultiSync EA273WMi 27\"",         "width": 1920, "height": 1080, "diagonal": 27,   "dpr": 1 },
-      { "key": "nec_ea294wmi_29",   "label": "NEC MultiSync EA294WMi 29\"",         "width": 2560, "height": 1080, "diagonal": 29,   "dpr": 1 },
-      { "key": "nec_ea294wmi_30",   "label": "NEC MultiSync EA294WMi 30\"",         "width": 2560, "height": 1600, "diagonal": 30,   "dpr": 1 }
+      { "key": "generic_fhd_24",     "label": "Generic FullHD 24\"",           "width": 1920, "height": 1080, "diagonal": 24,   "dpr": 1 },
+      { "key": "generic_fhd_27",     "label": "Generic FullHD 27\"",           "width": 1920, "height": 1080, "diagonal": 27,   "dpr": 1 },
+      { "key": "nec_2690wuxi",       "label": "NEC 2690WUXI 26\" ABS",         "width": 1920, "height": 1080, "diagonal": 26,   "dpr": 1 },
+      { "key": "nec_ea273wmi",       "label": "NEC MultiSync EA273WMi 27\"",   "width": 1920, "height": 1080, "diagonal": 27,   "dpr": 1 },
+      { "key": "nec_ea294wmi_29",    "label": "NEC MultiSync EA294WMi 29\"",   "width": 2560, "height": 1080, "diagonal": 29,   "dpr": 1 },
+      { "key": "nec_ea294wmi_30",    "label": "NEC MultiSync EA294WMi 30\"",   "width": 2560, "height": 1600, "diagonal": 30,   "dpr": 1 },
+      { "key": "asus_proart_32",     "label": "ASUS ProArt 32\"",              "width": 3840, "height": 2160, "diagonal": 32,   "dpr": 1 },
+      { "key": "dell_u2720q",        "label": "Dell 27\" 4K",                  "width": 3840, "height": 2160, "diagonal": 27,   "dpr": 1 },
+      { "key": "lg_ultrafine_24",    "label": "LG UltraFine 24\"",             "width": 3840, "height": 2160, "diagonal": 24,   "dpr": 2 }
     ]
   },
   {
     "category": "Laptop",
     "devices": [
-      { "key": "fujitsu_u747_hd",   "label": "Fujitsu Lifebook U747 14\" HD",        "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
-      { "key": "fujitsu_u747_fhd",  "label": "Fujitsu Lifebook U747 14\" FHD",       "width": 1920, "height": 1080, "diagonal": 14,   "dpr": 1 },
-      { "key": "fujitsu_u747_vpro", "label": "Fujitsu Lifebook U747 V Pro Touch 14\"","width": 1920, "height": 1080, "diagonal": 14,   "dpr": 1 },
-      { "key": "fujitsu_u757",      "label": "Fujitsu Lifebook U757 15.6\"",          "width": 1920, "height": 1080, "diagonal": 15.6, "dpr": 1 },
-      { "key": "hp_850g5",          "label": "HP EliteBook 850 G5 15.6\"",            "width": 1920, "height": 1080, "diagonal": 15.6, "dpr": 1 },
-      { "key": "hp_8570w",          "label": "HP Mobile Workstation 8570W 15.6\"",    "width": 1920, "height": 1080, "diagonal": 15.6, "dpr": 1 },
-      { "key": "hp_840_hd",         "label": "HP Notebook 840 14\" HD",               "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
-      { "key": "hp_840_hdplus",     "label": "HP Notebook 840 14\" HD+",              "width": 1600, "height": 900,  "diagonal": 14,   "dpr": 1 },
-      { "key": "lenovo_helix2",     "label": "Lenovo Helix 2 Gen 11.6\"",             "width": 1920, "height": 1080, "diagonal": 11.6, "dpr": 1 },
-      { "key": "lenovo_t460",       "label": "Lenovo ThinkPad T460 14\"",             "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
-      { "key": "lenovo_x380_yoga",  "label": "Lenovo X380 Yoga 13.3\"",               "width": 1920, "height": 1080, "diagonal": 13.3, "dpr": 1 },
-      { "key": "samsung_np600b4b",  "label": "Samsung NP600B4B 14\"",                 "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
-      { "key": "macbook_air_m5_13", "label": "MacBook Air M5 13.6\"",                 "width": 2560, "height": 1666, "diagonal": 13.6, "dpr": 2 }
+      { "key": "fujitsu_u747_hd",        "label": "Fujitsu Lifebook U747 14\" HD",  "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
+      { "key": "samsung_np600b4b",       "label": "Samsung NP600B4B 14\"",          "width": 1366, "height": 768,  "diagonal": 14,   "dpr": 1 },
+      { "key": "generic_laptop_14_fhd",  "label": "Generic Laptop 14\" FHD",        "width": 1920, "height": 1080, "diagonal": 14,   "dpr": 1 },
+      { "key": "generic_laptop_156_fhd", "label": "Generic Laptop 15.6\" FHD",      "width": 1920, "height": 1080, "diagonal": 15.6, "dpr": 1 },
+      { "key": "generic_laptop_14_wuxga","label": "Generic Laptop 14\" WUXGA",       "width": 1920, "height": 1200, "diagonal": 14,   "dpr": 1 },
+      { "key": "generic_laptop_156_wuxga","label": "Generic Laptop 15.6\" WUXGA",   "width": 1920, "height": 1200, "diagonal": 15.6, "dpr": 1 },
+      { "key": "macbook_air_13",         "label": "MacBook Air 13.6\"",             "width": 2560, "height": 1666, "diagonal": 13.6, "dpr": 2 },
+      { "key": "macbook_pro_16",         "label": "MacBook Pro 16.2\"",             "width": 3456, "height": 2234, "diagonal": 16.2, "dpr": 2 }
     ]
   },
   {
     "category": "Tablet",
     "devices": [
-      { "key": "ipad_pro_12_9",     "label": "iPad Pro 12.9\"",                      "width": 2048, "height": 2732, "diagonal": 12.9, "dpr": 2 },
-      { "key": "ipad_air_10_9",     "label": "iPad Air 10.9\"",                      "width": 1640, "height": 2360, "diagonal": 10.9, "dpr": 2 },
-      { "key": "galaxy_tab_s8",     "label": "Galaxy Tab S8 11\"",                   "width": 1600, "height": 2560, "diagonal": 11,   "dpr": 2 },
-      { "key": "surface_pro_9",     "label": "Surface Pro 9 13\"",                   "width": 2880, "height": 1920, "diagonal": 13,   "dpr": 2 },
-      { "key": "lenovo_tab_p11",    "label": "Lenovo Tab P11 11\"",                  "width": 1200, "height": 2000, "diagonal": 11,   "dpr": 1 },
-      { "key": "ipad_pro_9_7",      "label": "Apple iPad Pro 9.7\"",                 "width": 1536, "height": 2048, "diagonal": 9.7,  "dpr": 2 }
+      { "key": "ipad_pro_11",    "label": "iPad Pro 11\"",       "width": 1668, "height": 2420, "diagonal": 11,   "dpr": 2 },
+      { "key": "ipad_pro_13",    "label": "iPad Pro 13\"",       "width": 2064, "height": 2752, "diagonal": 13,   "dpr": 2 },
+      { "key": "surface_pro_9",  "label": "Surface Pro 9 13\"",  "width": 2880, "height": 1920, "diagonal": 13,   "dpr": 2 },
+      { "key": "lenovo_tab_p11", "label": "Lenovo Tab P11 11\"", "width": 1200, "height": 2000, "diagonal": 11,   "dpr": 1 }
     ]
   },
   {
     "category": "Smartphone",
     "devices": [
-      { "key": "iphone_12_pro",     "label": "iPhone 12 Pro 6.1\"",                  "width": 1170, "height": 2532, "diagonal": 6.1,  "dpr": 3 },
-      { "key": "galaxy_s22",        "label": "Galaxy S22 6.1\"",                     "width": 1080, "height": 2340, "diagonal": 6.1,  "dpr": 3 },
-      { "key": "pixel_7",           "label": "Pixel 7 6.3\"",                        "width": 1080, "height": 2400, "diagonal": 6.3,  "dpr": 3 },
-      { "key": "oneplus_10_pro",    "label": "OnePlus 10 Pro 6.7\"",                 "width": 1440, "height": 3216, "diagonal": 6.7,  "dpr": 3 },
-      { "key": "sony_xperia_1_iv",  "label": "Sony Xperia 1 IV 6.5\"",              "width": 1644, "height": 3840, "diagonal": 6.5,  "dpr": 3 },
-      { "key": "iphone_se",         "label": "Apple iPhone SE 4\" (old)",            "width": 640,  "height": 1136, "diagonal": 4,    "dpr": 2 },
-      { "key": "iphone_xs_max",     "label": "Apple iPhone XS Max 6.5\"",            "width": 1242, "height": 2688, "diagonal": 6.5,  "dpr": 3 },
-      { "key": "iphone_12_pro_max", "label": "Apple iPhone 12 Pro Max 6.7\"",        "width": 1284, "height": 2778, "diagonal": 6.7,  "dpr": 3 },
-      { "key": "iphone_13_mini",    "label": "Apple iPhone 13 mini 5.4\"",           "width": 1080, "height": 2340, "diagonal": 5.4,  "dpr": 3 },
-      { "key": "pixel_6",           "label": "Google Pixel 6 6.4\"",                 "width": 1080, "height": 2400, "diagonal": 6.4,  "dpr": 3 },
-      { "key": "nokia_x30",         "label": "Nokia X30 5G 6.43\"",                  "width": 1080, "height": 2400, "diagonal": 6.43, "dpr": 3 },
-      { "key": "galaxy_s21",        "label": "Samsung Galaxy S21 5G 6.2\"",          "width": 1080, "height": 2400, "diagonal": 6.2,  "dpr": 3 },
-      { "key": "galaxy_j5_2016",    "label": "Samsung Galaxy J5 2016 5.2\"",         "width": 720,  "height": 1280, "diagonal": 5.2,  "dpr": 2 }
+      { "key": "iphone_se",     "label": "Apple iPhone SE 4\" (old)", "width": 640,  "height": 1136, "diagonal": 4,    "dpr": 2 },
+      { "key": "iphone_17e",    "label": "Apple iPhone 17e 6.3\"",    "width": 1170, "height": 2532, "diagonal": 6.3,  "dpr": 3 },
+      { "key": "iphone_17_pro", "label": "Apple iPhone 17 Pro 6.9\"", "width": 1320, "height": 2868, "diagonal": 6.9,  "dpr": 3 },
+      { "key": "pixel_6",       "label": "Google Pixel 6 6.4\"",      "width": 1080, "height": 2400, "diagonal": 6.4,  "dpr": 3 }
     ]
   }
 ]

@@ -124,18 +124,6 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-    // --- Load presets from external JSON file ---
-    // Example JSON structure (presets.json):
-    // [
-    //   {
-    //     "category": "Office Display",
-    //     "devices": [
-    //       { "key": "dell_u2720q", "label": "Dell 27\" 4K", "width": 3840, "height": 2160, "diagonal": 27 },
-    //       ...
-    //     ]
-    //   },
-    //   ...
-    // ]
     let allPresets = [];
     let presetMap = {};
 
@@ -164,10 +152,6 @@
         });
 
         select.appendChild(optgroup);
-
-        // Add <hr> after each optgroup
-        const hr = document.createElement('hr');
-        select.appendChild(hr);
       });
 
       // Add custom option at the end
@@ -268,12 +252,7 @@
       }
     }
 
-    // --- Safari Detection ---
-    function isSafari() {
-      const ua = navigator.userAgent;
-      return ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Chromium");
-    }
-    if (isSafari()) {
+    if (typeof navigator.clipboard?.write !== 'function') {
       document.getElementById("copy-screenshot").style.display = "none";
     }
 
