@@ -208,6 +208,7 @@
         document.getElementById('pixelWidth').value = preset.width;
         document.getElementById('pixelHeight').value = preset.height;
         document.getElementById('diagonal').value = preset.diagonal;
+        document.getElementById('scaleFactor').value = preset.dpr || 1;
 
         // Auto-fill distance and matching radio
         const dist = categoryDistMap[preset.category];
