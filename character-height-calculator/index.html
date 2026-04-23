@@ -306,9 +306,13 @@
       }
       const pixelPitch = calcPixelPitch(width, height, diagonal);
       const ppi = calcPPI(width, height, diagonal);
+      const dpr = parseFloat(document.getElementById('scaleFactor').value) || 1;
+      const cssPixelPitch = pixelPitch * dpr;
       document.getElementById('result').innerHTML =
-        `<strong>Pixel Pitch:</strong> ${pixelPitch.toFixed(3)} mm<br>
-         <strong>PPI:</strong> ${ppi.toFixed(1)}`;
+        `<strong>Pixel Pitch:</strong> ${pixelPitch.toFixed(3)} mm &nbsp;&nbsp;` +
+        `<strong>PPI:</strong> ${ppi.toFixed(1)} &nbsp;&nbsp;` +
+        `<strong>Scale Factor:</strong> ${dpr}× &nbsp;&nbsp;` +
+        `<strong>CSS px pitch:</strong> ${cssPixelPitch.toFixed(3)} mm`;
       // Table
       const zooms = [1, 1.25, 1.5, 1.75, 2];
       const zoomLabels = ['100%', '125%', '150%', '175%', '200%'];
