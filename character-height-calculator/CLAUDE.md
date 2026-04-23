@@ -29,16 +29,24 @@ The character-size project consolidation is **complete and committed to main**. 
 ### Current Structure
 
 ```
-character-size/
+/
 ├── character-height-calculator/
 │   ├── index.html          (consolidated calculator, vanilla JS)
 │   ├── presets.json        (46 devices, 4 categories)
-│   └── style.css           (updated for new sections)
-├── README.md               (updated usage docs)
-└── docs/
-    └── superpowers/
-        ├── specs/          (specification document)
-        └── plans/          (implementation plan, 10 tasks)
+│   ├── style.css           (updated for new sections)
+│   ├── README.md           (usage docs)
+│   ├── CLAUDE.md           (this file)
+│   └── docs/
+│       └── superpowers/
+│           ├── specs/      (specification document)
+│           └── plans/      (implementation plan, 10 tasks)
+├── character-height-checker/  (separate tool, not consolidated)
+├── Windows-high-contrast/
+├── coc-ressources/
+├── modals-popups-other/
+├── prevent-tab-close/
+├── theming/
+└── index.html              (root index)
 ```
 
 ### Recent Commits
