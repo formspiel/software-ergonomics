@@ -10,7 +10,7 @@ To run locally: open any `index.html` in a browser. Because `tool-display-legibi
 
 ## Repository Structure
 
-The root `index.html` is a project index linking to the two active tools:
+The root `index.html` is a project index linking to all tools and demos:
 
 **`tool-display-legibility/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
 - `index.html` — all logic is inline JS; no external scripts except `html2canvas` CDN
@@ -18,6 +18,10 @@ The root `index.html` is a project index linking to the two active tools:
 - `style.css` — styling; uses `light-dark()` CSS function for auto dark mode
 
 **`tool-character-size/`** — a separate, unfinished JS bookmarklet/extension script (`coc-assessement.js`) for in-browser accessibility checks. Partially in German, not integrated with the calculator.
+
+**`demo-modals/`** — showcases and compares modal, pop-up, and dialog interaction patterns. ARIA-compliant `Dialog` class with focus trapping, nested dialogs, and ESC handling. Includes a `Pro vs Con/` subpage comparing dialog approaches side-by-side.
+
+**`demo-prevent-tab-close/`** — demonstrates browser tab-close prevention via the `beforeunload` event. Flag-based approach with event delegation on a form.
 
 **`demo-theming/`** — a demo joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto/Light/Dark) via `localStorage`.
 
