@@ -6,24 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 No build system — all tools are standalone HTML files opened directly in a browser. There are no dependencies to install, no bundler, and no test suite.
 
-To run locally: open any `index.html` in a browser. Because `character-height-calculator/index.html` fetches `presets.json` via `fetch()`, it needs a local HTTP server (e.g. `python3 -m http.server 8080` from the repo root) rather than a `file://` URL.
+To run locally: open any `index.html` in a browser. Because `tool-display-legibility/index.html` fetches `presets.json` via `fetch()`, it needs a local HTTP server (e.g. `python3 -m http.server 8080` from the repo root) rather than a `file://` URL.
 
 ## Repository Structure
 
 The root `index.html` is a project index linking to the two active tools:
 
-**`character-height-calculator/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
+**`tool-display-legibility/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
 - `index.html` — all logic is inline JS; no external scripts except `html2canvas` CDN
 - `presets.json` — 46 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`
 - `style.css` — styling; uses `light-dark()` CSS function for auto dark mode
 
-**`character-height-checker/`** — a separate, unfinished JS bookmarklet/extension script (`coc-assessement.js`) for in-browser accessibility checks. Partially in German, not integrated with the calculator.
+**`tool-character-size/`** — a separate, unfinished JS bookmarklet/extension script (`coc-assessement.js`) for in-browser accessibility checks. Partially in German, not integrated with the calculator.
 
-**`theming/`** — a demo joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto/Light/Dark) via `localStorage`.
+**`demo-theming/`** — a demo joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto/Light/Dark) via `localStorage`.
 
 ## Calculator Architecture
 
-All calculator logic lives in `character-height-calculator/index.html`:
+All calculator logic lives in `tool-display-legibility/index.html`:
 
 - **Presets** loaded via `fetch('presets.json')` into `allPresets[]` and `presetMap{}`. Selecting a preset auto-fills display fields, sets viewing distance, checks the matching screen-type radio, and triggers auto-calculate.
 - **Zoom table** — shows physical character sizes (mm) for 8–11 dpx at 100–200% zoom. Target is 3.2 mm; ±10% tolerance determines green/yellow/red coloring. Each cell shows: `N dpx (M CSS px) · X.XX mm`.
@@ -33,4 +33,4 @@ All calculator logic lives in `character-height-calculator/index.html`:
 
 ## Adding Device Presets
 
-Edit `character-height-calculator/presets.json` directly. Use portrait orientation (height > width) for phones and tablets; landscape for monitors and laptops. The `dpr` field is optional (defaults to 1).
+Edit `tool-display-legibility/presets.json` directly. Use portrait orientation (height > width) for phones and tablets; landscape for monitors and laptops. The `dpr` field is optional (defaults to 1).
