@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<style type="text/css">
+
+		/*
+		Notes:
+
+		- This @font-face syntax is based on http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax
+
+		- The webfont file names and the font-family name can be changed without a problem.
+
+		- The font-family name should not be identical to the desktop version,
+		  so when testing the web page, we can be sure that the font used used by our browser is the webfont
+		  and not the desktop font that might be installed on our computer.
+
+		- The TTFs should be served gzipped if possible.
+
+		*/
+
+		/* Regular */
+		@font-face {
+			font-family: 'AllianzSansWeb';
+			src: url('ALSANREG.eot');
+			src: url('ALSANREG.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANREG.woff') format('woff'),
+			     url('ALSANREG.ttf')  format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		/* Italic */
+		@font-face {
+			font-family: 'AllianzSansWeb';
+			src: url('ALSANITA.eot');
+			src: url('ALSANITA.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANITA.woff') format('woff'),
+			     url('ALSANITA.ttf')  format('truetype');
+			font-weight: normal;
+			font-style: italic;
+		}
+		/* Bold */
+		@font-face {
+			font-family: 'AllianzSansWeb';
+			src: url('ALSANBOL.eot');
+			src: url('ALSANBOL.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANBOL.woff') format('woff'),
+			     url('ALSANBOL.ttf')  format('truetype');
+			font-weight: bold;
+			font-style: normal;
+		}
+		/* Bold Italic */
+		@font-face {
+			font-family: 'AllianzSansWeb';
+			src: url('ALSANBIT.eot');
+			src: url('ALSANBIT.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANBIT.woff') format('woff'),
+			     url('ALSANBIT.ttf')  format('truetype');
+			font-weight: bold;
+			font-style: italic;
+		}
+
+		/* Light */
+		/* Note: this is not style-linked to AllianzSansWeb */
+		@font-face {
+			font-family: 'AllianzSansWeb-Light';
+			src: url('ALSANLIG.eot');
+			src: url('ALSANLIG.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANLIG.woff') format('woff'),
+			     url('ALSANLIG.ttf')  format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		/* Light Italic */
+		/* Note: this is not style-linked to AllianzSansWeb but as italic to AllianzSansWeb-Light */
+		@font-face {
+			font-family: 'AllianzSansWeb-Light';
+			src: url('ALSANLIT.eot');
+			src: url('ALSANLIT.eot?#iefix') format('embedded-opentype'),
+			     url('ALSANLIT.woff') format('woff'),
+			     url('ALSANLIT.ttf')  format('truetype');
+			font-weight: normal;
+			font-style: italic;
+		}
+
+		body {
+			text-rendering: optimizeLegibility; /* This activates kerning in Safari */
+			font-family: 'AllianzSansWeb';
+			margin: 3em;
+		}
+		div {
+			font-size: 16px;
+			line-height: 20px;
+			margin-top: 3em;
+			width: 28em;
+		}
+		p {
+			width: 40em;
+			line-height: 1.2em;
+			margin: 0 0 4px 0;
+		}
+	</style>
+
+</head>
+<body>
+
+	<div>
+		12.05.2011
+	</div>
+	
+	<div>
+		<b>This is a demonstration of the Allianz Sans webfonts.</b><br/>
+		<br/>
+		For technical info, please see the comments in the source code of this document.<br/>
+		<br/>
+		Character set<br/>
+		<br/>
+		! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~   ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ Ā ā Ă ă Ą ą Ć ć Ĉ ĉ Ċ ċ Č č Ď ď Đ đ Ē ē Ė ė Ę ę Ě ě Ĝ ĝ Ğ ğ Ġ ġ Ģ ģ Ĥ ĥ Ħ ħ Ĩ ĩ Ī ī Į į İ ı Ĵ ĵ Ķ ķ ĸ Ĺ ĺ Ļ ļ Ľ ľ Ŀ ŀ Ł ł Ń ń Ņ ņ Ň ň ŉ Ŋ ŋ Ō ō Ő ő Œ œ Ŕ ŕ Ŗ ŗ Ř ř Ś ś Ŝ ŝ Ş ş Š š Ţ ţ Ť ť Ŧ ŧ Ũ ũ Ū ū Ŭ ŭ Ů ů Ű ű Ų ų Ŵ ŵ Ŷ ŷ Ÿ Ź ź Ż ż Ž ž ƒ ǵ Ș ș Ț ț ˆ ˇ ˘ ˙ ˚ ˛ ˜ ˝ – — ― ‘ ’ ‚ “ ” „ † ‡ • … ‰ ‹ › ⁄ € ™ ℹ ← ↑ → ↓ ↖ ↗ ↘ ↙ − ∙ ≠ ≤ ≥ ─ ╌ ▣ ▶ ◀ ◊ ◼ ◽ ◾ ☎ ☐ ☑ ☒ ⚠ ✂ ✆ ✉ ✎ ✓ ✗ ➔ ﬁ ﬂ <br/>
+		<br/>
+		This is a <span style='text-decoration: underline;'>dummy</span> text. Wer klenen ohe em Gef. Vief icht voloße eit und bild so <i>Thensch dens Fler</i> und I 
+		(Kal iche größe briolo gen siche Inftre grück) ketrio zu holoßer Spar auensfühn siche 
+		Skle mit den, wäch nicher fas Inschen Raden, dicie diogle pris 1983 ader vomolch eic 
+		sichse Gen Die pra seich ihunder an Grund Maß eit al neuell ven völleich se schencit 
+		Lehr <b>Enensch Sait undent eidensch <i>ver Gutrolch</i> ich</b> der der der alden H. Die Wer weit nit 
+		eie Men der jund aden sit ich aubsine Ver Am wie der den der he Makt at ger Gef den den 
+		fügemoge bitsch der 40 Plassen Ther und Phohe dem Geit hicitsbe wiefas Bit von auche
+		Collei Antralen. Lit wasch an Skatrit zu an ihr Men of gen Kratz prad der Rei End sichen 
+		Skleichs aleitiolo ispie sen den 3 Emit sic undenen jem Kuldes so der unken Thener de Mit.
+	</div>
+	
+	<form>
+		<input type='button' value='Hpdin'>
+	</form>
+
+	<div style='text-decoration: underline;'>
+
+		<div>
+			Regular
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+		<div style='font-style: italic'>
+			Italic
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+		<div style='font-weight: bold'>
+			Bold
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+		<div style='font-style: italic;font-weight: bold'>
+			Bold Italic
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+		<div style='font-family:AllianzSansWeb-Light;'>
+			Light
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+		<div style='font-family:AllianzSansWeb-Light;font-style:italic'>
+			Light Italic
+			<p style='font-size:10px'><br/>10&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:11px'>11&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:12px'>12&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:13px'>13&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:14px'>14&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:15px'>15&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:16px'>16&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:17px'>17&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:18px'>18&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:20px'>20&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:22px'>22&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:24px'>24&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:26px'>26&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:28px'>28&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:32px'>32&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:40px'>40&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+			<p style='font-size:48px'>48&nbsp;abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</p>
+		</div>
+
+	</div>
+
+</body>
+</html>

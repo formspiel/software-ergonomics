@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Navigation</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			font-size: 100%
+		}
+
+		h1 { font-size: 1.25rem }
+		h2, h3, h4, h5, h6 { font-size: 1rem }
+
+		.sr-hide {
+			position: absolute !important;
+  		height: 1px; width: 1px;
+  		overflow: hidden;
+  		clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  		clip: rect(1px, 1px, 1px, 1px);
+			}
+	</style>
+	</head>
+<body>
+<h1>Screenreader-taugliche Navigation</h1>
+<h2>Mit Label</h2>
+<nav class="nav--wrapper nav--main" role="navigation" aria-label="Hauptnavigation">
+	<ul class="nav--list">
+		<li class="nav--item">
+			<a class="is-active" href="#"><i class="icon--ergo" aria-hidden="true" aria-label="Icon Ergonomie"></i>Linktext</a>
+		</li>
+
+		<li class="nav--item">...</li>
+	</ul>
+</nav>
+
+<nav class="nav--wrapper nav--sub" role="navigation" aria-label="Unternavigation">
+	<ul class="nav--list">
+		<li class="nav--item">
+			<a class="is-active" href="#"><i class="icon--ergo" aria-hidden="true" aria-label="Icon Ergonomie"></i>Linktext</a>
+		</li>
+		<li class="nav--item">...</li>
+	</ul>
+</nav>
+
+<h2>Mit anderem Element (#id) als Label</h2>
+<p>Mit <code>arialabeldby</code> wird der Inhalt des verknüpften Elements vom Screenreader vorgelesen. Der Verweis zu mehreren IDs ist möglich. Alle Inhalte der verknüpften IDs werden der Reihe nach vorgelesen. Siehe: <a href="http://www.w3.org/TR/WCAG20-TECHS/aria#ARIA7" target="_blank">http://www.w3.org/TR/WCAG20-TECHS/aria#ARIA7</a></p>
+<nav class="nav--wrapper nav--main" role="navigation" arialabeledby="nav--label other-id-if-you-like">
+	<h6 class="sr-hide" id="nav--label">Hauptnavigation</h6>
+	<ul class="nav--list">
+		<li class="nav--item">
+			<a class="is-active" href="#"><i class="icon--ergo" aria-hidden="true" aria-label="Icon Ergonomie"></i>Linktext</a>
+		</li>
+		<li class="nav--item">...</li>
+	</ul>
+</nav>
+</body>
+</html>

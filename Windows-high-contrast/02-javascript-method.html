@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High Contrast Mode JavaScript method</title>
+  
+  <style>
+  
+    * {
+      font: normal 400 100%/1.4 sans-serif;
+      box-sizing: border-box;
+    }
+  
+  </style>
+  
+  <script src="jquery-3.1.1.slim.min.js"></script>
+  <script type="text/javascript">
+  
+    function js_is_enabled(){
+      $("html").removeClass("no-js"),
+      $("html").addClass("js")
+    }
+
+  // Determines if document is in High Contrast Mode or not
+  // Returns boolean - true if high contrast, false otherwise
+  function HCTest(idval) {
+    var objDiv, objImage, strColor, strWidth, strReady;
+    var strImageID = idval; // ID of image on the page
+
+    // Create a test div
+    objDiv = document.createElement('div');
+    //Set its color style to something unusual
+    objDiv.style.color = 'rgb(31, 41, 59)';
+
+   // Attach to body so we can inspect it
+   document.body.appendChild(objDiv);
+
+   // Read computed color value
+   strColor = document.defaultView ? document.defaultView.getComputedStyle(objDiv, null).color : objDiv.currentStyle.color;
+   strColor = strColor.replace(/ /g, '');
+
+   // Delete the test DIV
+   document.body.removeChild(objDiv);
+
+   // Check if we get the color back that we set. If not, we're in
+   // high contrast mode.
+   if (strColor !== 'rgb(31,41,59)') {
+     return true;
+   } else {
+     return false;
+   }
+  }
+
+  $(document).ready(function(){
+    js_is_enabled();
+
+    var HCM = HCTest();
+    if (HCM === true) {
+      $('#message').text('TRUE'); // just for demo
+      $("body").addClass("hcm-on")
+    } else {
+      $('#message').text('FALSE');  // just for demo
+      $("body").removeClass("hcm-on")
+    }
+  });
+  
+  </script>
+</head>
+<body>
+  <h1>Windows &reg; High Contrast Mode JavaScript detection</h1>
+  <p>This script is courtesy of ....</p>
+  <div id="message"></div>
+</body>
+</html>

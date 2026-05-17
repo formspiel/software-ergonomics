@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Screen Reader an SVG</title>
+    <style media="screen">
+      :root {
+        --color-1: grey;
+        --color-2: lightgrey;
+        --padding: .25rem;
+        --text-shadow: 1px 1px 1px #fff;
+      }
+
+      * {
+        font-family: -apple-system; sans-serif;
+        box-sizing: border-box;
+      }
+
+      .img-svg-text {
+        display: inline-block;
+        height: 130px;
+      }
+
+      figure {
+        position: relative;
+        height: 130px;
+      }
+
+      figure > * {
+        display: block;
+      }
+
+      figure img {
+        display: inline-block;
+        height: inherit;
+      }
+      figure figcaption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        font-size: 80%;
+        background-color: rgba(255, 255, 255, 0.75);
+      }
+
+      table {
+        border: solid 1px var(--color-1);
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+      thead th,
+      tbody td {
+        padding: var(--padding);
+        text-shadow: var(--text-shadow);
+        border: solid 1px var(--color-1);
+      }
+      thead th {
+        background-color: var(--color-2);
+        text-align: left;
+      }
+      tbody td {}
+    </style>
+  </head>
+  <body>
+    <h1>Screen Reader an SVG</h1>
+    <p>Data: default SVGDefault SVG export: 2.147 bytes Compressed and titled SVG: 946 bytes (66% saved and accessible)</p>
+    <h2>A-1</h2>
+    <figure>
+      <img src="Papierflieger.svg" alt="I'm the alt attribute.">
+      <figcaption>A-1: img tag <b>with</b> alt and svg with title</figcaption>
+    </figure>
+
+    <h2>A-2</h2>
+    <figure>
+      <img src="Papierflieger.svg" alt="I'm the alt attribute.">
+      <!-- <figcaption>A-2: img tag <b>without</b> alt and svg with title</figcaption> -->
+    </figure>
+
+    <h2>A-3</h2>
+    <figure>
+      <img src="Papierflieger.svg" alt="">
+      <!-- <figcaption>A-3: img tag <b>without</b> alt and svg with title</figcaption> -->
+    </figure>
+
+    <h2>A-4</h2>
+    <p>image with alt attribute but without figure wrapper and figcaption</p>
+    <img class="img-svg-text" src="Papierflieger.svg" alt="I'm the alt attribute.">
+
+    <h2>A-5</h2>
+    <p>image without alt attribute and figure wrapper and figcaption</p>
+    <img class="img-svg-text" src="Papierflieger.svg" alt="">
+
+    <h2>A-6</h2>
+    <figure>
+      <img src="Papierflieger-optimised.svg" alt="I'm the alt attribute.">
+      <figcaption>figure and figcation; only alt attribute; no SVG title</figcaption>
+    </figure>
+
+    <h2>A-7</h2>
+    <p>Only alt attribute; no SVG title</p>
+    <img src="Papierflieger-optimised.svg" alt="I'm the alt attribute.">
+
+    <h2>A-8</h2>
+    <figure>
+      <img src="Papierflieger-optimised-with-title.svg" alt="I'm the alt attribute.">
+      <figcaption>figure and figcation; only alt attribute; SVG with title</figcaption>
+    </figure>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Screen Reader</th>
+          <th>Output with img + alt</th>
+          <th>Output with img + empty alt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>VoiceOver on macOS 14; Safari</td>
+          <td>on figure: reads figcaption;
+            on img: reads alt attribute;
+            on SVG: reads title and desc</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>JAWS 18 on Win7; IE11</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

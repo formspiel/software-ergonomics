@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light, Dark and High Contrast Mode</title>
+    <style>
+        /* ========== Colour Variables ========== */
+
+        :root {
+            color-scheme: light dark;
+
+            --height: 30vw;
+            /* your light theme colours */
+            --color-bg:     hsl(0, 0%, 94%);
+            --color-bg-box: hsl(0, 0%, 75%);
+            --color-text:   hsl(0, 0%, 16%);
+            --color-link:   hsl(0, 0%, 39%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+        
+            :root {
+                /* your dark theme colours; overwrites the light theme colours */
+                --color-bg:     hsl(0, 0%, 20%);
+                --color-bg-box: hsl(0, 0%, 20%);
+                --color-text:   hsl(0, 0%, 85%);
+                --color-link:   hsl(0, 0%, 75%);
+            }
+        }
+
+        @media (forced-colors) {
+
+            :root {
+                /* your high contrast theme colours; overwrites the light and dark theme colours */
+                --color-bg:     Canvas;
+                --color-bg-box: Canvas;
+                --color-text:   CanvasText;
+                --color-link:   ActiveText;
+            }
+
+        }
+        
+        /* ========== Styles ========== */
+
+        * {
+            font: normal 400 100%/1.4 sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-bg);
+        }
+
+        .box {
+            width: var(--height);
+            height: var(--height);
+            margin: auto;
+            color: var(--color-text);
+            background-color: var(--color-bg-box);
+            border: 1px solid var(--color-text);
+            text-align: center;
+            line-height: var(--height);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .box::after {
+                content: " in the dark";
+            }
+        }
+
+        @media (forced-colors), (-ms-high-contrast: active)  {
+            .box::after {
+                content: " in the very dark";
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SVG</h1>
+    <h2>Example 1 – without Transition/Animation</h2>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="140" viewBox="0 0 500 140">
+        <title>SVG Text Example 1</title>
+        <text x="0" y="35">
+            Legibility rulez. <tspan x="25" dy="2em">Usability for all!</tspan>
+        </text>
+    </svg>
+    
+    <h2>Example 2 – without Transition/Animation</h2>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="140" viewBox="0 0 500 140">
+        <title>SVG Text Example 1</title>
+        <text x="0" y="35" transform="rotate(30 20,40)">
+            Legibility rulez. <tspan x="25" dy="2em">Usability for all!</tspan>
+        </text>
+    </svg>
+    
+    <h3>Example with referenced text</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="500" height="140" viewBox="0 0 500 140">
+        <title>SVG Text Example 3</title>
+        <defs>
+            <text id="theText">Usability for all!</text>
+        </defs>
+        <text x="10" y="10">
+            <tref xlink:href="#theText" />
+        </text>
+    </svg>
+    
+    <h3>Example with Shadow-Focus</h3>
+    <p>This is an element with a CSS shadow focus. This isn't available in HCM</p>
+    <a class="shadow-focus" href="#">Link</a>
+</body>
+</html>

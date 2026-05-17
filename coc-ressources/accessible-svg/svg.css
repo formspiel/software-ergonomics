@@ -1,0 +1,10 @@
+.flyer {
+  fill: #35A28F;
+  fill-rule: evenodd;
+  transform: translate(-1);
+  }
+  @media screen and (-ms-high-contrast: active) {
+    .flyer {
+      fill: windowText; /* proprietary Windows system colour value; IE/Edge only */
+     }
+  }

@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'AllianzNeoW04-Regular';
+  src: url("_fonts/AllianzNeoW04-Regular.woff") format("woff");
+  font-weight: normal; }
+
+@font-face {
+  font-family: 'AllianzNeoW02-SemiBold.woff';
+  src: url("_fonts/AllianzNeoW02-SemiBold.woff") format("woff");
+  font-weight: 600; }
+
+@font-face {
+  font-family: 'AllianzNeoW04-Bold.woff';
+  src: url("_fonts/AllianzNeoW04-Bold.woff") format("woff");
+  font-weight: 800; }
+
+html {
+  line-height: 1.4;
+  -webkit-font-variant-ligatures: common-ligatures;
+          font-variant-ligatures: common-ligatures;
+  -webkit-font-feature-settings: 'liga', 'clig';
+          font-feature-settings: 'liga', 'clig';
+  -webkit-font-feature-settings: 'liga' 1, 'dlig' 1, 'clig' 1;
+          font-feature-settings: 'liga' 1, 'dlig' 1, 'clig' 1;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1rem;
+  font-weight: normal; }
+
+.coc-hl--style-01 {
+  font-size: 2.441rem; }
+
+.coc-hl--style-02 {
+  font-size: 1.953rem; }
+
+.coc-hl--style-03 {
+  font-size: 1.563rem; }
+
+.coc-hl--style-04 {
+  font-size: 1.250rem; }
+
+html {
+  font-family: "AllianzNeoW04-Regular", Arial, sans-serif;
+  -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+          hyphens: auto;
+  color: #413d3a;
+  line-height: 1.6;
+  background-color: #fff; }
+  html else {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+table {
+  font-variant-numeric: tabular-nums;
+  -webkit-font-feature-settings: "tnum";
+          font-feature-settings: "tnum"; }
+
+#logo-allianz,
+#logo path,
+#logo-2 path {
+  fill: red; }
+/*# sourceMappingURL=main.css.map */

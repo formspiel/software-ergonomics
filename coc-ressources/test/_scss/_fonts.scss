@@ -1,0 +1,20 @@
+@if $brand-fonts == true {
+  @font-face {
+    font-family: 'AllianzNeoW04-Regular';
+    src: url('_fonts/AllianzNeoW04-Regular.woff') format('woff');
+    font-weight: normal;
+  }
+  @font-face {
+    font-family: 'AllianzNeoW02-SemiBold.woff';
+    src: url('_fonts/AllianzNeoW02-SemiBold.woff') format('woff');
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: 'AllianzNeoW04-Bold.woff';
+    src: url('_fonts/AllianzNeoW04-Bold.woff') format('woff');
+    font-weight: 800;
+  }
+}
+
+$font-stack-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+$font-stack-brand:  'AllianzNeoW04-Regular', Arial, sans-serif;

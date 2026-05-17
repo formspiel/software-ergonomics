@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Can I replace fieldset?</title>
+  </head>
+  <body>
+    <h1>Simple Test to replace fieldset</h1>
+    <fieldset>
+      <legend>I'm legend <button>ℹ️</button></legend>
+      <label for="test_1">Write something nice</label>
+      <input type="text" id="test_1" value="">
+    </fieldset>
+
+    <div role="group" aria-labelledby="form--legend-id01" class="form--fieldset">
+      <div role="heading" id="form--legend-id01" class="form--legend">I'm legend <button>ℹ️</button></div>
+        <label for="test_2">Write something nicer</label>
+        <input type="text" id="test_2" value="">
+    </div>
+
+    <div role="group" aria-labelledby="form--legend-id01" class="form--fieldset">
+      <div id="form--legend-id01" class="form--legend">I'm legend <button>ℹ️</button></div>
+        <label for="test_3">Write the nicest</label>
+        <input type="text" id="test_3" value="">
+    </div>
+  </body>
+</html>
