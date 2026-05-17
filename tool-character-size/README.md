@@ -8,7 +8,6 @@ An semi-automatic script that supports you to fulfill the ergonmic requirements 
 > **Mobile:** The application supports the font settings of the operating system for optimal display of text with maximum customisation by the user. If the app uses fixed font sizes, a font height of 26 device pixels (iPad & iPad Pro) is expected for uppercase letters.
 
 > Standard: [ISO 9241-303](https://www.iso.org/standard/57992.html)
-> - https://connect.allianz.com/docs/DOC-294945
 
 # How It Works
 ToDo
@@ -46,7 +45,6 @@ Führe die hier beschriebenen Schritte zur Erstellung einer MS Edge Extension du
 Erstelle einen beliebigen Favoriten im Browser deiner Wahl.
 Klicke mit der rechten Maustaste auf den Favoriten und wähle "Eigenschaften".
 Füge folgenden Code (unbedingt unverändert lassen und keine Leerzeichen und Zeilenumbrüche einfügen) in das Feld "URL" ein:
-javascript:el=document.createElement('script');el.src='http://url.allianz/jV';el.charset='utf-8';document.body.appendChild(el);~~
 
 Bestätige mit Ok.
 

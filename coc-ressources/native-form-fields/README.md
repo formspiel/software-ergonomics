@@ -1,4 +1,4 @@
-Please head over to my public GitHub because Allianz doen't allow GitHub Pages anymore :-(
+Moved to a standalone public repository.
 
 Repository: https://github.com/formspiel/native-form-elements
 
