@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Tab close prevention</title>
+		<meta name="description" content="Prototype for prevent tab close">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>Tab close prevention</h1>
+		<p>Enter something in the fields below, then try to close the tab or window. If unsaved data is present, the browser will ask you to confirm before leaving — protecting the user from accidentally losing their input.</p>
+
+		<h2>How it works</h2>
+		<p>The warning dialog is triggered by the browser's <code>beforeunload</code> event. One important limitation: <strong>the dialog text and appearance cannot be customised by the application.</strong> Browsers intentionally blocked this years ago to prevent phishing sites from mimicking system prompts. What you see is always the browser's own native dialog, regardless of which browser or operating system the user is on.</p>
+
+		<form action="#">
+			<fieldset>
+				<legend>Example 1</legend>
+				<div class="field">
+					<label for="emailAddress">Email</label>
+					<input type="email" name="email" id="emailAddress" autocomplete="email">
+				</div>
+				<div class="field">
+					<label for="passwordInput">Password</label>
+					<input type="password" name="password" id="passwordInput" autocomplete="current-password">
+				</div>
+				<div class="field field--inline">
+					<input type="checkbox" name="checkbox" id="checkbox">
+					<label for="checkbox">Do you agree?</label>
+				</div>
+				<button type="submit">Login</button>
+			</fieldset>
+		</form>
+		<script src="scripts.js"></script>
+	</body>
+</html>

@@ -1,0 +1,116 @@
+/* ========== Colour Variables ========== */
+
+:root {
+	color-scheme: light dark;
+
+	--height: 30vw;
+	/* your light theme colours */
+	--color-bg:     hsl(0, 0%, 94%);
+	--color-bg-box: hsl(0, 0%, 75%);
+	--color-text:   hsl(0, 0%, 16%);
+	--color-link:   hsl(0, 0%, 39%);
+	
+	--color-alert: 155,17,30;
+	--color-info: 16,98,155;
+	--color-success: 16,155,73;
+}
+
+@media (prefers-color-scheme: dark) {
+
+	:root {
+		/* your dark theme colours; overwrites the light theme colours */
+		--color-bg:     hsla(0, 0%, 20%, 1);
+		--color-bg-box: rgb(51, 51, 51);
+		--color-text:   rgb(217, 217, 217);
+		--color-link:   rgb(191, 191, 191);
+	}
+}
+
+@media (forced-colors) {
+
+	:root {
+		/* your high contrast theme colours; overwrites the light and dark theme colours */
+		--color-bg:     Canvas;
+		--color-bg-box: Canvas;
+		--color-text:   CanvasText;
+		--color-link:   ActiveText;
+	}
+
+}
+
+/* ========== Styles ========== */
+
+* {
+	/*  */
+	
+	box-sizing: border-box;
+}
+
+body {
+	background-color: var(--color-bg);
+	/*font-family: sans-serif;
+	line-height: 1.4;*/
+	font: normal 400 100%/1.4 sans-serif;
+	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+h1 {
+	font-size: 125%;
+}
+	h1 span {}
+
+h2 {
+	font-size: 110%;
+}
+
+h3 {
+	font-size: 100%;
+}
+a {
+	color: var(--color-link);
+}
+
+button {
+	font-size: 100%;
+	padding: .25rem;
+}
+
+.header {}
+.header--logo {}
+
+.msg--info {
+	padding: 1rem;
+	border: 1px solid rgb(var(--color-info));
+	background-color: rgba(var(--color-info), 0.3)
+}
+.msg--info-icon { margin-right: .25rem }
+.msg--info-text {}
+
+
+details {
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	padding: .5em .5em 0;
+}
+
+summary {
+	font-weight: bold;
+	margin: -.5em -.5em 0;
+	padding: .5em;
+}
+	summary:hover{
+		cursor: pointer
+	}
+
+details[open] {
+	padding: .5em;
+}
+
+details[open] summary {
+	border-bottom: 1px solid #aaa;
+	margin-bottom: .5em;
+}
+
+@media (prefers-color-scheme: dark) {}
+
+@media (forced-colors)  {}
