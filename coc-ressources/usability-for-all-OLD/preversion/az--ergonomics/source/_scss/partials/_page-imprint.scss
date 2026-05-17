@@ -1,0 +1,7 @@
+.imprint {
+  .content-wrapper {
+    text-align: left;
+    // avoid margin collapsing
+    overflow: hidden;
+  }
+}

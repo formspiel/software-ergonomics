@@ -1,0 +1,66 @@
+%settings-typo {
+  // https://helpx.adobe.com/de/typekit/using/open-type-syntax.html
+  line-height: 1.4;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: 'liga', 'clig';
+
+  // text rendering https://css-tricks.com/almanac/properties/t/text-rendering/
+
+  // scss-lint:disable no-vendor-prefixes
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  // scss-lint:enable no-vendor-prefixes
+}
+
+%settings-headline {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+%settings-spacing {
+  font-feature-settings: 'kern';
+  font-kerning: normal;
+  letter-spacing: .3;
+}
+
+
+// R E S E T
+@for $level from 1 through 6 {
+  h#{$level} {
+    @extend %settings-headline;
+  }
+}
+
+.ds-hl--style-01 {
+  font-size: 2.441rem;
+}
+
+.ds-hl--style-02 {
+  font-size: 1.953rem;
+}
+
+.ds-hl--style-03 {
+  font-size: 1.563rem;
+}
+
+.ds-hl--style-04 {
+  font-size: 1.250rem;
+}
+
+
+// D E F I N E   F O N T
+
+html {
+  font-family: $dsx-font-stack;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @extend %settings-typo;
+}
+
+
+table {
+ // enable specific table numbers (if available)
+ font-variant-numeric: tabular-nums;
+ font-feature-settings: "tnum";
+}

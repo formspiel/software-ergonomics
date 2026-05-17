@@ -1,0 +1,51 @@
+.module {
+
+  img {
+    @include rem-fallback(margin-bottom, .5);
+  }
+
+  h2, h3, h4, h5 {}
+
+  @for $i from 1 through 5 {
+    h#{$i}:first-of-type {
+      margin-top: 0;
+    }
+    & > h#{$i} {
+      @include rem-fallback(margin-right, .5);
+      @include rem-fallback(margin-left, .5);
+    }
+  }
+
+  & > p,
+  & > a {
+    @include rem-fallback(margin-right, .5);
+    @include rem-fallback(margin-left, .5);
+  }
+
+  ul {
+    margin-bottom: 0;
+    @include rem-fallback(padding-right, .5);
+  }
+
+  a {}
+
+  .teaser--link {
+
+    &:after {
+      content: " »";
+    }
+  }
+}
+
+.module.is-teaser {
+  max-width: 25rem;
+  margin-right: auto;
+  margin-left: auto;
+  @include rem-fallback(padding-bottom, .5);
+}
+
+main {
+  .module {
+    background-color: lighten($color-3, 45);
+  }
+}

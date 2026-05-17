@@ -1,0 +1,19 @@
+.events {}
+
+.event-item-wrapper {
+
+  li {
+    @include rem-fallback(margin-bottom, .5);
+  }
+    time {
+      font-weight: bold;
+    }
+
+    .event-item-till {
+      font-weight: normal;
+    }
+
+    .event-item-country {
+      text-transform: uppercase;
+    }
+}

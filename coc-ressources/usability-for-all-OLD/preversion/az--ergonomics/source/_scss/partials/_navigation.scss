@@ -1,0 +1,210 @@
+// @media (min-width: $mq-xsmall) {}
+@media (max-width: ($mq-small - 1)) {
+
+	.nav--small { display: block; }
+	.nav--big { display: none; }
+
+}
+
+@media (min-width: $mq-small) {
+
+	.nav--small { display: none }
+	.nav--big { display: block }
+
+}
+
+
+
+nav {
+
+	&:focus {}
+
+	&:target {
+		animation: target_animation 1.5s ease;
+	}
+
+	ul {
+		margin: 0;
+	}
+
+		li {
+
+			a {
+				display: block;
+				line-height: 3;
+				text-decoration: none;
+
+				color: $color-4;
+				text-transform: uppercase;
+
+				//&:hover::after,
+				// &:focus::after {
+				// 	@include accesskey($color-1, none, 0.25);
+				// }
+
+			}
+
+			&.is-active {
+				// for hc siginifier
+				position: relative;
+
+				a {
+					color: $color-1;
+				}
+
+				.hc-only {
+					// display: inline-block;
+					position: absolute;
+					@include rem-fallback(bottom, -.1);
+					left: 50%;
+				}
+			}
+
+			&:last-child {}
+		}
+
+}
+
+
+// TODO: Idea for HC mode
+// .hc-active {
+// 	&.is-active {
+// 		a:after {
+// 			content: "•";
+//			content: "▾";
+//
+// 			display: inline-block;
+// 			position: absolute;
+// 			top: 0;
+// 			left: 50%;
+// 		}
+// 	}
+// }
+
+
+
+/**
+* S M A L L   S C R E E N   N A V I G A T I O N
+*/
+.nav--small {
+	@include rem-fallback(padding-top, .5);
+	@include rem-fallback(padding-bottom, .5);
+
+	text-align: center;
+
+	ul {
+		&.js-open {
+			// important 'cause of JS
+			display: block !important;
+		}
+	}
+
+		li {
+			@include span(1/2);
+
+			a {}
+		}
+}
+
+	#nav--small-icon {
+		@include rem-fallback(height, .75);
+
+		g { fill: $color-1 }
+	}
+
+	button {
+		/* button reset */
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+
+
+		position: relative;
+		width: 100%;
+		@include rem-fallback(padding-left, .5);
+		@include rem-fallback(padding-right, .5);
+		line-height: 2.1;
+
+		color: $color-1;
+		text-transform: uppercase;
+		border-bottom: 1px solid $color-4;
+
+		&:before,
+		&:after {
+			position: relative;
+			@include rem-fallback(top, 0);
+		}
+
+		// icon
+		&:before {
+			// TODO: error in IE Egde mobile
+			// content: url(images/nav--mobile-icon.svg);
+			// @include rem-fallback(right, .5);
+
+			// TODO: fill: currentColor; hover color doesn't work
+		}
+
+		// arrow
+		&:after {
+			content: "▾";
+			@include rem-fallback(right, -.5);
+			@include rem-fallback(font-size, 1.5);
+		}
+	}
+
+
+
+
+/**
+* B I G   S C R E E N   N A V I G A T I O N
+*/
+.nav--big {
+
+	ul {
+		text-align: right;
+
+		@include rem-fallback(margin-top, .5);
+		@include rem-fallback(margin-bottom, .5);
+
+		@media (min-width: $mq-large) {
+			@include rem-fallback(margin-top, 2);
+		}
+	}
+
+	li {
+		display: inline-block;
+
+		a {
+			@include rem-fallback(padding-left, 1);
+			@include rem-fallback(padding-right, 1);
+			border-bottom: 1px solid transparent;
+
+			&:hover {
+				border-bottom-color: $color-1;
+			}
+
+			&.is-active {}
+
+			@media (min-width: $mq-medium) {
+				@include rem-fallback(padding-left, 1.5);
+				@include rem-fallback(padding-right, 1.5);
+			}
+		}
+
+		&:last-child a {}
+
+		&:last-child {}
+	}
+
+}
+
+
+
+@media print {
+	nav,
+	.nav--small,
+	.nav--big {
+		display: none;
+	}
+}

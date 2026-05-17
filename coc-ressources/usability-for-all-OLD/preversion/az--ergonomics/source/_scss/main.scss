@@ -1,0 +1,64 @@
+@charset 'utf-8';
+
+// Andreas M. Helge @formspiel.de
+//
+// Dependencies
+// SCSS 3.3+
+// Jeet 7.x --> http://jeet.gs/
+//
+
+
+// colours
+$color-1: rgb(0, 125, 188);	// brand colour
+$color-2: rgb(206, 214, 223);	// brand light
+$color-3: rgb(128, 128, 128); // grey
+$color-4: rgb(65,  61, 58); // dark grey
+
+$text-color: $color-4;
+
+$link-color: $color-1;
+$link-color-hover: darken($color-1, 15%);
+
+
+// general variables
+$brand-fonts: true;
+
+$border-style-01: 1px dotted $color-1;
+$border-style-02: 1px solid $color-1;
+
+
+// media queries
+$mq-xsmall: 375px;
+$mq-small:  481px;
+$mq-medium: 658px;
+$mq-large:  769px;
+$mq-xlarge: 960px;
+
+
+// import frameworks
+@import 'partials/fonts';
+
+@import 'vendors/normalize';
+@import 'vendors/jeet/index';
+
+// import
+@import 'partials/basic-mixins';
+
+@import 'partials/basic';
+
+
+// DEBUG
+#dev-colors,
+#fsp-dev {
+	display: none;
+}
+
+@import 'partials/print';
+
+// @import "partials/_debug";
+
+// @media (min-width: $mq-small) {}
+// @media (min-width: $mq-medium) {}
+// @media (min-width: $mq-medium), print {}
+// @media (min-width: $mq-large) {}
+// @media (min-width: $mq-xlarge) {}

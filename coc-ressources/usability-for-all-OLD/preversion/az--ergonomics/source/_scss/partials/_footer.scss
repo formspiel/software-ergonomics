@@ -1,0 +1,25 @@
+footer,
+footer p {
+  @include rem-fallback(font-size, .9);
+}
+
+footer {
+  position: relative;
+  @include rem-fallback(padding-top, 1.5);
+  @include rem-fallback(padding-bottom, 1);
+  text-align: center;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 2%;
+    height: 1px;
+    width: 96%;
+    content: "";
+    background: linear-gradient(to right, $color-1 50%,rgb(178,178,178) 85%);
+  }
+
+  a {
+    margin-left: .5em;
+  }
+}

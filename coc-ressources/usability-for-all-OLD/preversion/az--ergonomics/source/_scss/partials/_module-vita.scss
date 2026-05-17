@@ -1,0 +1,29 @@
+.vita-wrapper {}
+  h2 {}
+
+  .vita {
+    padding-left: 0;
+  }
+    .vita-item {
+      padding-left: 0;
+      text-indent: 0;
+
+      p {
+        display: inline;
+        // border-left: .5rem solid lighten($color-3, 35);
+        // padding-left: 1rem;
+      }
+
+      a {
+        white-space: pre-line;
+      }
+
+      &:before {
+        content: none;
+      }
+    }
+      .vita-item--year {
+        color: $color-1;
+        font-weight: 500;
+        display: block;
+      }

@@ -1,0 +1,72 @@
+// skip link by https://www.einfach-fuer-alle.de/
+// Safari with alt-tab or enabled tab option
+
+.a11y-skiplinks {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  z-index: 1000;
+
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+
+  a {
+    &:focus,
+    &:active {
+      position: absolute;
+      top: 0;
+      left: 9999px;
+      outline: 0 none;
+
+      width: 100%;
+      height: auto;
+      padding: .25rem 0;
+
+      color: #fff;
+      background-color: lighten($color-4, 20);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    // &:after {
+    // 	@include accesskey($color-2, none, 0.25);
+    // overwrite colour
+    // border-color: $color-2;
+    // border: none;
+    // }
+  }
+
+}
+
+img {}
+// @if ($accessibility-testing-enabled == true) {
+  img:not([alt]) {
+    outline: 1em red solid;
+  }
+// }
+
+// http://www.barrierefreies-webdesign.de/knowhow/verstecken-von-inhalten/
+@mixin invisible {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+// from Bootstracp
+// WebKit-style focus
+@mixin tab-focus {
+  // Default
+  outline: thin dotted;
+  // WebKit
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+/*a*/#top {}
+
+/*a*/#a11y-style-switch {
+  display: none;
+}

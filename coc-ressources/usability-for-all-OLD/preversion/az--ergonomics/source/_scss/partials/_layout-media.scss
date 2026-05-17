@@ -1,0 +1,63 @@
+/**
+ * S M A L L   B A S I C   L A Y O U T
+ */
+.media {
+	.media-item {
+		@include rem-fallback(margin-top, 1);
+		@include rem-fallback(padding, .5);
+		background-color: lighten($color-3, 45);
+
+		h3:first-child {
+			margin-top: 0;
+		}
+		p {}
+		figure {}
+		/*a*/.media-item--asset {
+			display: block;
+			// margin-top: 1rem;
+			// margin-bottom: 1rem;
+			// border: 1px solid #fff;
+			padding: .75rem;
+			text-align: center;
+
+			&::before {
+				content: "⬇︎";
+				text-decoration: none;
+				font-size: 1.5rem;
+				margin-right: .5rem;
+			}
+		}
+		/*figure*/.media-item--video {
+		figcaption {
+			background-color: #fff;
+		}
+	}
+		/*a*/.media-item--url {
+			width: 100%;
+			display: inline-block;
+			overflow: hidden;
+		}
+	}
+
+}
+
+
+
+/**
+* M E D I U M   B A S I C   L A Y O U T
+*/
+@media (min-width: $mq-medium) {}
+
+
+
+/**
+ * L A R G E   B A S I C   L A Y O U T
+ */
+@media (min-width: $mq-large) {}
+
+
+
+/**
+ * E X T R A L A R G E   B A S I C   L A Y O U T
+ */
+@media (min-width: $mq-xlarge) {}

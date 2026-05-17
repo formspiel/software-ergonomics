@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>A11Y Conent Selector</title>
+  </head>
+  <body>
+    <div id="a11y-cnt-selector--wrapper">
+      <!-- onchange="window.open(this.value,'_self');" -->
+      <label for="a11y-cnt-selector" onchange="window.open(this.value,'_self');">Jump to Content</label>
+      <select id="a11y-cnt-selector">
+        <option value="#">Choose your option</option>
+        <option value="#main">Main</option>
+        <option value="#nav1">Nav (Hauptnavigation)</option>
+        <option value="#nav">Nav</option>
+      </select>
+    </div>
+
+    <header>
+      I'm the Header.
+      <header aria-label="2nd header">
+        I'm a nested header element.
+
+        <form role="search">
+          <input type="search" aria-label="search text" size="20">
+          <input type="submit" value="Search">
+        </form>
+      </header>
+      <nav>
+        <ul>
+          <li>There's a nav inside</li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      I'm the main content.
+    </main>
+    <div class="main" aria-labelledby="aria-label-id-234">
+      <h1 id="aria-label-id-234"></h1>
+      Somtimes I'm the main content 'cause some devs don't care.
+    </div>
+    <div id="main">
+      Or me.
+    </div>
+    <aside class="">
+      See functions to visualise https://www.w3.org/TR/wai-aria-practices/examples/landmarks/search.html
+
+    </aside>
+    <footer>
+      goal 1: main, nav &amp; search
+
+      <h1 id="toc_0">look for region</h1>
+
+      <pre><code>if region found look for title or aria-label attribute
+      put region with or without label in array
+      </code></pre>
+
+      <h1 id="toc_1">look for div or span with class or id named header, main, footer, search</h1>
+
+      <pre><code>if div/span found if region found look for title or aria-label attribute
+      put result with or without label the array
+
+      `// get all divs in the document
+      let divs = document.getElementsByTagName(&#39;div&#39;);`
+      </code></pre>
+
+      <h1 id="toc_2">add tabindex to the element to</h1>
+
+      <pre><code>add css that focus isn&#39;t ugly
+      </code></pre>
+
+      <h1 id="toc_3">make array</h1>
+
+      <p><code>for (let input of inputs) {<br/>
+          alert( input.value + &#39;: &#39; + input.checked );<br/>
+        }</code></p>
+
+      <h1 id="toc_4">sort array</h1>
+
+      <p>1st all navigation with names first<br/>
+      2nd main<br/>
+      3rd all search regions<br/>
+      all other regions</p>
+
+      <h1 id="toc_5">result</h1>
+
+      <p>built native select with the results as options<br/>
+      `<label for="a11y-cnt-selector">Jump to Content</label></p>
+
+      <p><select id="a11y-cnt-selector"><br/>
+          <option value="…">…</option><br/>
+          <option value="…">…</option><br/>
+      </select>`</p>
+
+      <p>Technical Input<br/>
+      <a href="https://stackoverflow.com/questions/21193437/can-i-select-multiple-tags-using-getelementsbytagname">https://stackoverflow.com/questions/21193437/can-i-select-multiple-tags-using-getelementsbytagname</a></p>
+
+      <p>Building a Select<br/>
+      <a href="https://www.plus2net.com/javascript_tutorial/list-adding.php">https://www.plus2net.com/javascript_tutorial/list-adding.php</a></p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+/* my text user style sheet */
+
+* {
+  /*font-family: 'CamingoDos Pro' !important;*/
+  font-family: OpenDyslexic, sans-serif; !important;
+  font-size: 1.25rem !important;
+  color: white !important;
+  background-color: black !important;
+}

@@ -1,0 +1,289 @@
+//
+// basics
+//
+
+// set everything to new box model
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 90%;
+}
+
+[hidden] { display: none; }
+
+body {
+	min-width: 320px;
+	// TODO: test and play with http://clagnut.com/sandbox/css3/index.php?projectid=21000   https://make.wordpress.org/core/2016/07/07/native-fonts-in-4-6/
+
+	@if $brand-fonts == 'true' {
+		font-family: -apple-system,
+	                BlinkMacSystemFont,
+	                'Segoe UI',
+	                Roboto,
+	                Oxygen-Sans,
+	                Ubuntu,
+	                Cantarell,
+	                'Helvetica Neue',
+	                sans-serif;
+	} else {
+		font-family: 'AllianzNeoW04-Regular', Arial, sans-serif;
+	}
+
+	font-feature-settings: 'liga' 1, 'dlig' 1, 'clig' 1;
+	text-rendering: optimizeLegibility;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: greyscale;
+	hyphens: auto;
+	color: $text-color;
+	line-height: 1.6;
+
+	background-color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	@include rem-fallback(margin-top, 1);
+	@include rem-fallback(margin-bottom, 1);
+	font-weight: bold;
+	color: $color-1;
+}
+
+	h1 {
+		@include rem-fallback(font-size, 1.1);
+		line-height: 1.4;
+	}
+
+	h2 {
+		@include rem-fallback(font-size, 1);
+	}
+
+	h3 {
+		@include rem-fallback(font-size, 1);
+	}
+
+	:first-child.heading {
+		margin-top: 0;
+	}
+
+p {
+	@include rem-fallback(font-size, 1);
+	margin: 0;
+
+	& + p {
+		@include rem-fallback(margin-top, .5);
+	}
+
+	a {
+		white-space: pre-wrap;
+	}
+
+	//&.text--info {}
+
+	//&.text--bottom {}
+}
+
+.coltext {
+	& > h1,
+	& > h2,
+	& > h3,
+	& > h4,
+	& > h5 {
+		column-span: all;
+	}
+
+	/*& > p {
+		column-count: 2;
+
+		-webkit-column-gap: 2%;
+		column-gap: 2%;
+
+		-webkit-column-fill: balance;
+		column-fill: balance;
+	}*/
+
+}
+
+// no italic style in web font
+i,
+em {
+	font-style: normal;
+	border-bottom: 1px solid $color-1;
+}
+
+
+// TODO: Reihenfolge :link, :visited, :hover, :focus, :active
+a {
+	color: $link-color;
+
+	transition: color .3s ease-in, background .3s, border .5s;
+
+	a:hover,
+	a:active {
+		// avoid dotted line on links
+		outline: none;
+	}
+
+	&:hover {
+		color: $link-color-hover;
+	}
+
+	&:focus {
+		// TODO: make mixin
+		outline: 0;
+		background-color: lighten($color-2, 7%); // CCA 8,6:1
+		color: $link-color-hover;
+	}
+
+	&:active {}
+
+	&:visited {
+		padding-left: .25rem;
+		// TODO: Safari uses this colour for focus??!
+		// background-color: green;
+	}
+
+	&:visited::before {
+		// content: "v";
+	}
+
+	&[href*="//"]:not([href*="clara-klug"]) {}
+}
+
+button {
+	&:focus {
+		// TODO: make mixin
+		outline: 0;
+		background-color: lighten($color-2, 7%); // CCA 8,6:1
+		color: $link-color-hover;
+	}
+}
+
+
+ul, ol {
+	margin-top: 0;
+	padding-left: 0;
+}
+
+ul {
+	list-style: none;
+}
+	li {
+		&:before {}
+	}
+
+	main,
+	aside {
+		ul {
+			@include rem-fallback(padding-left, .5);
+		}
+
+			li {
+				@include rem-fallback(margin-bottom, .5);
+				padding-left: 1em;
+				text-indent: -1.1em;
+
+				&:before {
+					content: "• \00a0 ";
+					color: $color-1;
+				}
+			}
+	}
+
+//p ~ ul,
+// h1 ~ ul,
+// h2 ~ ul,
+// h3 ~ ul,
+// h4 ~ ul,
+// h5 ~ ul,
+* ~ ul{
+	margin-top: 0;
+}
+
+main > *:first-child,
+aside > *:first-child {
+	margin-top: 0;
+}
+
+blockquote {
+	margin: 0;
+	padding: 1rem 1.25rem;
+	font-weight: bold;
+
+	p {}
+}
+
+	cite {
+		font-weight: normal;
+		text
+
+		&::before {
+			content: '— \00a0';
+		}
+	}
+
+hr {
+	width: 60%;
+	height: .05em;
+	border: 0;
+	background-color: $color-1;
+
+	margin-top: 1.25em;
+	margin-bottom: 1.5em;
+}
+hr + p {}
+
+img {
+	max-width: 100%;
+	height: auto;
+	// TODO: vertical-align: middle;
+
+}
+
+figure {
+	position: relative;
+	margin: 0;
+}
+
+figcaption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: right;
+	background-color: rgba(#fff, 0.9);
+	@include rem-fallback(padding-right, .25);
+	@include rem-fallback(padding-left, .25);
+}
+
+
+body [lang="de"] {
+
+	&::before {
+		content: '»';
+	}
+	&::after {
+		content: '«';
+	}
+
+}
+
+body [lang="en"] {
+
+	&::before {
+		content: '“';
+	}
+	&::after {
+		content: '”';
+	}
+
+}
+
+::selection {
+	background: $color-1;
+	color: #fff;
+}
+
+.hc-only {
+	display: none;
+}

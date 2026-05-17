@@ -1,0 +1,100 @@
+<p><em>Sample for requirements and <abr title="definition of done" lang="en">DoD</abr></em></p>
+
+<h1 id="drop-down">Drop-Down</h1>
+<p>Eindeutiger Bezeichner zur besseren Kommunikation? DSX-Form-03?</p>
+
+<h2 id="status-der-komponente">Status der Komponente</h2>
+<ul>
+  <li>Letzte Änderung: 6. November 2017</li>
+  <li>Usertest: 23. November 2017 – Projekt UW.e</li>
+  <li>Ergonomics Review: Freigegeben <a href="/">Link zu mehr Informationen</a></li>
+  <li>Security Review: nicht notwendig</li>
+  <li>Noch Andere Ideen?</li>
+</ul>
+
+<h2 id="wiederverwendung">Wiederverwendung</h2>
+
+<p>Fertig implementierte Komponenten:</p>
+
+<ul>
+  <li>Angular <a href="">GDF Angular Library</a></li>
+  <li>REACT</li>
+  <li>Neuer heißer Scheiß</li>
+</ul>
+
+<h2 id="design">Design</h2>
+<p><img src="dsx-drop-down-field.png" alt="DSX Drop-Down-Feld im normalen Zustand" />
+<em>Hinweis: Die Komponente gibt es als <a href="/">Sketch-Symbol zur UI-Konzeption</a></em></p>
+
+<h2 id="code">Code</h2>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;select</span> <span class="na">class=</span><span class="s">"dsx--drop-down_standard"</span> <span class="na">name=</span><span class="s">""</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"Gruppe A"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option A-1<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option A-2<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option A-3<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;/optgroup&gt;</span>
+  <span class="nt">&lt;optgroup</span> <span class="na">label=</span><span class="s">"Gruppe B"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option B-1<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option B-2<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>Option B-3<span class="nt">&lt;/option&gt;</span>
+  <span class="nt">&lt;/optgroup&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre></div></div>
+<p>Notes:
+<em>Evtl. Notizen zum Code zum besseren Verständnis</em></p>
+
+<h2 id="varianten">Varianten</h2>
+
+<ul>
+  <li><a href="/">Drop-Down mit Textfeld</a></li>
+  <li>Und noch ein großartiges DSX-Element</li>
+</ul>
+
+<h2 id="tastaturbedienung">Tastaturbedienung</h2>
+
+<p>Das Verhalten der Komponente muss dem Verhalten des Standard-Elements entsprechen. Gibt es bewusste Abweichungen, so sollen diese sich nah wie möglich an ähnlichen Komponenten orientieren. Eine umfassende Beschreibung gibt es auf den Seiten  des <a href="/">W3C (englischer Text)</a> und (mit Fokus Barrierefreiheit) bei den <a href="http://w3c.github.io/aria-practices/"><abbr title="Accessible Rich Internet Applications" lang="en">WAI-ARIA</abbr> Authoring Practices (englischer Text)</a></p>
+
+<h3 id="verhalten">Verhalten</h3>
+
+<ul>
+  <li><kbd>Tab</kbd> auf das Element</li>
+  <li>Fokus (siehe Design) muss deutlich erkennbar sein</li>
+  <li><kbd>alt</kbd> + <kbd>↓</kbd> öffnet Optionen</li>
+  <li>Fokus wechselt zum ersten Eintrag</li>
+  <li>Nutzer kann mit <kbd>↑</kbd> und <kbd>↓</kbd> zwischen den Inhalten navigieren; Fokus geht mit der Auswahl mit</li>
+  <li>Nutzer kann die Auswahl mit <kbd>Leertaste</kbd> oder <kbd>Enter</kbd> bestätigen und die Optionen schließen sich</li>
+  <li>der Fokus geht auf das Drop-Down-Element zurück
+    <ul>
+      <li>der Nutzer kann jederzeit die Optionen mit der Taste <kbd>Esc</kbd> schließen</li>
+      <li>der Fokus geht dann zum Drop-Down-Element zurück</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="automatisiertes-testen">Automatisiertes Testen</h4>
+<p>Gherkin Dateien:
+Mach mit! Du hast bereits ein Test für das Element geschrieben? Bitte teile Dein Skript, oder hinterlege einen Link zum Deinem Repository.</p>
+
+<h2 id="screenreader">Screenreader</h2>
+<ul>
+  <li>Die Implementierung soll sich am <a href="https://www.w3.org/TR/wai-aria-1.1/">ARIA 1.0/1.1</a> und höher Standard orientieren.</li>
+  <li>Das <a href="">CoC</a> ist bei der Unterstützung gern behilflich.</li>
+</ul>
+
+<h2 id="definition-of-done">Definition of Done</h2>
+
+<ul>
+  <li>[ ] Es ist für die Zielgruppe deutlich zu erkennen, dass das Element eine Auswahl von Optionen bietet (z.B. durch Grafik “▼” )</li>
+  <li>[ ] Bei Klick öffnen sich die Optionen ohne deutliche Verzögerung</li>
+  <li>[ ] Es ist kein Abstand zwischen dem Element und den Optionen die ein Schließen provozieren können.</li>
+  <li>[ ] Alle Status (enabled, :hover, :active und :fokus) sind implementiert.</li>
+  <li>[ ] Eine Bedienung für Tastatur ist vollständig möglich
+    <ul>
+      <li>[ ] Das Verhalten orientiert sich am dem im Abschnitt “Tastaturbedienung” vorgegebenen Verhalten</li>
+    </ul>
+  </li>
+  <li>[ ] Alle Zustände und Optionen (inkl. Auswahl) sind im Windows® Hochkontrastmodus (im IE) erkennbar.</li>
+  <li>[ ] Das Element ist vollständig per Screenreader (JAWS 18+) steuerbar.</li>
+</ul>
+
