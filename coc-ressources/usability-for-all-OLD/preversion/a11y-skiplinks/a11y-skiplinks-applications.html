@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Competence Centre Ergonomics &amp; Usability</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="style.css" rel="stylesheet" title="Default Style"> -->
+    <meta name="author" content="Andreas Helge">
+  </head>
+  <body>
+    <a id="top" name="top" tabindex="-1"></a>
+
+    <!-- <ul class="a11y-skiplinks" aria-live="polite">
+      <li><a class="skiplink skiplink--nav" href="#nav">jump to navigation</a></li>
+      <li><a class="skiplink skiplink--main" href="#main">jump to content</a></li>
+      <li><a class="skiplink skiplink--toogle-hc" href="#toggleText">high contrast mode</a></li>
+    </ul> -->
+    <nav aria-label="skip links" class="a11y-skiplinks" aria-live="polite">
+      <select class="a11y-skiplinks--select" name="a11y-skiplinks">
+        <option value="#nav">Main Navigation</option>
+        <option value="#main">Main Content</option>
+        <option value="#file_upload">File Upload</option>
+        <option value="#client_data">Client Data</option>
+      </select>
+    </nav>
+
+    <section>
+      <h1>Invisible Skip Links</h1>
+      <p>Skip links inspired by <a href="//www.einfach-fuer-alle.de/" lang="de">Einfach für Alle</a> plus interactivity. On Safari (Mac) use alt-tab or enabled tab option</p>
+      <p>The sectret that this technique works is the <code>tabindex="-1"</code> attribute for the relevant sections.</p>
+      <p>For screen reader output of the interactivity you need the <code>aria-live</code> attribute to trigger the screen reader that it reads the text changes immediatly.</p>
+
+      <ul>
+        <li>http://www.webdeveloper.com/forum/showthread.php?206859-RESOLVED-Anchor-tags-within-lt-SELECT-gt-dropdown-list</li>
+        <li>https://stackoverflow.com/questions/15391978/using-page-anchors-in-select-dropdown-list-in-html</li>
+        <li>https://stackoverflow.com/questions/24618024/how-to-build-an-array-of-html-elements-and-their-attributes-in-jquery</li>
+        <li>https://www.w3schools.com/js/js_arrays.asppacke</li>
+      </ul>
+
+      <code>
+        <pre>
+&lt;ul class=&quot;a11y-skiplinks&quot; aria-live=&quot;polite&quot;&gt;
+  &lt;li&gt;&lt;a class=&quot;skiplink skiplink--nav&quot; href=&quot;#nav&quot;&gt;jump to navigation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a class=&quot;skiplink skiplink--main&quot; href=&quot;#main&quot;&gt;jump to content&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a class=&quot;skiplink skiplink--toogle-hc&quot; href=&quot;#toggleText&quot;&gt;high contrast mode&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+        </pre>
+      </code>
+    </section>
+
+    <main id="main" tabindex="-1">
+      I'm the main content.
+      <a href="#top">Back to top</a>
+    </main>
+
+    <nav id="nav" tabindex="-1">
+      <ul>
+        <li><a href="#nav">navigation</a></li>
+        <li><a href="#main">content</a></li>
+      </ul>
+      <a href="#top">Back to top</a>
+    </nav>
+
+    <script src="dependencies/jquery-2.2.3.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $( ".skiplink--toogle-hc" ).click(function() {
+        // alert( "Handler for .click() called." );
+        $( "body" ).toggleClass( "a11y-hc-mode" );
+        $( this ).toggleClass( "active" );
+      });
+    </script>
+  </body>
+</html>
