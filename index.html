@@ -54,10 +54,43 @@
             transform: translateY(-2px);
         }
 
+        .card-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .project-card h2 {
             color: var(--accent);
-            margin-top: 0;
-            margin-bottom: 0.5rem;
+            margin: 0;
+        }
+
+        .status {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.2em 0.55em;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .status-stable {
+            background-color: light-dark(#d4edda, #1a3a24);
+            color: light-dark(#1a5c2a, #6fcf85);
+        }
+
+        .status-draft {
+            background-color: light-dark(#fff3cd, #3a2e00);
+            color: light-dark(#7a5c00, #f5cc5a);
+        }
+
+        .status-demo {
+            background-color: light-dark(#dde8f5, #0e2340);
+            color: light-dark(#1a4a8a, #7ab3f0);
         }
 
         .project-card p {
@@ -87,16 +120,32 @@
 
     <div class="projects">
         <a href="tool-display-legibility/index.html" class="project-card">
-            <h2>Display Character Size Calculator</h2>
-            <p>Calculate optimal character size for displays based on pixel dimensions and diagonal measurements.
-                Ensures clear and readable text presentation with zoom level recommendations.</p>
+            <div class="card-header">
+                <h2>Display Legibility Calculator</h2>
+                <span class="status status-stable">Stable</span>
+            </div>
+            <p>Calculate minimum character sizes for ergonomic screen legibility (ISO 9241-303). Enter display
+                dimensions or pick a device preset to get a zoom-level table and arc-minute thresholds.</p>
             <span class="project-link">Open →</span>
         </a>
 
+        <a href="tool-character-size/coc-assessement.js" class="project-card">
+            <div class="card-header">
+                <h2>Character Size Checker</h2>
+                <span class="status status-draft">Draft</span>
+            </div>
+            <p>A bookmarklet/extension script for in-browser character-height accessibility checks based on
+                ISO 9241-303. Run it on any page to audit text sizes. Partially in German; delivery method TBD.</p>
+            <span class="project-link">View script →</span>
+        </a>
+
         <a href="demo-theming/index.html" class="project-card">
-            <h2>Too late for the Meeting Joke generator</h2>
-            <p>A fun joke generator with modern CSS theming support. Demonstrates the modern <code>light-dark()</code>
-                CSS function with manual theme switching (Auto, Light, Dark) and localStorage persistence.</p>
+            <div class="card-header">
+                <h2>Joke Generator</h2>
+                <span class="status status-demo">Demo</span>
+            </div>
+            <p>A fun joke generator demonstrating the modern <code>light-dark()</code> CSS function with manual
+                theme switching (Auto, Light, Dark) and localStorage persistence.</p>
             <span class="project-link">Open →</span>
         </a>
     </div>
