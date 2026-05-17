@@ -5,29 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Ergonomics Projects</title>
+    <link rel="stylesheet" href="shared.css">
     <style>
-        :root {
-            color-scheme: light dark;
-            --bg-light: #f8f9fa;
-            --bg-dark: #222;
-            --text-light: #222;
-            --text-dark: #f8f9fa;
-            --accent: #008080;
-            --border: #b2dfdb;
-        }
-
         body {
-            font-family: system-ui, sans-serif;
-            background-color: light-dark(var(--bg-light), var(--bg-dark));
-            color: light-dark(var(--text-light), var(--text-dark));
-            transition: background-color 0.2s, color 0.2s;
             padding: 2rem;
             max-width: 1000px;
             margin: 0 auto;
         }
 
         h1 {
-            color: var(--accent);
             margin-bottom: 2rem;
         }
 
@@ -65,32 +51,6 @@
         .project-card h2 {
             color: var(--accent);
             margin: 0;
-        }
-
-        .status {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            padding: 0.2em 0.55em;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        .status-stable {
-            background-color: light-dark(#d4edda, #1a3a24);
-            color: light-dark(#1a5c2a, #6fcf85);
-        }
-
-        .status-draft {
-            background-color: light-dark(#fff3cd, #3a2e00);
-            color: light-dark(#7a5c00, #f5cc5a);
-        }
-
-        .status-demo {
-            background-color: light-dark(#dde8f5, #0e2340);
-            color: light-dark(#1a4a8a, #7ab3f0);
         }
 
         .project-card p {
@@ -190,6 +150,17 @@
             </div>
             <p>A fun joke generator demonstrating the modern <code>light-dark()</code> CSS function with manual
                 theme switching (Auto, Light, Dark) and localStorage persistence.</p>
+            <span class="project-link">Open →</span>
+        </a>
+
+        <a href="fast-navigation.html" class="project-card">
+            <div class="card-header">
+                <h2>Fast Navigation</h2>
+                <span class="status status-experiment">Experiment</span>
+            </div>
+            <p>A prototype for an accessible "Jump to Content" landmark selector — a <code>&lt;select&gt;</code>
+                dropdown that lists page regions (main, nav, search) so screen reader and keyboard users can
+                jump directly to any section.</p>
             <span class="project-link">Open →</span>
         </a>
     </div>

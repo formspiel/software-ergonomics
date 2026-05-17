@@ -5,22 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Character Size Checker</title>
+    <link rel="stylesheet" href="../shared.css">
     <style>
-        :root {
-            color-scheme: light dark;
-            --bg: light-dark(#f8f9fa, #222);
-            --surface: light-dark(#fff, #333);
-            --text: light-dark(#222, #f8f9fa);
-            --accent: #008080;
-            --border: light-dark(#b2dfdb, #444);
-            --muted: light-dark(#666, #999);
-            --code-bg: light-dark(#f0f4f4, #2a3535);
-        }
-
         body {
-            font-family: system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
             padding: 2rem;
             max-width: 680px;
             margin: 0 auto;
@@ -28,7 +15,6 @@
         }
 
         h1 {
-            color: var(--accent);
             margin-bottom: 0.25rem;
         }
 
@@ -94,15 +80,6 @@
         }
 
         .status {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            padding: 0.2em 0.55em;
-            border-radius: 4px;
-            background-color: light-dark(#fff3cd, #3a2e00);
-            color: light-dark(#7a5c00, #f5cc5a);
             vertical-align: middle;
             margin-left: 0.4rem;
         }
@@ -116,7 +93,7 @@
 </head>
 
 <body>
-    <h1>Character Size Checker <span class="status">Draft</span></h1>
+    <h1>Character Size Checker <span class="status status-draft">Draft</span></h1>
     <p class="subtitle">A bookmarklet for in-browser character-height accessibility checks</p>
 
     <p>Run this script on any web page to check whether text meets the minimum character height

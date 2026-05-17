@@ -1,59 +1,29 @@
+/* Tool-specific variables (base vars in shared.css) */
 :root {
-  color-scheme: light dark;
-
-  /* Brand / accent colors */
-  --accent: #008080;
   --grey: #6c757d;
-  --border: #b2dfdb;
 
-  /* Themed colors */
-  --bg: light-dark(#f8f9fa, #222);
-  --text: light-dark(#222, #f8f9fa);
-
-  /* Character colors */
-  --char-red: light-dark(#b20000, #ff6f6f);
+  --char-red:    light-dark(#b20000, #ff6f6f);
   --char-yellow: light-dark(#7a5c00, #ffe066);
-  --char-green: light-dark(#008080, #26ffd9);
+  --char-green:  light-dark(#008080, #26ffd9);
 
-  /* Hover / focus backgrounds */
-  --row-hover: light-dark(#e0f7fa, #004d4d);
-
-  /* Table wrapper shadows */
-  --wrapper-shadow: light-dark(0 2px 8px rgba(0,0,0,0.04),
-                               0 2px 8px rgba(0,0,0,0.2));
+  --row-hover:      light-dark(#e0f7fa, #004d4d);
+  --wrapper-shadow: light-dark(0 2px 8px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.2));
 }
 
-body {
-  font-family: system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.2s, color 0.2s;
-}
-
-h1, h2, legend {
+h2, legend {
   color: var(--accent);
 }
 
 button,
 input[type="number"],
 input[type="text"] {
-  font-family: inherit;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.4em 0.8em;
   margin: 0.2em 0.4em;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.2s, color 0.2s, border 0.2s;
 }
 
 button {
-  background: var(--accent);
-  color: #fff;
   border: none;
-  cursor: pointer;
 }
-button:disabled,
+
 .disabled-class button {
   opacity: 0.5;
   cursor: not-allowed;
@@ -66,8 +36,7 @@ select + hr {
   margin: 0.5em 0;
 }
 
-/* Containers */
-fieldset,
+/* .presets is a <div>, not a <fieldset>, so it needs its own border */
 .presets {
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -126,9 +95,9 @@ table:focus {
 }
 
 /* Character coloring */
-.char-red    { background: var(--bg); color: var(--char-red); font-weight: bold; }
+.char-red    { background: var(--bg); color: var(--char-red);    font-weight: bold; }
 .char-yellow { background: var(--bg); color: var(--char-yellow); font-weight: bold; }
-.char-green  { background: var(--bg); color: var(--char-green); font-weight: bold; }
+.char-green  { background: var(--bg); color: var(--char-green);  font-weight: bold; }
 .char-icon   { font-size: 1.2em; margin-right: 0.2em; vertical-align: middle; }
 
 /* Messages */
@@ -156,10 +125,6 @@ table:focus {
 #alt-text {
   width: 80%;
   margin-right: 0.5em;
-}
-
-.hidden {
-  display: none !important;
 }
 
 /* Table actions */

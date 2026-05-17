@@ -1,91 +1,77 @@
+/* ========== Demo-theming styles (base in shared.css) ========== */
+
+/* Override accent to blue for this demo's brand */
 :root {
-	color-scheme: light dark;
-    --background-light: #f9f9f9;
-    --background-dark: #333;
-    --text-light: #333;
-    --text-dark: #f9f9f9;
-    --accent-color-light: #006699;
-    --accent-color-dark: #00BFD9;
+  --accent: light-dark(#006699, #00bfd9);
+
+  /* Manual theme-switch vars — used by html[data-theme] selectors below */
+  --background-light: #f9f9f9;
+  --background-dark:  #333;
+  --text-light: #333;
+  --text-dark:  #f9f9f9;
+}
+
+/* Manual theme overrides applied by JS via data-theme attribute */
+html[data-theme="light"] body {
+  background-color: var(--background-light);
+  color: var(--text-light);
 }
 
 html[data-theme="dark"] body {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
+  background-color: var(--background-dark);
+  color: var(--text-dark);
 }
-		
+
+/* Links intentionally match body text in this demo */
 a {
-    padding: .12rem;
-    outline-color: light-dark(transparent, transparent); /* TODO: to be tested in Windwows high contrast mode*/
-    transition: outline-color 0.4s ease, outline-width 0.4s ease;
-    color: light-dark(var(--text-light), var(--text-dark));
+  color: light-dark(var(--text-light), var(--text-dark));
+  padding: 0.12rem;
 }
 
 :focus {
-	outline: 3px solid light-dark(var(--accent-color-light), var(--accent-color-dark));
-	outline-offset: 2px;
-	border-radius: 5px;
-	background-color: light-dark(#f6f6f6, #444);
-}
-		
-@keyframes fadeIn {
-    from {
-            opacity: 0;
-    }
-    to {
-            opacity: 1;
-    }
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 5px;
+  background-color: light-dark(#f6f6f6, #444);
 }
 
 body {
-    background-color: light-dark(var(--background-light), var(--background-dark));
-    color: light-dark(var(--text-light), var(--text-dark));
-    font-family: system-ui;
-    padding: 20px;
-    transition: background-color 0.3s, color 0.3s;
+  padding: 20px;
 }
 
 fieldset {
-	border: 1px solid light-dark(var(--text-light), var(--text-dark));
-	/* TODO: Doesn't work with current implementation of dark mode toggle */
-	/* https://dev.to/web_dev-usman/building-a-smooth-darklight-mode-switch-with-modern-css-features-3jlc */
-	margin-bottom: 3rem;
-	color: light-dark(var(--text-light), var(--text-dark));
+  border: 1px solid light-dark(var(--text-light), var(--text-dark));
+  margin-bottom: 3rem;
+  color: light-dark(var(--text-light), var(--text-dark));
 }
 
 blockquote {
-    border-left: 5px solid light-dark(var(--accent-color-light), var(--accent-color-dark));
-    margin: 20px 0;
-    padding-left: 15px;
-    font-style: italic;
-    color: light-dark(var(--text-light), var(--text-dark));
+  border-left: 5px solid var(--accent);
+  margin: 20px 0;
+  padding-left: 15px;
+  font-style: italic;
 }
 
 .label {
-    font-weight: bold;
-    color: light-dark(var(--accent-color-light), var(--accent-color-dark));
+  font-weight: bold;
+  color: var(--accent);
 }
 
 .id-label {
-    font-size: 0.9em;
-    color: light-dark(var(--text-light), var(--text-dark));
+  font-size: 0.9em;
 }
 
 .loading {
-    font-style: italic;
-    color: light-dark(var(--accent-color-light), var(--accent-color-dark));
+  font-style: italic;
+  color: var(--accent);
 }
-		
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 #joke-punchline {
-	opacity: 0;
-	animation: fadeIn 1s ease-in-out 0.5s forwards;
-	/* TODO: Doesn't work if new joke is requested */
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 0.5s forwards;
 }
-
-/* User theme override: when the user explicitly picks a theme, force it
-   without removing the existing light-dark() usage elsewhere. */
-html[data-theme="light"] body {
-    background-color: var(--background-light);
-    color: var(--text-light);
-}
-
-
