@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Size Checker</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: light-dark(#f8f9fa, #222);
+            --surface: light-dark(#fff, #333);
+            --text: light-dark(#222, #f8f9fa);
+            --accent: #008080;
+            --border: light-dark(#b2dfdb, #444);
+            --muted: light-dark(#666, #999);
+            --code-bg: light-dark(#f0f4f4, #2a3535);
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 0;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        ul {
+            margin: 0 0 1rem 0;
+            padding-left: 1.4rem;
+        }
+
+        li {
+            margin-bottom: 0.25rem;
+        }
+
+        ol {
+            margin: 0 0 1rem 0;
+            padding-left: 1.4rem;
+        }
+
+        .script-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.6rem 1.1rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: box-shadow 0.15s;
+        }
+
+        .script-link:hover {
+            box-shadow: 0 2px 8px light-dark(rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 2.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back:hover {
+            color: var(--accent);
+        }
+
+        .status {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.2em 0.55em;
+            border-radius: 4px;
+            background-color: light-dark(#fff3cd, #3a2e00);
+            color: light-dark(#7a5c00, #f5cc5a);
+            vertical-align: middle;
+            margin-left: 0.4rem;
+        }
+
+        .note {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Character Size Checker <span class="status">Draft</span></h1>
+    <p class="subtitle">A bookmarklet for in-browser character-height accessibility checks</p>
+
+    <p>Run this script on any web page to check whether text meets the minimum character height
+        requirements of <strong>ISO 9241-303</strong>. Elements are highlighted green (pass) or red
+        (fail) based on their computed font size and family. A control panel lets you toggle
+        individual checks on and off.</p>
+
+    <h2>What it checks</h2>
+    <ul>
+        <li>Character height per font family against a 10 px minimum</li>
+        <li>Missing or empty <code>alt</code> attributes on images</li>
+        <li><code>lang</code> attribute presence on elements</li>
+    </ul>
+
+    <h2>Installing as a bookmarklet</h2>
+    <ol>
+        <li>Open the script (link below) and copy its entire contents.</li>
+        <li>Create a new bookmark in your browser — any page, any name.</li>
+        <li>Edit the bookmark and paste the script into the <strong>URL / Address</strong> field,
+            replacing the existing URL.</li>
+        <li>Save. The bookmark now runs the script when clicked on any page.</li>
+    </ol>
+    <p class="note">Show your bookmarks bar first if it is hidden:
+        Chrome / Edge <kbd>Ctrl+Shift+B</kbd> · Firefox <kbd>Ctrl+Shift+B</kbd> · Safari <kbd>⌘+Shift+B</kbd></p>
+
+    <h2>Script</h2>
+    <a class="script-link" href="coc-assessement.js">
+        View coc-assessement.js →
+    </a>
+
+    <br>
+    <a class="back" href="../index.html">← Back to projects</a>
+</body>
+
+</html>
