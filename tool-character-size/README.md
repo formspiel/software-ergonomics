@@ -10,12 +10,6 @@ An semi-automatic script that supports you to fulfill the ergonmic requirements 
 > Standard: [ISO 9241-303](https://www.iso.org/standard/57992.html)
 > - https://connect.allianz.com/docs/DOC-294945
 
-# TODO
-- [ ] Separate the character height part of the full script
-- [ ] Translate everything to english
-- [ ] Proper CSS styling
-- [ ] Disscusion how to deliver this script (Build Pipeline? Extension? NPM package? ...)
-
 # How It Works
 ToDo
 
@@ -71,8 +65,5 @@ Die Prüfung der Zeichenhöhe orientiert sich an den Schriftgrößen der berech
 * Roboto
 * Segoe
 * Segoe UI
-
-### TODO
-- [ ] Allianz Neo
 
 Neue Helvetica wird zwar häufig auf Webseiten als Schriftart angegeben, aber da diese Schriftart nicht Bestandteil von Windows ist und auf allen geprüften Webseiten die Schriftart Neue Helvetica nicht explizit eingebunden ist, kommt diese Schriftart gar nicht zum Einsatz.
