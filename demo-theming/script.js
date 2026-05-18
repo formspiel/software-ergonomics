@@ -1,14 +1,10 @@
 const THEME_KEY = 'theme-preference';
 
 function applyTheme(pref) {
-    const html = document.documentElement;
-    if (pref === 'light') {
-        html.setAttribute('data-theme', 'light');
-    } else if (pref === 'dark') {
-        html.setAttribute('data-theme', 'dark');
-    } else {
-        html.removeAttribute('data-theme');
-    }
+    /* Setting colorScheme directly on the root element overrides the
+       stylesheet value, so light-dark() resolves correctly everywhere.
+       Empty string removes the override and lets the OS preference win. */
+    document.documentElement.style.colorScheme = pref === 'auto' ? '' : pref;
 }
 
 function initThemeSwitcher() {
@@ -19,14 +15,8 @@ function initThemeSwitcher() {
     applyTheme(stored);
 
     select.addEventListener('change', (e) => {
-        const v = e.target.value;
-        localStorage.setItem(THEME_KEY, v);
-        applyTheme(v);
-    });
-
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    mql.addEventListener('change', () => {
-        if ((localStorage.getItem(THEME_KEY) || 'auto') === 'auto') applyTheme('auto');
+        localStorage.setItem(THEME_KEY, e.target.value);
+        applyTheme(e.target.value);
     });
 }
 
@@ -72,7 +62,6 @@ function handleError(error) {
 
 function resetPunchline(text) {
     const el = document.getElementById('joke-punchline');
-    /* Force animation replay by briefly removing the element from the DOM */
     const clone = el.cloneNode(false);
     clone.textContent = text;
     el.replaceWith(clone);

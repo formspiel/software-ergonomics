@@ -42,5 +42,35 @@
     </blockquote>
 
     <script src="script.js"></script>
+
+    <section class="explanation">
+        <h2>How it works</h2>
+        <p>This demo illustrates three layers of colour-scheme support, each building on the last:</p>
+        <ol>
+            <li>
+                <strong>OS / browser preference — automatic, zero JS.</strong>
+                The CSS <code>color-scheme: light dark</code> declaration tells the browser to follow the
+                operating system setting. All colour values use the <code>light-dark()</code> function, which
+                automatically picks the right value based on the active scheme.
+            </li>
+            <li>
+                <strong>Forced colours — automatic, zero JS.</strong>
+                Windows High Contrast Mode and similar OS accessibility settings are handled via a
+                <code>@media (forced-colors)</code> block in the shared stylesheet, mapping all custom
+                properties to system colours (<code>Canvas</code>, <code>CanvasText</code>,
+                <code>ActiveText</code>).
+            </li>
+            <li>
+                <strong>Explicit user choice — one line of JS.</strong>
+                The Theme selector above overrides the OS preference by setting
+                <code>document.documentElement.style.colorScheme</code> to <code>"light"</code> or
+                <code>"dark"</code>. This inline style takes precedence over the stylesheet, so
+                <code>light-dark()</code> everywhere on the page resolves correctly — no custom properties
+                or CSS overrides needed. Choosing <em>Auto</em> clears the inline style and hands control
+                back to the OS. The choice is saved in <code>localStorage</code> and restored on the next
+                visit.
+            </li>
+        </ol>
+    </section>
 </body>
 </html>
