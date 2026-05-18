@@ -25,72 +25,62 @@ function initThemeSwitcher() {
     });
 
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSystemChange = () => {
-        if ((localStorage.getItem(THEME_KEY) || 'auto') === 'auto') {
-            applyTheme('auto');
-        }
-    };
-    if (mql.addEventListener) mql.addEventListener('change', handleSystemChange);
-    else mql.addListener(handleSystemChange);
+    mql.addEventListener('change', () => {
+        if ((localStorage.getItem(THEME_KEY) || 'auto') === 'auto') applyTheme('auto');
+    });
 }
 
-async function fetchJoke() {
-    /* Official Joke API by https://github.com/15Dkatz/official_joke_api */
+async function fetchJoke(random = false) {
     const category = document.getElementById('joke-category').value;
-    const apiUrl = `https://official-joke-api.appspot.com/jokes/${category}/random`;
+    const url = random
+        ? 'https://official-joke-api.appspot.com/jokes/random'
+        : `https://official-joke-api.appspot.com/jokes/${category}/random`;
 
     setLoadingState();
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        const joke = data[0];
-
-        updateJokeContent(joke);
+        updateJokeContent(random ? data : data[0]);
     } catch (error) {
-        handleError();
-    }
-}
-
-async function fetchRandomJoke() {
-    const apiUrl = 'https://official-joke-api.appspot.com/jokes/random';
-
-    setLoadingState();
-
-    try {
-        const response = await fetch(apiUrl);
-        const joke = await response.json();
-
-        updateJokeContent(joke);
-    } catch (error) {
-        handleError();
+        handleError(error);
     }
 }
 
 function setLoadingState() {
-    document.getElementById('joke-type').textContent = 'Loading...';
-    document.getElementById('joke-setup').textContent = 'Loading...';
-    document.getElementById('joke-punchline').textContent = 'Loading...';
+    document.getElementById('joke-type').textContent = 'Loading…';
+    document.getElementById('joke-setup').textContent = 'Loading…';
     document.getElementById('joke-blockquote').setAttribute('cite', '');
+    resetPunchline('Loading…');
 }
 
 function updateJokeContent(joke) {
     document.getElementById('joke-type').textContent = joke.type;
     document.getElementById('joke-setup').textContent = joke.setup;
-    document.getElementById('joke-punchline').textContent = joke.punchline;
-    document.getElementById('joke-blockquote').setAttribute('cite', `https://official-joke-api.appspot.com/jokes/${joke.id}`);
+    document.getElementById('joke-blockquote').setAttribute('cite',
+        `https://official-joke-api.appspot.com/jokes/${joke.id}`);
+    resetPunchline(joke.punchline);
 }
 
-function handleError() {
-    console.error('Error fetching joke');
-    document.getElementById('joke-setup').textContent = 'Failed to load joke.';
-    document.getElementById('joke-punchline').textContent = '';
+function handleError(error) {
+    console.error('Error fetching joke:', error);
+    document.getElementById('joke-setup').textContent = 'Failed to load joke. Please try again.';
     document.getElementById('joke-blockquote').setAttribute('cite', '');
+    resetPunchline('');
 }
 
-// Fetch initial joke on page load
-// Initialize theme UI and then fetch initial joke
+function resetPunchline(text) {
+    const el = document.getElementById('joke-punchline');
+    /* Force animation replay by briefly removing the element from the DOM */
+    const clone = el.cloneNode(false);
+    clone.textContent = text;
+    el.replaceWith(clone);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initThemeSwitcher();
+    document.getElementById('btn-category').addEventListener('click', () => fetchJoke());
+    document.getElementById('btn-random').addEventListener('click', () => fetchJoke(true));
     fetchJoke();
 });
