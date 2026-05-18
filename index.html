@@ -72,6 +72,63 @@
         .project-link:hover {
             border-bottom-color: var(--accent);
         }
+
+        /* ---- External links section ---- */
+
+        .external-section {
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .external-section h2 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin: 0 0 1.25rem 0;
+        }
+
+        .external-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .external-links li {
+            border-left: 3px solid var(--border);
+            padding: 0.75rem 0 0.75rem 1.25rem;
+            transition: border-color 0.15s;
+        }
+
+        .external-links li:hover {
+            border-left-color: var(--accent);
+        }
+
+        .external-link-title {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .external-link-title:hover {
+            text-decoration: underline;
+        }
+
+        .external-link-desc {
+            margin: 0.2rem 0 0 0;
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
     </style>
 </head>
 
@@ -94,8 +151,8 @@
                 <h2>Character Size Checker</h2>
                 <span class="status status-draft">Draft</span>
             </div>
-            <p>A bookmarklet/extension script for in-browser character-height accessibility checks based on
-                ISO 9241-303. Run it on any page to audit text sizes. Partially in German; delivery method TBD.</p>
+            <p>A bookmarklet for in-browser character-height accessibility checks based on ISO 9241-303.
+                Run it on any page to audit text sizes.</p>
             <span class="project-link">Open →</span>
         </a>
 
@@ -104,13 +161,12 @@
                 <h2>High Contrast Mode</h2>
                 <span class="status status-experiment">Experiment</span>
             </div>
-            <p>Four HTML demos exploring CSS <code>forced-colors</code> and <code>prefers-contrast</code>
-                media queries, a JS detection method, and a developer reference for Windows system
-                high contrast colours.</p>
+            <p>A reference page for CSS <code>forced-colors</code>: detection, image swapping, the full
+                system colour keyword table, and practical patterns for Windows Contrast Themes.</p>
             <span class="project-link">Open →</span>
         </a>
 
-        <a href="demo-accessible-svg/index.htm" class="project-card">
+        <a href="demo-accessible-svg/index.html" class="project-card">
             <div class="card-header">
                 <h2>Accessible SVG</h2>
                 <span class="status status-demo">Demo</span>
@@ -126,9 +182,9 @@
                 <h2>Modals &amp; Pop-ups</h2>
                 <span class="status status-demo">Demo</span>
             </div>
-            <p>Six dialog and pop-up interaction patterns side by side — ARIA-compliant modal with focus
-                trapping, nested dialogs, simple pop-up, abbreviation tooltips, alerts, and a new-window
-                variant. Includes a Pro vs Con comparison page.</p>
+            <p>Six dialog and pop-up interaction patterns side by side — native <code>&lt;dialog&gt;</code>,
+                popover API, abbreviation tooltips, ARIA alerts, and a new-window variant — with
+                assistive technology behaviour documented for each.</p>
             <span class="project-link">Open →</span>
         </a>
 
@@ -153,6 +209,33 @@
             <span class="project-link">Open →</span>
         </a>
     </div>
+
+    <section class="external-section" aria-labelledby="external-heading">
+        <h2 id="external-heading">Related repositories</h2>
+        <ul class="external-links">
+            <li>
+                <a class="external-link-title" href="https://github.com/formspiel/dynamic-skip-links" target="_blank" rel="noopener">
+                    Dynamic Skip Links
+                    <span class="status status-stable">Stable</span>
+                </a>
+                <p class="external-link-desc">Skip navigation links that appear on keyboard focus — improves keyboard accessibility without permanently altering the visual layout.</p>
+            </li>
+            <li>
+                <a class="external-link-title" href="https://github.com/formspiel/native-form-elements" target="_blank" rel="noopener">
+                    Native Form Elements
+                    <span class="status status-stable">Stable</span>
+                </a>
+                <p class="external-link-desc">A reference collection of native HTML form elements with accessibility notes — inputs, selects, textareas, checkboxes, and more, unstyled and styled.</p>
+            </li>
+            <li>
+                <a class="external-link-title" href="https://github.com/formspiel/flickering-animation" target="_blank" rel="noopener">
+                    Flickering Animation
+                    <span class="status status-draft">Draft</span>
+                </a>
+                <p class="external-link-desc">Exploring CSS flicker animations and how to handle them responsibly using <code>prefers-reduced-motion</code> for users sensitive to motion.</p>
+            </li>
+        </ul>
+    </section>
 </body>
 
 </html>
