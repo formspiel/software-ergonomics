@@ -1,6 +1,6 @@
 //javascript:
-console.log("Version 2.0 vom 06.12.2018");
-console.log("Starte Pruefung...");
+console.log("Version 2.0 — 2018-12-06");
+console.log("Starting check...");
 mintextsize = 10;
 check_colorcontrast=0;
 
@@ -212,7 +212,7 @@ msg_lang_arr=[];
 //document.addEventListener('DOMContentLoaded', function(){ 
 	
 	if(document.documentMode<9){
-		console.log("ENDE: Die Webseite laeuft im Dokumentenmodus "+document.documentMode+". Es muss mindestens der Dokumentenmodus 9 im IE aktiv sein.");
+		console.log("ABORT: Page is running in document mode "+document.documentMode+". Document mode 9 or higher is required in IE.");
 		debugger;
 	}
 
@@ -245,26 +245,26 @@ msg_lang_arr=[];
 	newdiv = document.createElement("DIV");
 	newdiv.innerHTML = ""
 		+"<button id='cb_control_close' class='skip_check' style='float:right;border: 1px solid black;'>X</button>"
-		+"<b class='skip_check'>Bilder</b><br/><input id='cb_control_alt_attr' data-code='ergo_alt' class='cb_control skip_check' type='checkbox' checked/><label for='cb_control_alt_attr' class='skip_check'> ALT-Attribut</label><br/><input id='cb_control_alt_attr_miss' data-code='ergo_alt_miss' class='cb_control skip_check' type='checkbox' checked/><label for='cb_control_alt_attr_miss' class='skip_check'> Fehlendes ALT-Attribut</label><br/>"
-		+"<b class='skip_check'>Schrift</b><br/><input id='cb_control_gr_char' type='checkbox' data-code='char_green' class='cb_control skip_check'/> <label for='cb_control_gr_char' class='skip_check'>Gr&uuml;ne Schrift</label><br/><input id='cb_control_red_char' data-code='char_red' class='cb_control skip_check' type='checkbox' checked/> <label for='cb_control_red_char' class='skip_check'>Rote Schrift</label><br/>"
-		+"<b class='skip_check'>Sprache</b><br/><input id='cb_control_lang_attr' type='checkbox' data-code='ergo_lang' class='cb_control skip_check' checked/> <label for='cb_control_lang_attr' class='skip_check'>LANG-Tag</label><br/>"
-		+"<b class='skip_check'>Struktur</b><br/><input id='cb_control_for_attr' type='checkbox' data-code='ergo_for' class='cb_control skip_check' checked/> <label for='cb_control_for_attr' class='skip_check'>FOR-Attribut</label><br/>"
-		+"<input id='cb_control_formele' type='checkbox' data-code='ergo_formele' class='cb_control skip_check' checked/> <label for='cb_control_formele' class='skip_check'>Formularfelder</label><br/>"
-		+"<input id='cb_control_headings' type='checkbox' data-code='ergo_headings' class='cb_control skip_check'/> <label for='cb_control_headings' class='skip_check'>&Uuml;berschriften</label><br/>"
-		+"<input id='cb_control_tables' type='checkbox' data-code='ergo_tables' class='cb_control skip_check'/> <label for='cb_control_tables' class='skip_check'>Tabellen</label><br/>"
-		+"<input id='cb_control_lists' type='checkbox' data-code='ergo_lists' class='cb_control skip_check'/> <label for='cb_control_lists' class='skip_check'>Listen</label><br/>"
+		+"<b class='skip_check'>Images</b><br/><input id='cb_control_alt_attr' data-code='ergo_alt' class='cb_control skip_check' type='checkbox' checked/><label for='cb_control_alt_attr' class='skip_check'> ALT attribute</label><br/><input id='cb_control_alt_attr_miss' data-code='ergo_alt_miss' class='cb_control skip_check' type='checkbox' checked/><label for='cb_control_alt_attr_miss' class='skip_check'> Missing ALT attribute</label><br/>"
+		+"<b class='skip_check'>Font</b><br/><input id='cb_control_gr_char' type='checkbox' data-code='char_green' class='cb_control skip_check'/> <label for='cb_control_gr_char' class='skip_check'>Passing (green)</label><br/><input id='cb_control_red_char' data-code='char_red' class='cb_control skip_check' type='checkbox' checked/> <label for='cb_control_red_char' class='skip_check'>Failing (red)</label><br/>"
+		+"<b class='skip_check'>Language</b><br/><input id='cb_control_lang_attr' type='checkbox' data-code='ergo_lang' class='cb_control skip_check' checked/> <label for='cb_control_lang_attr' class='skip_check'>LANG attribute</label><br/>"
+		+"<b class='skip_check'>Structure</b><br/><input id='cb_control_for_attr' type='checkbox' data-code='ergo_for' class='cb_control skip_check' checked/> <label for='cb_control_for_attr' class='skip_check'>FOR attribute</label><br/>"
+		+"<input id='cb_control_formele' type='checkbox' data-code='ergo_formele' class='cb_control skip_check' checked/> <label for='cb_control_formele' class='skip_check'>Form fields</label><br/>"
+		+"<input id='cb_control_headings' type='checkbox' data-code='ergo_headings' class='cb_control skip_check'/> <label for='cb_control_headings' class='skip_check'>Headings</label><br/>"
+		+"<input id='cb_control_tables' type='checkbox' data-code='ergo_tables' class='cb_control skip_check'/> <label for='cb_control_tables' class='skip_check'>Tables</label><br/>"
+		+"<input id='cb_control_lists' type='checkbox' data-code='ergo_lists' class='cb_control skip_check'/> <label for='cb_control_lists' class='skip_check'>Lists</label><br/>"
 		+"<input id='cb_control_links' type='checkbox' data-code='ergo_links' class='cb_control skip_check'/> <label for='cb_control_links' class='skip_check'>Links</label><br/><br/>"
-		+"<input id='cb_control_cc' type='checkbox' data-code='ergo_cc' class='cb_control skip_check'/> <label for='cb_control_cc' class='skip_check'>Farbkontrast pr&uuml;fen</label><br/><br/>"
-		+"<input id='cb_control_alle_boxen' type='checkbox' data-code='ergo_alle_boxen' class='cb_control skip_check'/> <label for='cb_control_alle_boxen' class='skip_check'>Alles ausw&auml;hlen / abw&auml;hlen</label><br/><br/>"
-		+"<b class='skip_check' title='Resize Browserfenster mit [ALT]+[r]'>Browserfenster Gr&ouml;&szlig;e &auml;ndern</b><br/>"
-		+"<label class='skip_check' for='ipt_control_width'>Breite</label>: <input id='ipt_control_width' type='text' class='cb_control skip_check' style='width:13%;' value='1024'/> <label class='skip_check' for='ipt_control_height'>H&ouml;he</label>: <input id='ipt_control_height' type='text' class='cb_control skip_check' style='width:13%;' value='768'/><br/>";
+		+"<input id='cb_control_cc' type='checkbox' data-code='ergo_cc' class='cb_control skip_check'/> <label for='cb_control_cc' class='skip_check'>Check colour contrast</label><br/><br/>"
+		+"<input id='cb_control_alle_boxen' type='checkbox' data-code='ergo_alle_boxen' class='cb_control skip_check'/> <label for='cb_control_alle_boxen' class='skip_check'>Select all / deselect all</label><br/><br/>"
+		+"<b class='skip_check' title='Resize browser window [ALT]+[r]'>Resize browser window</b><br/>"
+		+"<label class='skip_check' for='ipt_control_width'>Width</label>: <input id='ipt_control_width' type='text' class='cb_control skip_check' style='width:13%;' value='1024'/> <label class='skip_check' for='ipt_control_height'>Height</label>: <input id='ipt_control_height' type='text' class='cb_control skip_check' style='width:13%;' value='768'/><br/>";
 		
 	newdiv.style.backgroundColor = "#CFCFCF";
 	
 	document.body.appendChild(newdiv);
 	
 	newdiv.id = "div_control_modal";
-	newdiv.title = "Schliessen mit [ALT]+[h]";
+	newdiv.title = "Close [ALT]+[h]";
 	newdiv.style.position = "fixed";
 	newdiv.style.bottom = "1em";
 	newdiv.style.right = "1em";
@@ -277,7 +277,7 @@ msg_lang_arr=[];
 	newdiv.className = "skip_check";	
 	
 	
-	/* Elemente von letzter Prüfung aus DOM löschen */
+	/* Remove elements from previous check */
 	var delelements = document.body.getElementsByClassName("d_e_e_b_c");
   while(delelements.length > 0){
       delelements[0].parentNode.removeChild(delelements[0]);
@@ -324,7 +324,7 @@ msg_lang_arr=[];
 		/* get Lang Attribute */
     if (ele.getAttribute("lang") !== null && ele.lang.trim()!=""){
     	count_lang++;
-      msg_lang_arr.push("Das Element <"+ele.tagName+"> hat als Sprache \""+ele.lang+"\" eingestellt.");
+      msg_lang_arr.push("Element <"+ele.tagName+"> has language \""+ele.lang+"\" set.");
 			setInfoBubble("#1C28CA","lang="+ele.lang,"ergo_lang d_e_e_b_c",ele.getBoundingClientRect(),ele);
 						
     }
@@ -389,14 +389,14 @@ msg_lang_arr=[];
 			
 			if (!(font_family in fontfam_trans_arr)){
 				if (found_font_family.indexOf(font_family)==-1){
-      		msg_fontfamily_arr.push("!!! Achtung: Die auf der Webseite verwendete Font-Family "+font_family+" ist nicht im Code hinterlegt. Es wird wie bei Arial geprueft. !!!");
+      		msg_fontfamily_arr.push("!!! Warning: font-family \""+font_family+"\" is not in the lookup table — falling back to Arial. !!!");
 					found_font_family.push(font_family);
 				}
 				
 				font_family="arial";
 			}
 			else if(found_font_family.indexOf(font_family)==-1){
-      	msg_fontfamily_arr.push("Auf der Webseite wurde die Schriftart "+font_family+" gefunden.");
+      	msg_fontfamily_arr.push("Font family \""+font_family+"\" found on this page.");
 				found_font_family.push(font_family);
 			}
 			
@@ -456,7 +456,7 @@ msg_lang_arr=[];
 					ele.classList.add("ergo_for_box");
 					ele.classList.add("ergo_for_box_marker");
 					//ele.style.border = "1px solid #AC3CA0";					
-					setInfoBubble("#AC3CA0","[FOR] fehlt","ergo_for d_e_e_b_c",rect,ele);
+					setInfoBubble("#AC3CA0","[FOR] missing","ergo_for d_e_e_b_c",rect,ele);
 					
 					count_label_without_for++;
 				}
@@ -470,7 +470,7 @@ msg_lang_arr=[];
 					ele.classList.add("ergo_formele_box");
 					ele.classList.add("ergo_formele_box_marker");
 					//ele.style.border = "1px solid #AC3CA0";					
-					setInfoBubble("#AC3CA0","<LABEL> fehlt","ergo_formele d_e_e_b_c",ele.getBoundingClientRect(),ele);
+					setInfoBubble("#AC3CA0","<LABEL> missing","ergo_formele d_e_e_b_c",ele.getBoundingClientRect(),ele);
 					
 					count_formele_without_label++;
 				}
@@ -518,17 +518,17 @@ msg_lang_arr=[];
 					
 	}
 	if(count_lang==0){
-   	msg_lang_arr.push("!!! Auf der Seite wurde kein LANG-Attribut definert. !!!");
+   	msg_lang_arr.push("!!! No LANG attribute found on this page. !!!");
 	}
-  msg_img_arr.push((count_img-count_img_without_alt)+" von "+count_img+" Bildern besitzen ein ALT-Attribut.");
-  msg_img_arr.push((count_img-count_img_without_alt-count_img_without_alt_text)+" von "+count_img+" Bildern besitzen einen Alternativtext.");
+  msg_img_arr.push((count_img-count_img_without_alt)+" of "+count_img+" images have an ALT attribute.");
+  msg_img_arr.push((count_img-count_img_without_alt-count_img_without_alt_text)+" of "+count_img+" images have alt text.");
   
-  /* Label und Eingabefelder auswerten */ 
+  /* Evaluate labels and form fields */
 	for(var j=0;j<label_arr.length;j++){
 		if(formele_arr.indexOf(label_arr[j])==-1){
 			document.querySelector('[for="'+label_arr[j]+'"]').classList.add("ergo_for_box");
 			document.querySelector('[for="'+label_arr[j]+'"]').classList.add("ergo_for_box_marker");				
-			setInfoBubble("#AC3CA0","[FOR] ohne Element","ergo_for d_e_e_b_c",document.querySelector('[for="'+label_arr[j]+'"]').getBoundingClientRect(),ele);
+			setInfoBubble("#AC3CA0","[FOR] unmatched","ergo_for d_e_e_b_c",document.querySelector('[for="'+label_arr[j]+'"]').getBoundingClientRect(),ele);
 			count_label_without_ele++;
 		}
 	}
@@ -536,46 +536,46 @@ msg_lang_arr=[];
 		if(label_arr.indexOf(formele_arr[j])==-1){
 			document.getElementById(formele_arr[j]).classList.add("ergo_formele_box");
 			document.getElementById(formele_arr[j]).classList.add("ergo_formele_box_marker");		
-			setInfoBubble("#AC3CA0","<LABEL> fehlt","ergo_formele d_e_e_b_c",document.getElementById(formele_arr[j]).getBoundingClientRect(),ele);
+			setInfoBubble("#AC3CA0","<LABEL> missing","ergo_formele d_e_e_b_c",document.getElementById(formele_arr[j]).getBoundingClientRect(),ele);
 			count_formele_without_label++;
 		}
 	}
   
-  /* Ausgabe der Meldungen */
+  /* Output messages */
   console.log(" ");
-  console.log("SPRACHE");
+  console.log("LANGUAGE");
   for(var i=0;i<msg_lang_arr.length;i++){
   	console.log(msg_lang_arr[i]);
   }
-  
+
   console.log("-------------------------------------");
-  console.log("BILDER");
+  console.log("IMAGES");
   for(var i=0;i<msg_img_arr.length;i++){
   	console.log(msg_img_arr[i]);
   }
   console.log("-------------------------------------");
-  console.log("SCHRIFT");
+  console.log("FONT");
   for(var i=0;i<msg_fontfamily_arr.length;i++){
   	console.log(msg_fontfamily_arr[i]);
   }
   console.log("-------------------------------------");
-  console.log("STRUKTUR");
-  console.log(count_label+" <LABEL>-Elemente gefunden.");  
-  console.log(count_label_without_for+" von "+count_label+" <LABEL>-Elemente ohne FOR-Attribut.");  
-  console.log(count_label_without_ele+" von "+count_label+" <LABEL>-Elemente ohne zugehoeriges Element.");  
+  console.log("STRUCTURE");
+  console.log(count_label+" <LABEL> elements found.");
+  console.log(count_label_without_for+" of "+count_label+" <LABEL> elements have no FOR attribute.");
+  console.log(count_label_without_ele+" of "+count_label+" <LABEL> elements have no matching element.");
   console.log("---");
-  console.log(count_formele+" Formular-/Eingabe-Elemente gefunden.");  
-  console.log(count_formele_without_label+" von "+count_formele+" Formular-/Eingabe-Elemente ohne zugehoeriges <LABEL>-Element."); 
+  console.log(count_formele+" form/input elements found.");
+  console.log(count_formele_without_label+" of "+count_formele+" form/input elements have no matching <LABEL>.");
   console.log("---");
-  console.log(count_headings+" Ueberschriften wurden gefunden.");  
+  console.log(count_headings+" headings found.");
   console.log("---");
-  console.log(count_tables+" Tabellen wurden gefunden.");
-  console.log(count_tables-count_table_heads+" Tabellen besitzen kein <TH>-Element.");  
+  console.log(count_tables+" tables found.");
+  console.log((count_tables-count_table_heads)+" tables have no <TH> element.");
   console.log("---");
-  console.log(count_lists+" Listen wurden gefunden.");  
+  console.log(count_lists+" lists found.");
   console.log("---");
-  console.log(count_links+" Links wurden gefunden.");  
-  console.log(count_links_without_href+" Links ohne HREF wurden gefunden.");  
+  console.log(count_links+" links found.");
+  console.log(count_links_without_href+" links without HREF found.");
   console.log("-------------------------------------");
   
   
@@ -594,17 +594,17 @@ msg_lang_arr=[];
 		}
 		// [ALT]+[r] 
 		if(e.altKey && e.keyCode==82){
-			resizeBrowserfenster();
+			resizeBrowserWindow();
 		}
 		// [ENTER] 
 		if(e.keyCode==13){
 			if(document.getElementById("ipt_control_width") === document.activeElement || document.getElementById("ipt_control_height") === document.activeElement){
-				resizeBrowserfenster();
+				resizeBrowserWindow();
 			}
 		}
 	};
 	
-	/* Steuerbox */
+	/* Control panel */
 	var cb_controls = document.getElementsByClassName("cb_control");
 	for (var i = 0; i < cb_controls.length; i++) {
     cb_controls[i].addEventListener('change', function(){
@@ -665,7 +665,7 @@ msg_lang_arr=[];
 			control_ele.style.display="none";
   });
 	
-	/* halbtransparente Ebene löschen */
+	/* Remove semi-transparent overlay */
 	/*var parent = document.body;
 	var child = document.getElementById("load_content_div");
 	parent.removeChild(child);*/
@@ -738,12 +738,9 @@ function contrast(rgb1, rgb2) {
          / Math.min(l1,l2));
 }
 
-function resizeBrowserfenster(){
+function resizeBrowserWindow(){
 	width=document.getElementById("ipt_control_width").value-10;
 	height=document.getElementById("ipt_control_height").value-90;
 	window.open(document.URL, '_blank', 'location=yes,height='+height+',width='+width+',scrollbars=yes,status=yes');
 }
 //void(0);
-
-//javascript:mintextsize=10;fontsize_obj={"arial":{"7":"<6","8":6,"9":7,"10":7,"11":8,"12":9,"13":10,"14":10,"15":11,"16":12,"17":12,"18":13,"19":14,"20":15,"21":15,"22":16,"23":17,"24":17,"25":18,"26":19,"27":20,"28":20,"29":21,"30":22,"31":22,"32":23,"33":24,"34":25,"35":25,"36":26,"37":">26"},"helvetica":{"7":"<6","8":6,"9":7,"10":7,"11":8,"12":9,"13":10,"14":10,"15":11,"16":12,"17":12,"18":13,"19":14,"20":15,"21":15,"22":16,"23":17,"24":17,"25":18,"26":19,"27":20,"28":20,"29":21,"30":22,"31":22,"32":23,"33":24,"34":25,"35":25,"36":26,"37":">26"},"segoe":{"7":"<6","8":6,"9":6,"10":7,"11":8,"12":8,"13":9,"14":10,"15":11,"16":11,"17":12,"18":13,"19":13,"20":14,"21":15,"22":15,"23":16,"24":17,"25":18,"26":18,"27":19,"28":20,"29":21,"30":21,"31":22,"32":23,"33":24,"34":24,"35":25,"36":26,"37":">26"}};check_character=0;count_lang=0;level=0;last_rect_bottom=[];last_rect_bottom_group=0;found_font_family=[];var elements=document.getElementsByTagName('*');for(var i=0,n=elements.length;i<n;i++){ele=document.getElementsByTagName('*')[i];if(elements[i].getAttribute("lang")!==null){count_lang++;console.log("Das Element <"+ele.tagName+"> hat als Sprache \""+ele.lang+"\" eingestellt.");setInfoBubble("#1C28CA","lang="+ele.lang,"ergo_check",ele.getBoundingClientRect())}if(ele.tagName=="BODY"){check_character=1}if(check_character==1){len=elements.length;text=ele.textContent;font_family_arr=window.getComputedStyle(ele,null).getPropertyValue('font-family').split(",");font_family=font_family_arr[0].trim().replace('"','').replace('"','').replace(' ','-').toLowerCase();if(!(font_family in fontsize_obj)){if(!(found_font_family.indexOf(font_family)>-1)){console.log("!!! Achtung: Die auf der Webseite verwendete Font-Family "+font_family+" ist nicht im Code hinterlegt. Es wird wie bei Arial geprüft. !!!");found_font_family.push(font_family)}font_family="arial"}else if(!(found_font_family.indexOf(font_family)>-1)){console.log("Auf der Webseite wurde die Schriftart "+font_family+" gefunden.");found_font_family.push(font_family)}if(text!=""){rect=ele.getBoundingClientRect();if(level>0){}else{level++}font_size=parseInt(window.getComputedStyle(ele,null).getPropertyValue('font-size'));if(font_size<8){fsi=7}else if(font_size>36){fsi=37}else{fsi=font_size}r_font_size=fontsize_obj[font_family][fsi];if(parseInt(r_font_size)>=mintextsize||fsi==37){ele.style.border="1px solid green";setInfoBubble("green",r_font_size+"px","char_green",rect)}else{ele.style.border="1px solid red";setInfoBubble("red",r_font_size+"px","char_red",rect)}}}}if(count_lang==0){console.log("!!! Auf der Seite wurde ein LANG-Attribut definert. !!!")}function setInfoBubble(bgcolor,text,className,rect){newdiv=document.createElement("DIV");newdiv.style.border="1px solid "+bgcolor;newdiv.style.backgroundColor=bgcolor;document.body.appendChild(newdiv);newdiv.appendChild(document.createTextNode(text));newdiv.style.display="table";newdiv.style.position="absolute";newdiv.style.left=rect.left+"px";newdiv.style.color="white";newdiv.style.zIndex=90000000;newdiv.className=className;rect_newdiv=newdiv.getBoundingClientRect();lineheight=rect_newdiv.height;newdiv.style.top=Math.max(0,rect.top-lineheight)+"px"}void(0);
-//javascript:mintextsize=10;fontsize_obj={"arial":{"7":"<6","8":6,"9":7,"10":7,"11":8,"12":9,"13":10,"14":10,"15":11,"16":12,"17":12,"18":13,"19":14,"20":15,"21":15,"22":16,"23":17,"24":17,"25":18,"26":19,"27":20,"28":20,"29":21,"30":22,"31":22,"32":23,"33":24,"34":25,"35":25,"36":26,"37":">26"},"helvetica":{"7":"<6","8":6,"9":7,"10":7,"11":8,"12":9,"13":10,"14":10,"15":11,"16":12,"17":12,"18":13,"19":14,"20":15,"21":15,"22":16,"23":17,"24":17,"25":18,"26":19,"27":20,"28":20,"29":21,"30":22,"31":22,"32":23,"33":24,"34":25,"35":25,"36":26,"37":">26"},"segoe":{"7":"<6","8":6,"9":6,"10":7,"11":8,"12":8,"13":9,"14":10,"15":11,"16":11,"17":12,"18":13,"19":13,"20":14,"21":15,"22":15,"23":16,"24":17,"25":18,"26":18,"27":19,"28":20,"29":21,"30":21,"31":22,"32":23,"33":24,"34":24,"35":25,"36":26,"37":">26"}};msg_img_arr=[];msg_fontfamily_arr=[];msg_lang_arr=[];if(document.documentMode<9){console.log("ENDE: Die Webseite läuft im Dokumentenmodus "+document.documentMode+". Es muss mindestens der Dokumentenmodus 9 im IE aktiv sein.");debugger}newdiv=document.createElement("DIV");newdiv.innerHTML="<b class='skip_check'>Bilder</b><br/><input id='cb_control_alt_attr' data-code='ergo_img' class='cb_control' type='checkbox' checked/><label for='cb_control_alt_attr' class='skip_check'>ALT-Attribut</label><br/>"+"<b class='skip_check'>Schrift</b><br/><input id='cb_control_gr_char' type='checkbox' data-code='char_green' class='cb_control' checked/> <label for='cb_control_gr_char' class='skip_check'>gr&uuml;ne Schrift</label><br/><input id='cb_control_red_char' data-code='char_red' class='cb_control' type='checkbox' checked/> <label for='cb_control_red_char' class='skip_check'>rote Schrift</label><br/>"+"<b class='skip_check'>Sprache</b><br/><input id='cb_control_lang_attr' type='checkbox' data-code='ergo_lang' class='cb_control' checked/> <label for='cb_control_lang_attr' class='skip_check'>LANG-Tag</label>";newdiv.style.backgroundColor="#CFCFCF";document.body.appendChild(newdiv);newdiv.id="div_control_modal";newdiv.title="Schließen mit [ALT]+[h]";newdiv.style.position="fixed";newdiv.style.bottom="1em";newdiv.style.right="1em";newdiv.style.padding="0.5em";newdiv.style.display="block";newdiv.style.color="black";newdiv.style.borderBottom="1px solid black";newdiv.style.borderRight="1px solid black";newdiv.style.zIndex=90000001;newdiv.className="skip_check";var delelements=document.body.getElementsByClassName("d_e_e_b_c");while(delelements.length>0){delelements[0].parentNode.removeChild(delelements[0])}check_body=0;count_lang=0;level=0;last_rect_bottom=[];last_rect_bottom_group=0;found_font_family=[];count_img=0;count_img_without_alt=0;var elements=document.getElementsByTagName('*');for(var i=0,n=elements.length;i<n;i++){ele=document.getElementsByTagName('*')[i];if(ele.tagName=="!"||ele.className=="skip_check"){continue}if(ele.getAttribute("lang")!==null&&ele.lang.trim()!=""){count_lang++;msg_lang_arr.push("Das Element <"+ele.tagName+"> hat als Sprache \""+ele.lang+"\" eingestellt.");setInfoBubble("#1C28CA","lang="+ele.lang,"ergo_lang d_e_e_b_c",ele.getBoundingClientRect())}if(ele.tagName=="BODY"){check_body=1}console.log(ele);console.log(ele.innerHTML.trim().substr(0,1));if(check_body==1&&ele.innerHTML.trim().substr(0,1)!="<"){len=elements.length;text=ele.textContent;font_family_arr=window.getComputedStyle(ele,null).getPropertyValue('font-family').split(",");font_family=font_family_arr[0].trim().replace('"','').replace('"','').replace(' ','-').toLowerCase();if(!(font_family in fontsize_obj)){if(!(found_font_family.indexOf(font_family)>-1)){msg_fontfamily_arr.push("!!! Achtung: Die auf der Webseite verwendete Font-Family "+font_family+" ist nicht im Code hinterlegt. Es wird wie bei Arial geprüft. !!!");found_font_family.push(font_family)}font_family="arial"}else if(!(found_font_family.indexOf(font_family)>-1)){msg_fontfamily_arr.push("Auf der Webseite wurde die Schriftart "+font_family+" gefunden.");found_font_family.push(font_family)}if(text!=""){rect=ele.getBoundingClientRect();if(level>0){}else{level++}font_size=parseInt(window.getComputedStyle(ele,null).getPropertyValue('font-size'));if(font_size<8){fsi=7}else if(font_size>36){fsi=37}else{fsi=font_size}r_font_size=fontsize_obj[font_family][fsi];if(parseInt(r_font_size)>=mintextsize||fsi==37){ele.style.border="1px solid green";setInfoBubble("green",r_font_size+"px","char_green d_e_e_b_c",rect)}else{ele.style.border="1px solid red";setInfoBubble("red",r_font_size+"px","char_red d_e_e_b_c",rect)}}if(ele.tagName=="IMG"){count_img++;if(ele.alt.trim()==""){count_img_without_alt++;setInfoBubble("#8D6323","No [ALT]","ergo_img d_e_e_b_c",ele.getBoundingClientRect())}else{setInfoBubble("#8D6323","[ALT]="+ele.alt,"ergo_img d_e_e_b_c",ele.getBoundingClientRect())}}}}if(count_lang==0){msg_fontfamily_arr.push("!!! Auf der Seite wurde ein LANG-Attribut definert. !!!")}msg_img_arr.push((count_img-count_img_without_alt)+" von "+count_img+" Bildern besitzen einen Alternativtext.");console.log(" ");console.log("SPRACHE");for(var i=0;i<msg_lang_arr.length;i++){console.log(msg_lang_arr[i])}console.log("---------------
