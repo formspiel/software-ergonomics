@@ -1,4 +1,3 @@
-//javascript:
 console.log("Version 2.0 — 2018-12-06");
 console.log("Starting check...");
 mintextsize = 10;
@@ -211,11 +210,6 @@ msg_lang_arr=[];
 
 //document.addEventListener('DOMContentLoaded', function(){ 
 	
-	if(document.documentMode<9){
-		console.log("ABORT: Page is running in document mode "+document.documentMode+". Document mode 9 or higher is required in IE.");
-		debugger;
-	}
-
 	wait_div = document.createElement("DIV");
 	document.body.appendChild(wait_div);
 	wait_div.id = "load_content_div";
@@ -230,18 +224,6 @@ msg_lang_arr=[];
 	wait_div.style.opacity = 0.5;
 	wait_div.style.cursor = "wait";
 
-	/* Add Colour js */
-	var js = document.createElement("script");
-	js.href = "";
-	document.getElementsByTagName("head")[0].appendChild(js);
-
-	/* Add CSS */
-	var ss = document.createElement("link");
-	ss.type = "text/css";
-	ss.rel = "stylesheet";
-	ss.href = "";
-	document.getElementsByTagName("head")[0].appendChild(ss);
-	
 	newdiv = document.createElement("DIV");
 	newdiv.innerHTML = ""
 		+"<button id='cb_control_close' class='skip_check' style='float:right;border: 1px solid black;'>X</button>"
@@ -378,9 +360,9 @@ msg_lang_arr=[];
 				var y = event.clientY;     // Get the vertical coordinate
 				mouse_rect = {"left":x,"top":y};
 				if(cont>=4.5){
-					setInfoBubble("green",cont.toString().replace(".",",")+":1","ergo_contrast d_e_e_b_c",mouse_rect,ele);
+					setInfoBubble("green",cont.toString()+":1","ergo_contrast d_e_e_b_c",mouse_rect,ele);
 				}else{
-					setInfoBubble("red",cont.toString().replace(".",",")+":1","ergo_contrast d_e_e_b_c",mouse_rect,ele);
+					setInfoBubble("red",cont.toString()+":1","ergo_contrast d_e_e_b_c",mouse_rect,ele);
 				}				
 		  });
 			
@@ -743,4 +725,3 @@ function resizeBrowserWindow(){
 	height=document.getElementById("ipt_control_height").value-90;
 	window.open(document.URL, '_blank', 'location=yes,height='+height+',width='+width+',scrollbars=yes,status=yes');
 }
-//void(0);
