@@ -4,9 +4,9 @@
 
   --char-red:    light-dark(#b20000, #ff6f6f);
   --char-yellow: light-dark(#7a5c00, #ffe066);
-  --char-green:  light-dark(#008080, #26ffd9);
+  --char-green:  light-dark(#1e7e34, #5ecf7d);
 
-  --row-hover:      light-dark(#e0f7fa, #004d4d);
+  --row-hover:      light-dark(#daeef8, #002d4d);
   --wrapper-shadow: light-dark(0 2px 8px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.2));
 }
 

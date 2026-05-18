@@ -3,11 +3,11 @@
 :root {
   color-scheme: light dark;
 
-  --accent:   #008080;
+  --accent:   light-dark(#006699, #00bfd9);
   --bg:       light-dark(#f8f9fa, #222);
   --surface:  light-dark(#fff, #333);
   --text:     light-dark(#222, #f8f9fa);
-  --border:   light-dark(#b2dfdb, #444);
+  --border:   light-dark(#b3d4e8, #444);
   --muted:    light-dark(#6c757d, #999);
   --code-bg:  light-dark(#f0f4f4, #2a3535);
 }
