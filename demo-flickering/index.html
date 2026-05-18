@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Flickering — WCAG 2.3.1</title>
+	<link rel="stylesheet" href="../shared.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<h1>Flickering <span class="status status-experiment">Experiment</span></h1>
+	<p class="subtitle">WCAG 2.3.1 — Three Flashes or Below Threshold</p>
+
+	<div class="warning" role="note">
+		<strong>Photosensitivity warning.</strong> This page demonstrates flashing content that may
+		trigger seizures in people with photosensitive epilepsy. Press Play to start.
+		Press <kbd>Escape</kbd> at any time to stop immediately.
+	</div>
+
+	<div class="demo-layout">
+
+		<!-- Flicker preview -->
+		<div class="preview-panel">
+			<div class="flicker-box" id="flicker-box" aria-hidden="true">
+				<span class="idle-hint" id="idle-hint">Press Play</span>
+			</div>
+			<div class="preview-footer">
+				<div class="wcag-result">
+					<span class="wcag-badge" id="wcag-badge" role="status"></span>
+					<span class="wcag-label" id="wcag-label"></span>
+				</div>
+				<button type="button" id="play-btn" aria-pressed="false">Play</button>
+			</div>
+		</div>
+
+		<!-- Controls -->
+		<div class="controls-panel">
+
+			<div class="control">
+				<div class="control-header">
+					<label for="freq-slider">Frequency</label>
+					<strong id="freq-display">1.0 Hz</strong>
+				</div>
+				<input type="range" id="freq-slider" min="0.5" max="8" step="0.1" value="1">
+				<div class="zone-bar" aria-hidden="true">
+					<div class="zone-seg zone-safe"   style="width:33.3%"><span>Safe ≤ 3 Hz</span></div>
+					<div class="zone-seg zone-border" style="width: 2.7%"></div>
+					<div class="zone-seg zone-danger" style="width:64.0%"><span>Unsafe &gt; 3 Hz</span></div>
+					<div class="zone-cursor" id="freq-cursor"></div>
+				</div>
+				<div class="zone-ticks" aria-hidden="true">
+					<span>0.5 Hz</span>
+					<span class="tick-mid" style="left:33.3%">3 Hz</span>
+					<span>8 Hz</span>
+				</div>
+				<p class="control-note">WCAG 2.3.1 threshold: <strong>3 flashes per second</strong></p>
+			</div>
+
+			<div class="control">
+				<div class="control-header">
+					<label for="dur-slider">Duration</label>
+					<strong id="dur-display">2.0 s</strong>
+				</div>
+				<input type="range" id="dur-slider" min="0.2" max="5" step="0.1" value="2">
+				<div class="zone-bar" aria-hidden="true">
+					<div class="zone-seg zone-safe"   style="width:16.7%"><span>Brief</span></div>
+					<div class="zone-seg zone-border" style="width: 2.1%"></div>
+					<div class="zone-seg zone-danger" style="width:81.2%"><span>Sustained</span></div>
+					<div class="zone-cursor" id="dur-cursor"></div>
+				</div>
+				<div class="zone-ticks" aria-hidden="true">
+					<span>0.2 s</span>
+					<span class="tick-mid" style="left:16.7%">1 s</span>
+					<span>5 s</span>
+				</div>
+				<p class="control-note">Below 1 s: fewer total flashes even at high frequency</p>
+			</div>
+
+		</div>
+	</div>
+
+	<section>
+		<h2>WCAG 2.3.1 — Three Flashes or Below Threshold</h2>
+		<p>Web content must not flash more than <strong>3 times per second</strong> in any one-second
+			period, unless the flash is below the <em>General Flash Threshold</em> — which accounts for
+			both the luminance change and the area of the flashing content on screen. Flash rates between
+			3 Hz and 50 Hz are the most likely to trigger photosensitive seizures.</p>
+		<dl>
+			<dt>What counts as a flash</dt>
+			<dd>A pair of opposing luminance changes — one transition to bright and one to dark. Three
+				flashes per second means six state changes every second.</dd>
+			<dt>Blink vs. flash</dt>
+			<dd>Below ~3 Hz the effect is perceived as <em>blinking</em> — distracting but not a
+				seizure risk. Above 3 Hz it becomes <em>flashing</em>, which is the threshold
+				WCAG 2.3.1 addresses.</dd>
+			<dt>General Flash Threshold</dt>
+			<dd>A flash above 3 Hz may still comply if its screen area is small enough (less than
+				25% of the 10° visual field, roughly 341 × 256 px at a typical viewing distance) and
+				the luminance change between states is below a defined level.</dd>
+			<dt>Duration and the one-second window</dt>
+			<dd>The rule applies to <em>any</em> one-second period. A very brief animation — short
+				enough that no one-second window contains 3 complete flashes — falls outside the rule's
+				scope, though this does not make high-frequency flashes inherently safe.</dd>
+			<dt>Testing tools</dt>
+			<dd>PEAT (Photosensitive Epilepsy Analysis Tool) and the Harding FPA test analyse video
+				content against the full General Flash Threshold, including area and colour
+				calculations.</dd>
+		</dl>
+	</section>
+
+	<a href="../index.html" class="back">← Back to projects</a>
+	<script src="scripts.js"></script>
+
+</body>
+
+</html>
