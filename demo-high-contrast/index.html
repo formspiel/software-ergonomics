@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>High Contrast Mode — Developer Reference</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <link rel="stylesheet" href="../shared.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>High Contrast Mode</h1>
+
+  <p class="intro">Windows, macOS, and other operating systems offer a <strong>Forced Colors Mode</strong> (historically called High Contrast Mode) that replaces page colours with a limited OS-controlled palette. Browsers enforce this via the CSS <code>forced-colors</code> media query. This page is a developer reference: how to detect it, how to adapt to it, and which system colour keywords to use.</p>
+
+  <p class="intro-tip"><strong>To test:</strong> Windows → Settings → Accessibility → Contrast Themes. Or: Chrome / Edge DevTools → Rendering tab → Emulate CSS media feature <code>forced-colors: active</code>.</p>
+
+
+  <!-- 1 ─ CSS Detection ───────────────────────────────────────── -->
+  <section aria-labelledby="s-detection">
+    <h2 id="s-detection">
+      CSS Detection
+      <span class="status status-stable">Use this</span>
+    </h2>
+
+    <p>The browser sets <code>forced-colors: active</code> when an OS contrast theme is on. Wrap your overrides in this query — the browser rewrites most colours automatically, so you only need to step in for elements that lose meaning without colour.</p>
+
+    <div class="demo-stage">
+      <div class="demo-box">
+        <span class="demo-mode-label"></span>
+        <a href="#">A link</a>
+        <button type="button">A button</button>
+      </div>
+    </div>
+
+    <details>
+      <summary>CSS pattern</summary>
+      <div class="details-body">
+        <p>The demo box above uses a coloured background to signal its visual boundary. In forced-colors mode that background is stripped — so a border is added to replace it.</p>
+        <pre><code>/* Works in all modes; forced-colors overrides the colours anyway */
+.panel { background-color: var(--surface); }
+
+/* Step in only where needed */
+@media (forced-colors: active) {
+  .panel {
+    border: 1px solid ButtonBorder; /* replaces the stripped background */
+  }
+}</code></pre>
+      </div>
+    </details>
+  </section>
+
+
+  <!-- 2 ─ Image Swapping ──────────────────────────────────────── -->
+  <section aria-labelledby="s-images">
+    <h2 id="s-images">
+      Image Swapping with <code>&lt;picture&gt;</code>
+      <span class="status status-stable">Recommended</span>
+    </h2>
+
+    <p>Background images are always stripped in forced-colors mode. Inline <code>&lt;img&gt;</code> images are preserved but their colours are not adapted. Use <code>&lt;picture&gt;</code> with a <code>forced-colors: active</code> source to serve an alternative high-contrast image.</p>
+
+    <div class="demo-stage">
+      <figure>
+        <picture>
+          <source media="(forced-colors: active)" srcset="img-hcm.svg" />
+          <img src="img-default.svg" width="200" height="120" alt="Bar chart with four bars showing sample values" />
+        </picture>
+        <figcaption>Image switches automatically in forced-colors mode.</figcaption>
+      </figure>
+    </div>
+
+    <details>
+      <summary>HTML pattern</summary>
+      <div class="details-body">
+        <pre><code>&lt;picture&gt;
+  &lt;source media="(forced-colors: active)" srcset="chart-hcm.svg" /&gt;
+  &lt;img src="chart-default.svg" alt="Bar chart with four bars" /&gt;
+&lt;/picture&gt;</code></pre>
+        <p>The HCM version uses alternating solid and hatched fills so bars remain distinguishable without colour.</p>
+      </div>
+    </details>
+  </section>
+
+
+  <!-- 3 ─ System Colour Reference ─────────────────────────────── -->
+  <section aria-labelledby="s-colours">
+    <h2 id="s-colours">System Colour Reference</h2>
+
+    <p>These CSS keywords resolve to the OS palette when <code>forced-colors</code> is active. Use them in <code>@media (forced-colors)</code> overrides to integrate with the OS theme. Swatches show the browser's resolved system colour values — most meaningful when viewed in forced-colors mode.</p>
+
+    <table class="colour-table">
+      <thead>
+        <tr>
+          <th scope="col">Swatch</th>
+          <th scope="col">Keyword</th>
+          <th scope="col">Description</th>
+          <th scope="col">Typical CSS property</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="group-head"><td colspan="4">Page background &amp; text</td></tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Canvas;color:CanvasText">Aa</span></td>
+          <td><code>Canvas</code></td>
+          <td>Page / app background</td>
+          <td><code>background-color</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:CanvasText;color:Canvas">Aa</span></td>
+          <td><code>CanvasText</code></td>
+          <td>Body text colour</td>
+          <td><code>color</code>, SVG <code>fill</code>, <code>stroke</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Canvas;color:GrayText">Aa</span></td>
+          <td><code>GrayText</code></td>
+          <td>Disabled / inactive text</td>
+          <td><code>color</code> on <code>:disabled</code>, placeholders</td>
+        </tr>
+
+        <tr class="group-head"><td colspan="4">Hyperlinks</td></tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Canvas;color:LinkText">Aa</span></td>
+          <td><code>LinkText</code></td>
+          <td>Unvisited link</td>
+          <td><code>color</code> on <code>a:link</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Canvas;color:VisitedText">Aa</span></td>
+          <td><code>VisitedText</code></td>
+          <td>Visited link</td>
+          <td><code>color</code> on <code>a:visited</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Canvas;color:ActiveText">Aa</span></td>
+          <td><code>ActiveText</code></td>
+          <td>Active (pressed) link</td>
+          <td><code>color</code> on <code>a:active</code></td>
+        </tr>
+
+        <tr class="group-head"><td colspan="4">Buttons &amp; form controls</td></tr>
+        <tr>
+          <td><span class="swatch" style="background-color:ButtonFace;color:ButtonText">Aa</span></td>
+          <td><code>ButtonFace</code></td>
+          <td>Button background</td>
+          <td><code>background-color</code> on <code>&lt;button&gt;</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:ButtonFace;color:ButtonText">Tt</span></td>
+          <td><code>ButtonText</code></td>
+          <td>Button label text</td>
+          <td><code>color</code> on <code>&lt;button&gt;</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:ButtonFace;border:2px solid ButtonBorder"></span></td>
+          <td><code>ButtonBorder</code></td>
+          <td>Button border</td>
+          <td><code>border-color</code> on <code>&lt;button&gt;</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Field;color:FieldText">Aa</span></td>
+          <td><code>Field</code></td>
+          <td>Input / select background</td>
+          <td><code>background-color</code> on <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Field;color:FieldText">Tt</span></td>
+          <td><code>FieldText</code></td>
+          <td>Input text</td>
+          <td><code>color</code> on <code>&lt;input&gt;</code></td>
+        </tr>
+
+        <tr class="group-head"><td colspan="4">Selection &amp; highlight</td></tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Highlight;color:HighlightText">Aa</span></td>
+          <td><code>Highlight</code></td>
+          <td>Selected text background</td>
+          <td><code>background-color</code> on <code>::selection</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Highlight;color:HighlightText">Tt</span></td>
+          <td><code>HighlightText</code></td>
+          <td>Text on Highlight</td>
+          <td><code>color</code> on <code>::selection</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:SelectedItem;color:SelectedItemText">Aa</span></td>
+          <td><code>SelectedItem</code></td>
+          <td>Selected item background</td>
+          <td><code>background-color</code> on focused list items</td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:SelectedItem;color:SelectedItemText">Tt</span></td>
+          <td><code>SelectedItemText</code></td>
+          <td>Text on SelectedItem</td>
+          <td><code>color</code> on selected items</td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Mark;color:MarkText">Aa</span></td>
+          <td><code>Mark</code></td>
+          <td>Marked / highlighted text background</td>
+          <td><code>background-color</code> on <code>&lt;mark&gt;</code></td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:Mark;color:MarkText">Tt</span></td>
+          <td><code>MarkText</code></td>
+          <td>Text on Mark</td>
+          <td><code>color</code> on <code>&lt;mark&gt;</code></td>
+        </tr>
+
+        <tr class="group-head"><td colspan="4">Accent</td></tr>
+        <tr>
+          <td><span class="swatch" style="background-color:AccentColor;color:AccentColorText">Aa</span></td>
+          <td><code>AccentColor</code></td>
+          <td>OS accent (checkboxes, sliders, focus)</td>
+          <td><code>accent-color</code>; focus ring colour</td>
+        </tr>
+        <tr>
+          <td><span class="swatch" style="background-color:AccentColor;color:AccentColorText">Tt</span></td>
+          <td><code>AccentColorText</code></td>
+          <td>Text on AccentColor background</td>
+          <td><code>color</code> on accent-bg elements</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- 4 ─ Practical Patterns ──────────────────────────────────── -->
+  <section aria-labelledby="s-patterns">
+    <h2 id="s-patterns">Practical Patterns</h2>
+
+    <details>
+      <summary>Restore borders on borderless elements</summary>
+      <div class="details-body">
+        <p>Cards and panels separated only by background colour become invisible when all backgrounds collapse to <code>Canvas</code>. Add a border in forced-colors mode.</p>
+        <pre><code>@media (forced-colors: active) {
+  .card, .panel {
+    border: 1px solid ButtonBorder;
+  }
+}</code></pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>SVG icons — use <code>currentColor</code></summary>
+      <div class="details-body">
+        <p>SVG fills and strokes are overridden to <code>CanvasText</code> by the browser. The safest approach is to author your SVGs with <code>fill="currentColor"</code> — the icon then follows text colour in all modes. Only opt out with <code>forced-color-adjust: none</code> when the colour itself carries meaning (a red error icon, a traffic light).</p>
+        <pre><code>/* Recommended: icon follows text colour */
+.icon { fill: currentColor; }
+
+/* Only when colour is the content */
+@media (forced-colors: active) {
+  .status-error {
+    forced-color-adjust: none;
+    color: red;
+  }
+}</code></pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>Focus rings — use <code>outline</code>, not <code>box-shadow</code></summary>
+      <div class="details-body">
+        <p><code>box-shadow</code> is suppressed in forced-colors mode. Any focus ring that relies on it becomes invisible. Use <code>outline</code> — it is preserved and mapped to a system colour automatically.</p>
+        <pre><code>/* Visible in all modes */
+:focus-visible {
+  outline: 3px solid ButtonBorder;
+  outline-offset: 2px;
+  box-shadow: none;
+}</code></pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>Do not suppress forced colors globally</summary>
+      <div class="details-body">
+        <p><code>forced-color-adjust: none</code> opts an element out of the OS palette entirely. Reserve it for elements where colour is the content (colour pickers, data visualisations). Applying it broadly defeats the OS setting and harms the users who depend on it.</p>
+        <pre><code>/* Only for elements where colour IS the content */
+.color-swatch {
+  forced-color-adjust: none;
+}
+
+/* Never do this */
+* { forced-color-adjust: none; }</code></pre>
+      </div>
+    </details>
+  </section>
+
+
+  <!-- 5 ─ Related Media Queries ───────────────────────────────── -->
+  <section aria-labelledby="s-related">
+    <h2 id="s-related">Related Media Queries</h2>
+
+    <table class="related-table">
+      <thead>
+        <tr>
+          <th scope="col">Query</th>
+          <th scope="col">Browser support</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>forced-colors: active</code></td>
+          <td>All modern browsers</td>
+          <td>OS contrast theme is on. Use system colour keywords.</td>
+        </tr>
+        <tr>
+          <td><code>prefers-contrast: more</code></td>
+          <td>Chrome 96+, Safari 14.1+, Firefox 101+</td>
+          <td>User wants higher contrast — not the same as forced-colors. Increase contrast values manually.</td>
+        </tr>
+        <tr>
+          <td><code>prefers-contrast: less</code></td>
+          <td>Chrome 96+, Safari 14.1+</td>
+          <td>User prefers softer contrast (some low-vision or sensory conditions).</td>
+        </tr>
+        <tr>
+          <td><code>prefers-reduced-motion: reduce</code></td>
+          <td>All modern browsers</td>
+          <td>Disable or simplify animations and transitions.</td>
+        </tr>
+        <tr>
+          <td><code>prefers-reduced-transparency: reduce</code></td>
+          <td>Safari 14+, Chrome 118+</td>
+          <td>Remove glass / blur effects.</td>
+        </tr>
+        <tr>
+          <td><code>-ms-high-contrast: active</code></td>
+          <td class="avoid">IE / old Edge only</td>
+          <td class="avoid">Deprecated. Replace with <code>forced-colors: active</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- 6 ─ JavaScript Detection ────────────────────────────────── -->
+  <section aria-labelledby="s-js">
+    <h2 id="s-js">JavaScript Detection</h2>
+
+    <p>Prefer CSS-only solutions. When JS logic must branch on forced-colors — for example, drawing a canvas chart — use <code>window.matchMedia</code>:</p>
+
+    <div class="demo-stage">
+      <p>Forced colors active on this browser: <strong id="hcm-status">…</strong></p>
+    </div>
+
+    <details>
+      <summary>Code</summary>
+      <div class="details-body">
+        <pre><code>const mql = window.matchMedia('(forced-colors: active)');
+
+function onForcedColorsChange(e) {
+  redrawChart(e.matches); // true when HCM is on
+}
+
+onForcedColorsChange(mql);                         // initial check
+mql.addEventListener('change', onForcedColorsChange); // OS toggle</code></pre>
+        <p>The older technique — injecting a div, setting an unusual colour, reading back the computed value — was a workaround for pre-<code>forced-colors</code> browsers. All modern browsers support the media query natively; the workaround is no longer needed.</p>
+      </div>
+    </details>
+  </section>
+
+
+  <footer>
+    <p>CSS system colour keywords: <a href="https://www.w3.org/TR/css-color-4/#css-system-colors">CSS Color Level 4 — W3C</a>.
+    Forced Colors API: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors">MDN</a>.</p>
+  </footer>
+
+  <a href="../index.html" class="back">← Back to projects</a>
+  <script src="scripts.js"></script>
+
+</body>
+</html>
