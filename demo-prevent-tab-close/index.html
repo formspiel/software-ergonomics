@@ -2,15 +2,54 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Tab close prevention</title>
-		<meta name="description" content="Prototype for prevent tab close">
+		<title>Prevent Tab Close</title>
+		<meta name="description" content="Demo: browser warning when leaving a page with unsaved data">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 		<link rel="stylesheet" href="../shared.css">
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-		<h1>Test the back button</h1>
-		<p>To test the Browsers back button please <a href="form.html">go to form page</a>.</p>
-		<!-- <script src="scripts.js"></script> -->
+		<div id="success-banner" class="success-banner hidden" role="status">
+			Comment posted — thanks!
+		</div>
+
+		<h1>Prevent Tab Close</h1>
+		<p>Browsers can warn users before they leave a page with unsaved data — protecting them from
+			accidentally losing a half-written comment, a form, or a draft.</p>
+
+		<h2>Try it out</h2>
+		<ol class="steps">
+			<li>Open the comment form below and type something in any field.</li>
+			<li>Try to <strong>close the tab</strong> or press the browser
+				<strong>back button</strong> — the browser will ask you to confirm before leaving.</li>
+			<li>Go back into the form and <strong>submit it</strong>. The warning is gone because
+				the data was intentionally sent.</li>
+		</ol>
+
+		<a href="form.html" class="cta">Open the comment form →</a>
+
+		<section class="explanation">
+			<h2>How it works</h2>
+			<p>The warning is triggered by the browser's <code>beforeunload</code> event, which fires
+				whenever the user tries to leave the current page — whether by closing the tab, pressing
+				the back button, or navigating to a new URL.</p>
+			<p>Calling <code>event.preventDefault()</code> inside that listener tells the browser to show
+				its native "Leave site?" dialog. <strong>The text and appearance of this dialog cannot be
+				customised</strong> — browsers intentionally blocked that years ago to prevent phishing
+				sites from mimicking system prompts.</p>
+			<p>A single boolean flag (<code>hasUnsavedData</code>) controls whether the warning fires.
+				A single <code>input</code> listener on the <code>&lt;form&gt;</code> element tracks all
+				fields automatically via event bubbling — no per-field wiring needed. On intentional
+				submit, the flag is cleared so navigation proceeds without a warning.</p>
+		</section>
+
+		<a href="../index.html" class="back">← Back to projects</a>
+
+		<script>
+			if (new URLSearchParams(location.search).get('submitted') === '1') {
+				document.getElementById('success-banner').classList.remove('hidden');
+				history.replaceState(null, '', location.pathname);
+			}
+		</script>
 	</body>
 </html>

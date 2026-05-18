@@ -2,37 +2,46 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Tab close prevention</title>
-		<meta name="description" content="Prototype for prevent tab close">
+		<title>Leave a comment — Prevent Tab Close</title>
+		<meta name="description" content="Demo form: unsaved changes trigger browser warning on navigation">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 		<link rel="stylesheet" href="../shared.css">
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-		<h1>Tab close prevention</h1>
-		<p>Enter something in the fields below, then try to close the tab or window. If unsaved data is present, the browser will ask you to confirm before leaving — protecting the user from accidentally losing their input.</p>
+		<div id="unsaved-indicator" class="unsaved-indicator hidden" aria-live="polite">
+			Unsaved changes — leaving this page will discard them.
+		</div>
 
-		<h2>How it works</h2>
-		<p>The warning dialog is triggered by the browser's <code>beforeunload</code> event. One important limitation: <strong>the dialog text and appearance cannot be customised by the application.</strong> Browsers intentionally blocked this years ago to prevent phishing sites from mimicking system prompts. What you see is always the browser's own native dialog, regardless of which browser or operating system the user is on.</p>
+		<a href="index.html" class="back">← Back</a>
+
+		<h1>Leave a comment</h1>
+		<p>Fill in the form below, then try to close the tab or press the back button before
+			submitting. The browser will ask you to confirm before discarding your input.</p>
 
 		<form action="#">
 			<fieldset>
-				<legend>Example 1</legend>
+				<legend>Your comment</legend>
 				<div class="field">
-					<label for="emailAddress">Email</label>
-					<input type="email" name="email" id="emailAddress" autocomplete="email">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" autocomplete="name" placeholder="Jane Smith">
 				</div>
 				<div class="field">
-					<label for="passwordInput">Password</label>
-					<input type="password" name="password" id="passwordInput" autocomplete="current-password">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" autocomplete="email" placeholder="jane@example.com">
+				</div>
+				<div class="field">
+					<label for="message">Message</label>
+					<textarea id="message" name="message" placeholder="Write your comment here…"></textarea>
 				</div>
 				<div class="field field--inline">
-					<input type="checkbox" name="checkbox" id="checkbox">
-					<label for="checkbox">Do you agree?</label>
+					<input type="checkbox" id="subscribe" name="subscribe">
+					<label for="subscribe">Notify me of replies by email</label>
 				</div>
-				<button type="submit">Login</button>
+				<button type="submit">Post comment</button>
 			</fieldset>
 		</form>
+
 		<script src="scripts.js"></script>
 	</body>
 </html>

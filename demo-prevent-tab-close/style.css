@@ -1,20 +1,123 @@
 /* ========== Demo-prevent-tab-close styles (base in shared.css) ========== */
 
-h1 {
-  font-size: 125%;
+body {
+	padding: 2rem;
+	max-width: 680px;
+	margin: 0 auto;
 }
 
+/* ---- Unsaved changes indicator (form.html) ---- */
+
+.unsaved-indicator {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	/* pull to edges despite body padding */
+	margin: -2rem -2rem 2rem;
+	padding: 0.65rem 2rem;
+	background-color: light-dark(#fff3cd, #3a2e00);
+	color: light-dark(#7a5c00, #f5cc5a);
+	border-bottom: 2px solid light-dark(#f0c040, #7a5c00);
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+/* ---- Success banner (index.html) ---- */
+
+.success-banner {
+	margin: -2rem -2rem 2rem;
+	padding: 0.65rem 2rem;
+	background-color: light-dark(#d4edda, #1a3a24);
+	color: light-dark(#1a5c2a, #6fcf85);
+	border-bottom: 2px solid light-dark(#7dbf8e, #2e6b40);
+	font-weight: 500;
+}
+
+/* ---- Steps list ---- */
+
+.steps {
+	padding-left: 1.4rem;
+	line-height: 1.8;
+}
+
+.steps li {
+	margin-bottom: 0.5rem;
+}
+
+/* ---- Call to action ---- */
+
+.cta {
+	display: inline-block;
+	margin-top: 1.5rem;
+	padding: 0.65rem 1.4rem;
+	background-color: var(--accent);
+	color: #fff;
+	border-radius: 6px;
+	text-decoration: none;
+	font-weight: 500;
+	transition: opacity 0.15s;
+}
+
+.cta:hover {
+	opacity: 0.85;
+}
+
+/* ---- Back link ---- */
+
+.back {
+	display: inline-block;
+	margin-bottom: 1.5rem;
+	color: var(--muted);
+	text-decoration: none;
+	font-size: 0.9rem;
+}
+
+.back:hover {
+	color: var(--accent);
+}
+
+/* ---- Form fields ---- */
+
 .field {
-  margin-bottom: 0.5rem;
+	margin-bottom: 1rem;
 }
 
 .field label,
-.field input:not([type="checkbox"]) {
-  display: block;
+.field input:not([type='checkbox']),
+.field textarea {
+	display: block;
+}
+
+.field label {
+	margin-bottom: 0.25rem;
+	font-weight: 500;
+}
+
+.field textarea {
+	width: 100%;
+	min-height: 8rem;
+	resize: vertical;
 }
 
 .field--inline {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1.25rem;
+}
+
+/* ---- Explanation section ---- */
+
+.explanation {
+	margin-top: 3rem;
+	padding-top: 1.5rem;
+	border-top: 2px solid var(--border);
+}
+
+.explanation h2 {
+	margin-top: 0;
+}
+
+.explanation p {
+	line-height: 1.7;
 }
