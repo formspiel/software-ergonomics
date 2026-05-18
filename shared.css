@@ -148,6 +148,19 @@ fieldset {
   color: light-dark(#1a4a8a, #7ab3f0);
 }
 
+/* Back-to-projects link — used at the bottom of every demo and tool page */
+.back {
+  display: inline-block;
+  margin-top: 2rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back:hover {
+  color: var(--accent);
+}
+
 .status-experiment {
   background-color: light-dark(#f3e5f5, #2d1a33);
   color: light-dark(#6a0dad, #ce93d8);
