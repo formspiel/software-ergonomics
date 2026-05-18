@@ -77,6 +77,11 @@ figure {
   gap: 0.5rem;
 }
 
+.adaptive-chart {
+  max-width: 100%;
+  height: auto;
+}
+
 figcaption {
   font-size: 0.875rem;
   color: var(--muted);
@@ -165,6 +170,13 @@ pre code {
   padding: 0;
   border: none;
   font-size: inherit;
+}
+
+/* ---- Table scroll wrapper (mobile) ---- */
+
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ---- System colour table ---- */

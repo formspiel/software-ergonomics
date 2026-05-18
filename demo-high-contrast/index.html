@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>High Contrast Mode — Developer Reference</title>
+  <title>High Contrast Mode — Reference</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
   <link rel="stylesheet" href="../shared.css">
   <link rel="stylesheet" href="style.css">
@@ -11,7 +11,7 @@
 
   <h1>High Contrast Mode</h1>
 
-  <p class="intro">Windows offers <strong>Contrast Themes</strong> (historically called High Contrast Mode) that replace page colours with a limited OS-controlled palette. Browsers enforce this via the CSS <code>forced-colors</code> media query. This page is a developer reference: how to detect it, how to adapt to it, and which system colour keywords to use. Note: macOS "Increase Contrast" maps to <code>prefers-contrast: more</code>, not <code>forced-colors</code> — see the Related Media Queries section.</p>
+  <p class="intro">Windows offers <strong>Contrast Themes</strong> (historically called High Contrast Mode) that replace page colours with an OS-controlled set of colour roles. Users can customise which colour fills each role in the theme settings. Browsers expose this via the CSS <code>forced-colors</code> media query. This page is a reference: how to detect it, how to adapt to it, and which system colour keywords to use. Note: macOS "Increase Contrast" maps to <code>prefers-contrast: more</code>, not <code>forced-colors</code> — see the Related Media Queries section.</p>
 
   <p class="intro-tip"><strong>To test:</strong> Windows → Settings → Accessibility → Contrast Themes. Or: Chrome / Edge DevTools → Rendering tab → Emulate CSS media feature <code>forced-colors: active</code>.</p>
 
@@ -80,6 +80,59 @@
         <p>The HCM version uses alternating solid and hatched fills so bars remain distinguishable without colour.</p>
       </div>
     </details>
+
+    <p>When an SVG is inline in the HTML (not loaded as <code>&lt;img src&gt;</code>), it can adapt itself with CSS directly — no second file needed. A <code>&lt;style&gt;</code> block inside the SVG can contain <code>@media (forced-colors)</code> rules, and <code>currentColor</code> inherits the system text colour automatically.</p>
+
+    <div class="demo-stage">
+      <figure>
+        <svg class="adaptive-chart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
+          <style>
+            .bar-a { fill: #006699; stroke: none; }
+            .bar-b { fill: #00bfd9; stroke: none; }
+            .chart-base { stroke: #999; stroke-width: 1.5; fill: none; }
+            @media (forced-colors: active) {
+              .bar-a { fill: currentColor; stroke: currentColor; stroke-width: 1.5; }
+              .bar-b { fill: url(#inline-hatch); stroke: currentColor; stroke-width: 1.5; }
+              .chart-base { stroke: currentColor; }
+            }
+          </style>
+          <defs>
+            <pattern id="inline-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="2.5"/>
+            </pattern>
+          </defs>
+          <rect class="bar-a" x="20" y="60" width="30" height="50" />
+          <rect class="bar-b" x="60" y="30" width="30" height="80" />
+          <rect class="bar-a" x="100" y="45" width="30" height="65" />
+          <rect class="bar-b" x="140" y="20" width="30" height="90" />
+          <line class="chart-base" x1="10" y1="111" x2="190" y2="111" />
+        </svg>
+        <figcaption>Single inline SVG — adapts itself via <code>@media (forced-colors)</code>.</figcaption>
+      </figure>
+    </div>
+
+    <details>
+      <summary>SVG pattern</summary>
+      <div class="details-body">
+        <pre><code>&lt;svg&gt;
+  &lt;style&gt;
+    .bar-a { fill: #006699; }
+    .bar-b { fill: #00bfd9; }
+    @media (forced-colors: active) {
+      .bar-a { fill: currentColor; stroke: currentColor; }
+      .bar-b { fill: url(#hatch); stroke: currentColor; }
+    }
+  &lt;/style&gt;
+  &lt;defs&gt;
+    &lt;pattern id="hatch" …&gt;&lt;line stroke="currentColor" …/&gt;&lt;/pattern&gt;
+  &lt;/defs&gt;
+  &lt;rect class="bar-a" … /&gt;
+  &lt;rect class="bar-b" … /&gt;
+&lt;/svg&gt;</code></pre>
+        <p><code>currentColor</code> inside the SVG inherits from the element's CSS <code>color</code> property, which the browser maps to <code>CanvasText</code> in forced-colors mode. Alternating solid and hatched fills keep the bars visually distinct without needing any colour.</p>
+        <p>This approach only works for inline SVGs. External SVGs loaded via <code>&lt;img src&gt;</code> do not inherit <code>currentColor</code> from the page and cannot read page-level media queries — use <code>&lt;picture&gt;</code> for those.</p>
+      </div>
+    </details>
   </section>
 
 
@@ -89,6 +142,7 @@
 
     <p>These CSS keywords resolve to the OS palette when <code>forced-colors</code> is active. Use them in <code>@media (forced-colors)</code> overrides to integrate with the OS theme. Swatches show the browser's resolved system colour values — most meaningful when viewed in forced-colors mode.</p>
 
+    <div class="table-wrap">
     <table class="colour-table">
       <thead>
         <tr>
@@ -226,6 +280,7 @@
 
       </tbody>
     </table>
+    </div>
   </section>
 
 
@@ -242,6 +297,12 @@
     border: 1px solid ButtonBorder;
   }
 }</code></pre>
+        <p>Alternatively, use <code>transparent</code> as the border colour in normal mode. It is invisible and has no visual impact — but in forced-colors mode the browser replaces <code>transparent</code> borders with a system colour automatically, with no override required.</p>
+        <pre><code>/* Invisible in normal mode; browser makes it visible in forced-colors */
+.card {
+  border: 1px solid transparent;
+}</code></pre>
+        <p>This is useful for components that should never show a border in normal mode but must be visually bounded in HCM. The border space is reserved in the layout in both modes, preventing any reflow.</p>
       </div>
     </details>
 
@@ -295,6 +356,7 @@
   <section aria-labelledby="s-related">
     <h2 id="s-related">Related Media Queries</h2>
 
+    <div class="table-wrap">
     <table class="related-table">
       <thead>
         <tr>
@@ -336,6 +398,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </section>
 
 
