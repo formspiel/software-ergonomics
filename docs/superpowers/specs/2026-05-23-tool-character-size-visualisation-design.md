@@ -37,8 +37,9 @@ Redesign the font size visualisation tool to match the project's design system (
 
 ## Grid Layout
 
-- CSS grid: `repeat(3, 1fr)`, full viewport width, small horizontal padding
-- Each column: sticky header (scrolls with page, not fixed) + size rows
+- Page and grid centred: `max-width: 960px; margin: 0 auto; padding: 0 2rem`
+- CSS grid: `repeat(3, 1fr)` within that container (~300px per column)
+- Each column: sticky column header (not `position: fixed`) + size rows
 - Column borders: `1px solid var(--border)`
 - Column header background: `var(--surface)`
 - Mobile (< 640px): grid collapses to single column; tab strip above switches between System / Google / Allianz
