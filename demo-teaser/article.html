@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display Ergonomics at Small Sizes</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link rel="stylesheet" href="article.css">
+</head>
+<body>
+
+<article>
+  <header class="article-header">
+    <p class="article-meta">22 May 2026 · Software Ergonomics</p>
+    <h1>Display Ergonomics at Small Sizes</h1>
+    <p class="article-lead">Understanding how screen resolution, viewing distance, and font rendering interact determines whether text is comfortable to read over long periods of work.</p>
+  </header>
+
+  <figure class="article-figure">
+    <img src="https://placehold.co/1200x675/374151/e5e7eb?text=Article+Image" alt="A diagram showing the relationship between viewing distance, pixel density, and minimum legible font size.">
+    <figcaption>Minimum legible character size varies significantly across display types and typical viewing distances.</figcaption>
+  </figure>
+
+  <div class="article-body">
+    <p>Screen ergonomics is rarely treated as a first-class concern in software design. Most teams focus on contrast ratios and keyboard navigation, but the physical relationship between a user's eyes and their screen shapes whether text is effortlessly readable or quietly fatiguing.</p>
+
+    <h2>Resolution isn't the whole story</h2>
+    <p>Two displays with identical pixel counts can feel completely different to read on. What matters is pixel density — the number of pixels per physical millimetre — combined with the viewer's typical working distance. A developer sitting 50 cm from a 27-inch 4K monitor is in a very different situation from a factory worker reading from a mounted display at arm's length.</p>
+
+    <p>The ISO 9241-303 standard defines minimum character heights in terms of visual arc minutes — the angle subtended at the eye by the character's x-height. A minimum of 16 arc minutes is generally considered the threshold for comfortable reading; 20 arc minutes provides a comfortable margin.</p>
+
+    <h2>Font rendering compounds the problem</h2>
+    <p>Even when a character meets the minimum physical size threshold, rendering quality determines whether the counter shapes — the enclosed or partially enclosed spaces in letters like <em>a</em>, <em>e</em>, and <em>g</em> — remain distinct. At small sizes, counters can fill in, and character pairs like <em>Il</em>, <em>1l</em>, and <em>rn/m</em> become indistinguishable.</p>
+
+    <p>This is not purely a font choice issue. Sub-pixel rendering, display gamma, and the antialiasing approach all affect clarity at small sizes in ways that are invisible at standard body text sizes.</p>
+
+    <h2>Practical implications</h2>
+    <p>For enterprise software displayed on large office monitors, the most common failure is font sizes that look fine on a designer's retina laptop but become unreadable on the 1080p displays that most employees actually use. A 12px label on a retina screen occupies roughly 3.2 mm — adequate. The same 12px label on a standard office display occupies roughly 4.2 mm — still readable, but only at typical desk distances.</p>
+
+    <p>Zoom as a mitigation strategy is often cited, but rarely used. Users adjust zoom levels once — usually when setting up a new machine — and then leave them. Designs should be legible at 100% zoom on the target hardware, not merely zoom-capable.</p>
+  </div>
+</article>
+
+<a class="back" href="index.html">← Back to teaser demo</a>
+
+</body>
+</html>
