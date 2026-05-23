@@ -15,10 +15,6 @@ h1 {
   font-size: 0.95rem;
 }
 
-fieldset {
-  margin-bottom: 1.5rem;
-}
-
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -121,6 +117,7 @@ fieldset {
 
 .sample-text {
   flex: 1;
+  min-width: 0;
   line-height: 1.2;
   overflow: hidden;
   white-space: nowrap;
@@ -143,10 +140,8 @@ fieldset {
   border-right: 1px solid var(--border);
   color: var(--muted);
   padding: 0.6em 0.5em;
-  font-family: inherit;
   font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
 }
 .tab-btn:last-child {
   border-right: none;
