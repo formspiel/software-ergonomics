@@ -33,8 +33,27 @@ summary {
   color: var(--muted);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 summary::-webkit-details-marker { display: none; }
+
+summary::after {
+  content: '';
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  transform: rotate(45deg);
+}
+
+details[open] summary::after {
+  transform: rotate(225deg);
+}
 
 details[open] summary {
   border-bottom: 1px solid var(--border);
