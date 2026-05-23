@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<title>Your Title</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	<!-- 	<meta name='viewport' content='initial-scale=1, viewport-fit=cover'> -->
+	<meta name="theme-color" content="#fafafa">
+	<style>
+		.teaser-wrapper {
+			position: relative;
+			width: 50%;
+			max-width: 600px;
+			border: 1px solid #ccc;
+			margin-bottom: 2rem;
+		}
+		
+		.teaser-faux-link {
+			height: 100%;
+			opacity: 0;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			z-index: 1;
+			outline: 0;
+			background-color: red;
+		}
+		
+		@media (prefers-color-scheme: dark) {
+			html {
+				filter: invert(1) hue-rotate(180deg);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<a href="#">Link for screen reader test</a>
+	<h1>Proposal for a more accessible and SEO-friendly teaser</h1>
+	<p>it belongs to OMPRO-XXXX</p>
+	
+	<p>If the click event is on the whole wrapper an interaction with a video is not possible (harder to code)</p>
+	<article class="teaser-wrapper js-clickable">
+		<span>22. Jun 2023</span>
+		<h2>Some awesome and important Headline</h2>
+		<img src="https://placehold.co/600x400/blue/white?text=Hello+World" alt="Generated placeholder image with the text Hello World">
+		<p>Bro ipsum dolor sit amet gaper backside single track, manny Bike epic clipless. Schraeder drop gondy, rail fatty slash gear jammer steeps clipless rip bowl couloir bomb hole berm. Huck cruiser crank endo, sucker hole piste ripping ACL huck greasy flow face plant pinner. Japan air Skate park big ring trucks shuttle stoked rock-ectomy.</p>
+		<a href="#">Read more</a>
+	</article>
+	<article class="teaser-wrapper js-clickable">
+		<span>22. Jun 2023</span>
+		<h2>Some awesome and important Headline</h2>
+		<video controls src="https://placehold.co/600x400.mp4?text=Hello+World">
+			<track default kind="captions" srclang="en" src="my_captions.vtt">
+			Download the <a href="https://placehold.co/600x400.mp4?text=Hello+World">MP4</a> video, and <a href="my_captions.vtt">subtitles</a>.
+		</video>
+		<p>Lorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites. Lorem Ipsum best not make any more threats to your website. It will be met with fire and fury like the world has never seen. Does everybody know that pig named Lorem Ipsum? An ‘extremely credible source’ has called my office and told me that Barack Obama’s placeholder text is a fraud.</p>
+		<a href="#">Read more</a>
+	</article>
+	
+	<h2>Non-JS version</h2>
+	<article class="teaser-wrapper">
+		<a class="teaser-faux-link" href="#" tabindex="-1" aria-hidden="true">Some awesome and important Headline</a>
+		<div class="teaser-cnt">
+			<span>22. Jun 2023</span>
+			<h2>Some awesome and important Headline</h2>
+			<video controls src="https://placehold.co/600x400.mp4?text=Hello+World">
+				<track default kind="captions" srclang="en" src="my_captions.vtt">
+				Download the <a href="https://placehold.co/600x400.mp4?text=Hello+World">MP4</a> video, and <a href="my_captions.vtt">subtitles</a>.
+			</video>
+			<p>Lorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites. Lorem Ipsum best not make any more threats to your website. It will be met with fire and fury like the world has never seen. Does everybody know that pig named Lorem Ipsum? An ‘extremely credible source’ has called my office and told me that Barack Obama’s placeholder text is a fraud.</p>
+			<a href="#">Read more</a>
+		</div>
+	</article>
+
+	
+
+	<script>
+		window.onload = function() {
+			let elements = document.getElementsByClassName('js-clickable');
+		
+			for(let i = 0; i < elements.length; i++) {
+				// TODO: add other listernes like touch too
+				elements[i].addEventListener("mouseup", function() {
+					alert('You\'ve clicked the teaser.');
+				}, false)
+			}
+		};
+	</script>
+
+</body>
+</html>

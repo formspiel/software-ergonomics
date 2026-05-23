@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Role Group for NDBX Cards</title>
+</head>
+<body>
+    <div class="nx-card">
+        <h3>Headline</h3>
+        <div>2.99€</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quas laborum deserunt repellendus odit voluptate necessitatibus odio ipsa impedit, provident, eaque sapiente repellat minus dolor? Quia numquam nisi perspiciatis porro.</p>
+    </div>
+
+    <div class="nx-card" role="widget" aria-label="card">
+        <h3>Headline</h3>
+        <div>2.99€</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quas laborum deserunt repellendus odit
+            voluptate necessitatibus odio ipsa impedit, provident, eaque sapiente repellat minus dolor? Quia numquam nisi
+            perspiciatis porro.</p>
+    </div>
+
+    <div class="nx-card" tabindex="0" role="widget" aria-label="card">
+        <h3>Headline</h3>
+        <div>2.99€</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quas laborum deserunt repellendus odit
+            voluptate necessitatibus odio ipsa impedit, provident, eaque sapiente repellat minus dolor? Quia numquam nisi
+            perspiciatis porro.</p>
+        <p><code>aria-selected="true"</code> not possible</p>
+    </div>
+
+    <div class="nx-card" tabindex="0" aria-disabled="true" role="widget" aria-label="card">
+        <h3>Headline</h3>
+        <div>2.99€</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quas laborum deserunt repellendus odit
+            voluptate necessitatibus odio ipsa impedit, provident, eaque sapiente repellat minus dolor? Quia numquam nisi
+            perspiciatis porro.</p>
+    </div>
+    
+</body>
+</html>

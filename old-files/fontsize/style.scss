@@ -1,0 +1,124 @@
+@font-face {
+  font-family: 'AllianzNeoW04-Light';
+  src: url('fonts/AllianzNeoW04-Light.woff') format('woff');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'AllianzNeoW04-Regular';
+  src: url('fonts/AllianzNeoW04-Regular.woff') format('woff');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'AllianzNeoW02-SemiBold.woff';
+  src: url('fonts/AllianzNeoW02-SemiBold.woff') format('woff');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'AllianzNeoW04-Bold.woff';
+  src: url('fonts/AllianzNeoW04-Bold.woff') format('woff');
+  font-weight: 800;
+}
+
+html {
+    line-height: 1.4;
+
+    // https://helpx.adobe.com/de/typekit/using/open-type-syntax.html
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: 'liga', 'clig';
+    font-feature-settings: 'liga' 1, 'dlig' 1, 'clig' 1;
+
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+    hyphens: auto;
+}
+
+body {
+    font-family: "AllianzNeoW04-Regular", sans-serif;
+    text-rendering: optimizeLegibility;
+    font-style: normal;
+    color: #444
+
+
+}
+
+output {
+    width: 5rem;
+
+    &::after {
+      content: '\2009px';
+    }
+
+    &[name="fs-clicked"]::after {
+        content: none;
+    }
+}
+
+
+button {
+    font-size: 1rem;
+    padding: .35rem .75rem
+}
+
+p::after {
+    color: silver;
+    margin-left: .5rem
+}
+
+p.az-light {
+    font-family: 'AllianzNeoW04-Light';
+
+    &::after {
+        content: 'AllianzNeoW04-Light' !important;
+    }
+}
+
+p.calibri {
+    font-family: 'Calibri';
+
+    &::after {
+        content: 'Calibri' !important;
+    }
+}
+
+p.arial {
+    font-family: Arial;
+
+    &::after {
+      content: 'Arial' !important;
+    }
+}
+
+
+p.segoe {
+    font-family: 'Segoe UI';
+
+    &::after {
+      content: 'Segoe UI' !important;
+    }
+}
+
+
+p.size10 {
+    font-size: 1rem;
+
+    &::after {
+        content: 'AllianzNeoW04-Regular';
+    }
+}
+
+
+
+p.size11 {
+    font-size: 1.1rem;
+
+    &::after {
+        content: 'AllianzNeoW04-Regular';
+    }
+}
+
+
+
+/*# sourceMappingURL=style.css.map */
