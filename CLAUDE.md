@@ -17,6 +17,12 @@ The root `index.html` is a project index linking to all tools and demos. `shared
 - `presets.json` — 46 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`
 - `style.css` — styling; uses `light-dark()` CSS function for auto dark mode
 
+**`tool-character-size-visualisation/`** — side-by-side font comparison tool. Renders sample text at 8–24 px across three columns (System, Google, Allianz Neo W04) to judge rendering quality at small sizes. Key files:
+- `index.html` — all markup and inline JS; Google Fonts CDN link; `@font-face` rules loading Allianz Neo from `https://amh.me/allianz/fonts/`; no external scripts
+- `style.css` — tool-specific layout; `shared.css` handles base styles and theming
+- Controls: sample text input (default `E aecg · Il1ij · 0Oo · bd · rn/m — Hamburgefons`), Regular/Bold weight toggle (affects System and Google columns only; Allianz weight comes from its select)
+- Mobile (≤ 640 px): controls collapse into a `<details>` disclosure element; tab strip switches between columns; subtitle and Draft badge hidden
+
 **`tool-character-size/`** — a JS bookmarklet for in-browser accessibility checks based on ISO 9241-303. Key files:
 - `bookmarklet.js` — the script; paste its contents into a browser bookmark URL field to install
 - `index.html` — landing page with installation instructions
