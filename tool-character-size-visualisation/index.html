@@ -28,8 +28,8 @@
 <h1>Font Size Visualisation <span class="status status-draft">Draft</span></h1>
 <p class="subtitle">Compare how System, Google, and Allianz Neo fonts render at small sizes — spot counter clarity and character confusion at a glance.</p>
 
-<fieldset>
-  <legend>Controls</legend>
+<details open>
+  <summary>Controls</summary>
   <div class="controls">
     <div class="sample-wrap">
       <label for="sampleInput">Sample text</label>
@@ -45,7 +45,7 @@
       </div>
     </div>
   </div>
-</fieldset>
+</details>
 
 <nav class="tab-strip" aria-label="Font column" role="tablist">
   <button class="tab-btn" data-col="0" aria-selected="true" role="tab">System</button>
@@ -235,6 +235,10 @@ function switchTab(idx) {
 tabBtns.forEach((btn, i) => btn.addEventListener('click', () => switchTab(i)));
 
 buildAll();
+
+if (window.matchMedia('(max-width: 640px)').matches) {
+  document.querySelector('details').removeAttribute('open');
+}
 </script>
 </body>
 </html>

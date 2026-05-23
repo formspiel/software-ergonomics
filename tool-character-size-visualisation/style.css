@@ -15,12 +15,38 @@ h1 {
   font-size: 0.95rem;
 }
 
+details {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+summary {
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  background: var(--surface);
+  border-radius: 6px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+summary::-webkit-details-marker { display: none; }
+
+details[open] summary {
+  border-bottom: 1px solid var(--border);
+  border-radius: 6px 6px 0 0;
+}
+
 .controls {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   align-items: flex-end;
-  padding-top: 0.5rem;
+  padding: 0.75rem 1rem;
 }
 
 .sample-wrap {
@@ -161,6 +187,9 @@ h1 {
 
 @media (max-width: 640px) {
   body { padding: 1rem; }
+
+  .subtitle,
+  h1 .status { display: none; }
 
   .tab-strip { display: flex; }
 
