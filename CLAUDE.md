@@ -45,6 +45,14 @@ The root `index.html` is a project index linking to all tools and demos. `shared
 
 **`demo-theming/`** — a joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto / Light / Dark) via `localStorage`.
 
+**`demo-teaser/`** — three patterns for making teaser cards with embedded media clickable. The core tension: mouse users want click-anywhere; keyboard users need independent access to media controls. Key files:
+- `index.html` — three pattern sections (heading link only, JS click delegation, CSS stretched link) each with a live demo stage and an AT behaviour `<details>` block
+- `style.css` — teaser card styles; `.teaser--clickable` (JS pattern), `.teaser--stretched` (CSS pattern with `::after` overlay and `z-index: 2` on video)
+- `article.html` + `article.css` — article detail page; all three teasers link here for real navigation flow testing
+- Pattern B JS: `e.target.closest(INTERACTIVE)` guard skips navigation when clicking video controls; `aria-hidden="true" tabindex="-1"` removes the "Read more" duplicate from the AT tree
+
+**`demo-duplicate-id/`** — (draft) demonstrates how duplicate `id` attributes break `aria-labelledby` references. Currently contains `duplicate-id-test.html` as a seed; full demo not yet built.
+
 ## Calculator Architecture
 
 All calculator logic lives in `tool-display-legibility/index.html`:
