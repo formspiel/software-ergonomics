@@ -10,20 +10,34 @@ To run locally: open any `index.html` in a browser. Because `tool-display-legibi
 
 ## Repository Structure
 
-The root `index.html` is a project index linking to all tools and demos:
+The root `index.html` is a project index linking to all tools and demos. `shared.css` provides base styles (CSS variables, typography, status badges, `.back` link) used by every page.
 
 **`tool-display-legibility/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
 - `index.html` — all logic is inline JS; no external scripts except `html2canvas` CDN
 - `presets.json` — 46 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`
 - `style.css` — styling; uses `light-dark()` CSS function for auto dark mode
 
-**`tool-character-size/`** — a separate, unfinished JS bookmarklet/extension script (`coc-assessement.js`) for in-browser accessibility checks. Partially in German, not integrated with the calculator.
+**`tool-character-size/`** — a JS bookmarklet for in-browser accessibility checks based on ISO 9241-303. Key files:
+- `bookmarklet.js` — the script; paste its contents into a browser bookmark URL field to install
+- `index.html` — landing page with installation instructions
 
-**`demo-modals/`** — showcases and compares modal, pop-up, and dialog interaction patterns. ARIA-compliant `Dialog` class with focus trapping, nested dialogs, and ESC handling. Includes a `Pro vs Con/` subpage comparing dialog approaches side-by-side.
+**`demo-accessible-svg/`** — five variants of a paper plane SVG demonstrating different accessibility techniques: no markup, inline `<title>` with ARIA, inline CSS with legacy high-contrast support, and external CSS via XML processing instruction. Four SVG files (`paper-plane-optimised.svg`, `paper-plane-with-title.svg`, `paper-plane-with-title-css.svg`, `paper-plane-with-title-ext-css.svg`) plus `svg.css` for the external-CSS variant.
 
-**`demo-prevent-tab-close/`** — demonstrates browser tab-close prevention via the `beforeunload` event. Flag-based approach with event delegation on a form.
+**`demo-flickering/`** — interactive WCAG 2.3.1 demo. A flicker box plays on demand; two zone-coded sliders (frequency 0.5–8 Hz, duration 0.2–5 s) show which settings pass or fail the 3 flashes-per-second threshold. Escape stops playback immediately.
 
-**`demo-theming/`** — a demo joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto/Light/Dark) via `localStorage`.
+**`demo-high-contrast/`** — reference page for CSS `forced-colors` (Windows Contrast Themes). Covers detection, `<picture>` image swapping, inline SVG adaptation via `currentColor`, the full system colour keyword table, practical patterns, related media queries, and JS detection.
+
+**`demo-modals/`** — six dialog and pop-up patterns using native `<dialog>`, the Popover API, ARIA alerts, and a new-window variant. Includes `newWindow.html` opened via `window.open()`. Key files:
+- `index.html` — all six patterns with AT behaviour notes
+- `scripts.js` — focus trapping, ESC handling, nested dialog support
+- `style.css`, `newWindow.html`
+
+**`demo-prevent-tab-close/`** — demonstrates `beforeunload`-based tab-close prevention on a two-page form flow (`index.html` → `form.html`). Key files:
+- `form.html` — email/password form; loads `scripts.js`
+- `scripts.js` — flag-based approach: one `beforeunload` listener on `window` controlled by a `hasUnsavedData` boolean; a single `input` listener on `<form>` uses event delegation to catch all child fields via bubbling; `form.elements` evaluates dirty state per control type (`el.checked` for checkboxes/radios, `el.value` for everything else). Submit handler clears the flag so no warning appears on intentional navigation.
+- Browser limitation: the `beforeunload` dialog text and appearance cannot be customised — browsers block this to prevent phishing. The native dialog is always shown.
+
+**`demo-theming/`** — a joke generator demonstrating the `light-dark()` CSS function with manual theme switching (Auto / Light / Dark) via `localStorage`.
 
 ## Calculator Architecture
 
