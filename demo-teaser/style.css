@@ -1,0 +1,183 @@
+body {
+  padding: 2rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+
+/* ---- Sections ---- */
+
+section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+section h2 {
+  color: var(--accent);
+  margin-top: 0;
+}
+
+.pattern-desc {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ---- Demo stage ---- */
+
+.demo-stage {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* ---- Details / summary ---- */
+
+details {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0.65rem 1rem;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker { display: none; }
+
+details summary::before {
+  content: '▶  ';
+  font-size: 0.65em;
+  vertical-align: middle;
+}
+
+details[open] summary::before {
+  content: '▼  ';
+}
+
+.details-body {
+  padding: 0.5rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.details-body h3 {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 1.25rem 0 0.4rem;
+}
+
+.details-body h3:first-child {
+  margin-top: 0.75rem;
+}
+
+.details-body p {
+  line-height: 1.65;
+  margin: 0 0 0.5rem;
+}
+
+/* ---- Teaser base ---- */
+
+.teaser {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+  position: relative;
+  max-width: 480px;
+  transition: border-color 0.15s;
+}
+
+.teaser-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.teaser-body {
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.teaser-title {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.teaser-title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.teaser-title a:hover {
+  text-decoration: underline;
+}
+
+.teaser-text {
+  margin: 0 0 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.teaser-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  margin-bottom: 0.9rem;
+}
+
+.read-more {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ---- Pattern B: JS click delegation ---- */
+
+.teaser--clickable {
+  cursor: pointer;
+}
+
+.teaser--clickable:hover {
+  border-color: var(--accent);
+}
+
+/* ---- Pattern C: stretched link ---- */
+
+.teaser--stretched:hover,
+.teaser--stretched:focus-within {
+  border-color: var(--accent);
+}
+
+.teaser--stretched .teaser-title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.teaser--stretched .teaser-video {
+  position: relative;
+  z-index: 2;
+}

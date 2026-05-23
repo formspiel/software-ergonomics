@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Teaser Patterns</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Accessible Teaser Patterns <span class="status status-experiment">Experiment</span></h1>
+<p class="intro">A teaser card with embedded media creates a conflict: mouse users want to click anywhere on the card to navigate; keyboard users need to reach the media controls independently. These three patterns explore the trade-offs.</p>
+
+<!-- Pattern A ─────────────────────────────────────────────────────── -->
+<section aria-labelledby="s-a">
+  <h2 id="s-a">Pattern A — Heading link only</h2>
+
+  <p class="pattern-desc">The link lives only on the heading. "Read more" is a second link to the same destination — harmless visually, but creates a duplicate tab stop for keyboard and screen reader users.</p>
+
+  <div class="demo-stage">
+    <article class="teaser">
+      <img class="teaser-img" src="https://placehold.co/720x405/374151/e5e7eb?text=Article+Image" alt="Article thumbnail">
+      <div class="teaser-body">
+        <h3 class="teaser-title"><a href="#">Display Ergonomics at Small Sizes</a></h3>
+        <p class="teaser-text">Understanding how screen resolution, viewing distance, and font rendering interact determines whether text is comfortable to read over long periods of work.</p>
+        <video class="teaser-video" controls poster="https://placehold.co/720x405/1e2a3a/6db3f2?text=Video">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+        <a href="#" class="read-more">Read more →</a>
+      </div>
+    </article>
+  </div>
+
+  <details>
+    <summary>Assistive technology behaviour</summary>
+    <div class="details-body">
+      <h3>Mouse</h3>
+      <p>Only the heading text and "Read more" are clickable. The image, body text, and the area around the video are dead zones.</p>
+
+      <h3>Keyboard</h3>
+      <p>Two tab stops for the same destination: the heading link, then the media controls, then "Read more". The duplicate link wastes a tab stop and adds confusion.</p>
+
+      <h3>Screen reader</h3>
+      <p>Announces both links separately — "Display Ergonomics at Small Sizes, link" and "Read more, link" — with no indication they go to the same place. Users must decide whether to follow both.</p>
+
+      <h3>Verdict</h3>
+      <p>Works without JavaScript. Acceptable for simple teasers without media, but the duplicate link is a meaningful friction point for AT users.</p>
+    </div>
+  </details>
+</section>
+
+<!-- Pattern B ─────────────────────────────────────────────────────── -->
+<section aria-labelledby="s-b">
+  <h2 id="s-b">Pattern B — JS click delegation</h2>
+
+  <p class="pattern-desc">A click listener on the wrapper navigates to the heading link's destination — unless the click landed on an interactive element (link, button, video controls). "Read more" is hidden from the accessibility tree to eliminate the duplicate.</p>
+
+  <div class="demo-stage">
+    <article class="teaser teaser--clickable">
+      <img class="teaser-img" src="https://placehold.co/720x405/374151/e5e7eb?text=Article+Image" alt="Article thumbnail">
+      <div class="teaser-body">
+        <h3 class="teaser-title"><a href="#">Display Ergonomics at Small Sizes</a></h3>
+        <p class="teaser-text">Understanding how screen resolution, viewing distance, and font rendering interact determines whether text is comfortable to read over long periods of work.</p>
+        <video class="teaser-video" controls poster="https://placehold.co/720x405/1e2a3a/6db3f2?text=Video">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+        <a href="#" class="read-more" aria-hidden="true" tabindex="-1">Read more →</a>
+      </div>
+    </article>
+  </div>
+
+  <details>
+    <summary>Assistive technology behaviour</summary>
+    <div class="details-body">
+      <h3>Mouse</h3>
+      <p>Click anywhere on the teaser — image, text, space around the video — navigates. Clicking inside the video controls plays/pauses without triggering navigation.</p>
+
+      <h3>Keyboard</h3>
+      <p>One tab stop: the heading link. Media controls follow naturally. No duplicate "Read more" tab stop.</p>
+
+      <h3>Screen reader</h3>
+      <p>Announces one link: "Display Ergonomics at Small Sizes, link". "Read more" is removed from the accessibility tree via <code>aria-hidden</code>.</p>
+
+      <h3>Requires JavaScript</h3>
+      <p>Without JS the teaser degrades to Pattern A — the heading link still works, but the wrapper is no longer clickable.</p>
+    </div>
+  </details>
+</section>
+
+<!-- Pattern C ─────────────────────────────────────────────────────── -->
+<section aria-labelledby="s-c">
+  <h2 id="s-c">Pattern C — Stretched link (CSS only)</h2>
+
+  <p class="pattern-desc">A <code>::after</code> pseudo-element on the heading link is stretched to cover the entire card via <code>position: absolute; inset: 0</code>. The video and any other interactive elements sit above it via <code>z-index</code>. No JavaScript required.</p>
+
+  <div class="demo-stage">
+    <article class="teaser teaser--stretched">
+      <img class="teaser-img" src="https://placehold.co/720x405/374151/e5e7eb?text=Article+Image" alt="Article thumbnail">
+      <div class="teaser-body">
+        <h3 class="teaser-title"><a href="#">Display Ergonomics at Small Sizes</a></h3>
+        <p class="teaser-text">Understanding how screen resolution, viewing distance, and font rendering interact determines whether text is comfortable to read over long periods of work.</p>
+        <video class="teaser-video" controls poster="https://placehold.co/720x405/1e2a3a/6db3f2?text=Video">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+      </div>
+    </article>
+  </div>
+
+  <details>
+    <summary>Assistive technology behaviour</summary>
+    <div class="details-body">
+      <h3>Mouse</h3>
+      <p>Click anywhere on the teaser navigates. Video controls sit above the overlay and work normally. No JavaScript required.</p>
+
+      <h3>Keyboard</h3>
+      <p>One tab stop: the heading link. Focus indicator appears on the heading text, not the card border — may feel disconnected from the card as a whole.</p>
+
+      <h3>Screen reader</h3>
+      <p>Announces one link: "Display Ergonomics at Small Sizes, link". Clean — no duplicates.</p>
+
+      <h3>Caveat</h3>
+      <p>Any other interactive elements inside the teaser (a second link, a button) need <code>position: relative; z-index: 2</code> to sit above the overlay — easy to miss when adding content later. Also: if any ancestor gains a <code>transform</code> or <code>opacity</code>, the stacking context breaks and the z-index relationship may stop working.</p>
+    </div>
+  </details>
+</section>
+
+<a class="back" href="../index.html">← Back to projects</a>
+
+<script>
+const INTERACTIVE = 'a[href], button, input, select, textarea, video, audio, [controls]';
+
+document.querySelectorAll('.teaser--clickable').forEach(teaser => {
+  teaser.addEventListener('click', e => {
+    if (e.target.closest(INTERACTIVE)) return;
+    const link = teaser.querySelector('.teaser-title a');
+    if (link) window.location.href = link.href;
+  });
+});
+</script>
+
+</body>
+</html>
