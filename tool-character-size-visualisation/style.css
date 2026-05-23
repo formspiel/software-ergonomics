@@ -158,6 +158,7 @@ h1 {
 
   .grid {
     grid-template-columns: 1fr;
+    border-top: none;
     border-radius: 0 0 6px 6px;
   }
 

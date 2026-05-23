@@ -38,7 +38,7 @@
              maxlength="120">
     </div>
     <div>
-      <label id="weightLabel">Weight</label>
+      <span id="weightLabel">Weight</span>
       <div class="weight-group" role="group" aria-labelledby="weightLabel">
         <button class="weight-btn" data-weight="400" aria-pressed="true">Regular</button>
         <button class="weight-btn" data-weight="700" aria-pressed="false">Bold</button>
@@ -47,10 +47,10 @@
   </div>
 </fieldset>
 
-<nav class="tab-strip" aria-label="Font column">
-  <button class="tab-btn" data-col="0" aria-selected="true">System</button>
-  <button class="tab-btn" data-col="1" aria-selected="false">Google</button>
-  <button class="tab-btn" data-col="2" aria-selected="false">Allianz</button>
+<nav class="tab-strip" aria-label="Font column" role="tablist">
+  <button class="tab-btn" data-col="0" aria-selected="true" role="tab">System</button>
+  <button class="tab-btn" data-col="1" aria-selected="false" role="tab">Google</button>
+  <button class="tab-btn" data-col="2" aria-selected="false" role="tab">Allianz</button>
 </nav>
 
 <div class="grid">
