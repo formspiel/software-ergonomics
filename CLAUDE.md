@@ -13,9 +13,10 @@ To run locally: open any `index.html` in a browser. Because `tool-display-legibi
 The root `index.html` is a project index linking to all tools and demos. `shared.css` provides base styles (CSS variables, typography, status badges, `.back` link) used by every page.
 
 **`tool-display-legibility/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
-- `index.html` — all logic is inline JS; no external scripts except `html2canvas` CDN
+- `index.html` — semantic markup; results sections are populated by `scripts.js`
+- `scripts.js` — all calculator logic (no inline JS); loads presets and renders the seven results sections
 - `presets.json` — 46 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`
-- `style.css` — styling; uses `light-dark()` CSS function for auto dark mode
+- `style.css` — page-specific styles; uses `light-dark()` CSS function for auto dark mode
 
 **`tool-character-size-visualisation/`** — side-by-side font comparison tool. Renders sample text at 8–24 px across three columns (System, Google, Allianz Neo W04) to judge rendering quality at small sizes. Key files:
 - `index.html` — all markup and inline JS; Google Fonts CDN link; `@font-face` rules loading Allianz Neo from `https://amh.me/allianz/fonts/`; no external scripts
@@ -55,13 +56,16 @@ The root `index.html` is a project index linking to all tools and demos. `shared
 
 ## Calculator Architecture
 
-All calculator logic lives in `tool-display-legibility/index.html`:
+All calculator logic lives in `tool-display-legibility/scripts.js`. The page is structured into a configuration form, a single submit handler (`calculate()`), and seven rendered results sections:
 
-- **Presets** loaded via `fetch('presets.json')` into `allPresets[]` and `presetMap{}`. Selecting a preset auto-fills display fields, sets viewing distance, checks the matching screen-type radio, and triggers auto-calculate.
-- **Zoom table** — shows physical character sizes (mm) for 8–11 dpx at 100–200% zoom. Target is 3.2 mm; ±10% tolerance determines green/yellow/red coloring. Each cell shows: `N dpx (M CSS px) · X.XX mm`.
-- **Arc-minute section** — shown only when viewing distance is provided. Calculates minimum dpx for 16′/20′/22′ thresholds using: `arcMin = (2 * atan((n * pixelPitch / 2) / distMm) * 180 / PI) * 60`. CSS px = `ceil(dpx / dpr)`.
-- **DPR (Scale Factor)** — entered manually; affects CSS px display but not the physical mm calculation.
-- **Screenshot export** — uses `html2canvas` CDN to copy/download the zoom table as PNG.
+- **Presets** loaded via `fetch('presets.json')` into `presetData[]` and `presetMap{}`. Selecting a preset auto-fills display fields, sets viewing distance based on category, and triggers auto-calculate. Custom user presets persist in `localStorage` under `tool-display-legibility:custom-presets` and appear in their own optgroup at the top of the dropdown.
+- **Screen profile** — three stat cards showing PPI (with classification label: Low / Mid / High / Retina), pixel pitch in mm, and DPR.
+- **Arc-minute table** — minimum dpx for 16′/20′/22′ thresholds at the configured distance using: `arcMin = (2 * atan((n * pitch / 2) / distMm) * 180 / PI) * 60`. Each row also shows CSS px = `ceil(dpx / dpr)`, physical mm, and a 7×9 matrix badge (OK if dpx ≥ 9, warn otherwise — the ISO matrix requirement explains why 9 dpx is the practical floor).
+- **Distance range table** — same 20′/22′ thresholds across 30–80 cm in 10 cm steps. The row matching the configured distance is highlighted.
+- **Zoom table** — physical character sizes (mm) for 8–11 dpx at 100–200% zoom. Target 3.2 mm; ±10% tolerance determines pass/acceptable/below cell colouring.
+- **Line height** — three cards (1.4× minimum, 1.5× recommended, 1.6× comfortable) based on the 20′ cap height.
+- **Visual reference** — CSS `mm`-unit bars at 3.2 / 2.5 / 5 mm; accurate only at 100% browser zoom on a screen reporting correct DPI.
+- **Share & export** — permalink (URL hash with `w`, `h`, `d`, `s`, `v`); applied on page load if present. Screenshot copy/download via `html2canvas` CDN, capturing the entire `#results` section.
 
 ## Adding Device Presets
 

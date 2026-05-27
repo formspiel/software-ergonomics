@@ -1,470 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Display Character Size Calculator</title>
-  <link rel="stylesheet" href="../shared.css" />
-  <link href="style.css" rel="stylesheet" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Display Character Size Calculator</title>
+	<link rel="stylesheet" href="../shared.css">
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Display Character Size Calculator</h1>
-  <p>The Display Character Size Calculator is designed to support clear and reliable text presentation. Its foundation is always a font that renders optimally, ensuring each character is recognizable and distinguishable. Once this is achieved, font size becomes the crucial factor for legibility. The calculator sets 9 dpx as a positive baseline, but this applies only if the website or application allows users to zoom in.</p>
-  <fieldset class="presets">
-    <legend>Presets:</legend>
-    <label for="presetSelect">Choose a device:</label>
-    <select id="presetSelect">
-      <!-- Options will be populated by JS -->
-    </select>
-  </fieldset>
-  <form id="displayForm">
-    <fieldset id="displayFieldset">
-      <legend>Display Parameters:</legend>
-      <label for="pixelWidth">
-        Pixel Width:
-        <input type="number" id="pixelWidth" min="1" required>
-      </label>
-      <label for="pixelHeight">
-        Pixel Height:
-        <input type="number" id="pixelHeight" min="1" required>
-      </label>
-      <label for="diagonal">
-        Diagonal (inches):
-        <input type="number" id="diagonal" step="0.01" min="1" required>
-      </label>
-      <label for="scaleFactor">
-        Scale Factor (DPR):
-        <input type="number" id="scaleFactor" min="1" max="4" step="0.25" value="1">
-      </label>
-    </fieldset>
-    <fieldset id="viewingFieldset">
-      <legend>Viewing Distance:</legend>
-      <label for="viewingDistance">
-        Distance (cm):
-        <input type="number" id="viewingDistance" min="10" max="300" step="1" placeholder="e.g. 50">
-      </label>
-      <div class="screen-types">
-        <label><input type="radio" name="screenType" value="50" data-category="Office Display"> Monitor (50 cm)</label>
-        <label><input type="radio" name="screenType" value="40" data-category="Laptop"> Laptop (40 cm)</label>
-        <label><input type="radio" name="screenType" value="40" data-category="Tablet"> Tablet (40 cm)</label>
-        <label><input type="radio" name="screenType" value="30" data-category="Smartphone"> Phone (30 cm)</label>
-      </div>
-    </fieldset>
-    <button type="submit">Calculate</button>
-    <button type="button" id="resetBtn">Reset</button>
-  </form>
-  <div class="result" id="result"></div>
-  <div class="table-wrapper">
-    <table id="charTable" style="display:none;">
-      <caption id="charTableCaption"></caption>
-      <thead>
-        <tr>
-          <th>Char Height (dpx)</th>
-          <th>100%</th>
-          <th>125%</th>
-          <th>150%</th>
-          <th>175%</th>
-          <th>200%</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Rows will be inserted by JS -->
-      </tbody>
-    </table>
-    <div class="table-actions">
-      <button id="copy-screenshot">Copy Screenshot to Clipboard</button>
-      <button id="download-screenshot">Download Screenshot</button>
-    </div>
-  </div>
-  <div id="arcMinuteResults" style="display:none;">
-    <h2>Arc-Minute Thresholds</h2>
-    <p>Minimum character height at <span id="arcDistDisplay"></span> cm viewing distance (ISO 9241-303):</p>
-    <div class="table-wrapper">
-      <table id="arcTable">
-        <thead>
-          <tr>
-            <th>Arc minutes</th>
-            <th>Min. character height (dpx)</th>
-            <th>Min. character height (CSS px)</th>
-            <th>Meaning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>16′</td>
-            <td id="arc16"></td>
-            <td id="arc16css"></td>
-            <td>Secondary / non-work information</td>
-          </tr>
-          <tr>
-            <td>20′</td>
-            <td id="arc20"></td>
-            <td id="arc20css"></td>
-            <td>Minimum character size</td>
-          </tr>
-          <tr>
-            <td>22′</td>
-            <td id="arc22"></td>
-            <td id="arc22css"></td>
-            <td>Recommended character size</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div id="accessibility">
-    <h2>Accessibility</h2>
-    <div>
-      <input type="text" id="alt-text" value="" readonly>
-      <button id="copy-alt-text" aria-label="Copy alt text to clipboard">
-        📋
-      </button>
-    </div>
-    <output id="success-message" aria-live="polite"></output>
-    <p id="iframe-hint" class="hidden">Copying to clipboard may not work due to security reasons. Please download the image and manually copy the alt text.</p>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script>
-    let allPresets = [];
-    let presetMap = {};
 
-    fetch('presets.json')
-      .then(response => response.json())
-      .then(data => {
-        allPresets = data;
-        populatePresetSelect();
-      })
-      .catch(err => console.error('Failed to load presets.json:', err));
+	<h1>Display Character Size Calculator <span class="status status-stable">Stable</span></h1>
+	<p class="subtitle">ISO 9241-303 — minimum legible character height on screen</p>
 
-    function populatePresetSelect() {
-      const select = document.getElementById('presetSelect');
-      select.innerHTML = '';
+	<details class="about">
+		<summary>About this calculator</summary>
+		<div class="about-body">
+			<p>The calculator answers the question: <em>given a display and a viewing distance,
+				how tall must a character be on screen to remain legible?</em> ISO 9241-303 defines
+				three arc-minute thresholds (16′ / 20′ / 22′) that translate viewing distance into a
+				minimum physical character height — the calculator converts those into dpx and
+				CSS px for your specific screen.</p>
+			<p><strong>dpx</strong> means <em>display pixels</em> — physical pixels on the panel.
+				It is distinct from CSS px, which the browser scales by the device pixel ratio (DPR).
+				High-DPR screens (Retina, modern phones) render 1 CSS px as several dpx.</p>
+		</div>
+	</details>
 
-      allPresets.forEach(category => {
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = category.category;
+	<form id="config-form" novalidate>
 
-        category.devices.forEach(device => {
-          const option = document.createElement('option');
-          option.value = device.key;
-          option.textContent = device.label;
-          optgroup.appendChild(option);
-          presetMap[device.key] = { ...device, category: category.category };
-        });
+		<section class="config-section">
+			<div class="config-row">
+				<label for="preset">Preset</label>
+				<select id="preset"></select>
+			</div>
 
-        select.appendChild(optgroup);
-      });
+			<fieldset class="display-fields" id="display-fields">
+				<legend>Display parameters</legend>
+				<div class="config-grid">
+					<label>Width (px)
+						<input type="number" id="width" min="1" required>
+					</label>
+					<label>Height (px)
+						<input type="number" id="height" min="1" required>
+					</label>
+					<label>Diagonal (in)
+						<input type="number" id="diagonal" step="0.01" min="1" required>
+					</label>
+					<label>DPR (Scale)
+						<input type="number" id="dpr" min="1" max="4" step="0.25" value="1" required>
+					</label>
+				</div>
+			</fieldset>
 
-      // Add custom option at the end
-      const customOption = document.createElement('option');
-      customOption.value = 'custom';
-      customOption.textContent = 'Custom';
-      select.appendChild(customOption);
-      select.value = 'custom';
+			<div class="preset-actions">
+				<button type="button" id="save-preset" class="secondary">Save current as custom preset</button>
+				<button type="button" id="manage-presets" class="secondary" hidden>Manage custom presets</button>
+			</div>
+		</section>
 
-      updateFieldsetDisabled();
-    }
+		<section class="config-section">
+			<fieldset>
+				<legend>Viewing distance</legend>
+				<div class="distance-row">
+					<label>Distance (cm)
+						<input type="number" id="distance" min="10" max="300" step="1" value="50">
+					</label>
+					<div class="distance-shortcuts" role="group" aria-label="Distance shortcuts">
+						<button type="button" data-dist="30">Phone · 30 cm</button>
+						<button type="button" data-dist="40">Laptop / Tablet · 40 cm</button>
+						<button type="button" data-dist="50">Monitor · 50 cm</button>
+						<button type="button" data-dist="70">Far · 70 cm</button>
+					</div>
+				</div>
+			</fieldset>
+		</section>
 
+		<div class="form-actions">
+			<button type="submit" class="primary">Calculate</button>
+			<button type="button" id="reset-btn" class="secondary">Reset</button>
+		</div>
+	</form>
 
+	<div id="error" class="error-message" hidden></div>
 
-    // --- Fieldset Enable/Disable ---
-    function updateFieldsetDisabled() {
-      const select = document.getElementById('presetSelect');
-      const isCustom = select.value === 'custom';
-      const fieldset = document.getElementById('displayFieldset');
-      if (!isCustom) {
-        fieldset.disabled = true;
-        fieldset.classList.add('disabled-class');
-      } else {
-        fieldset.disabled = false;
-        fieldset.classList.remove('disabled-class');
-      }
-    }
+	<!-- ====== Results ====== -->
+	<div id="results" hidden>
 
-    const categoryDistMap = {
-      'Office Display': 50,
-      'Laptop': 40,
-      'Tablet': 40,
-      'Smartphone': 30
-    };
+		<section class="results-section" id="screen-profile">
+			<h2>Screen profile</h2>
+			<div class="stats-grid">
+				<div class="stat">
+					<span class="stat-value" id="stat-ppi">—</span>
+					<span class="stat-unit">PPI</span>
+					<span class="stat-label" id="stat-ppi-class"></span>
+				</div>
+				<div class="stat">
+					<span class="stat-value" id="stat-pitch">—</span>
+					<span class="stat-unit">mm pixel pitch</span>
+					<span class="stat-label">Physical width of one dpx</span>
+				</div>
+				<div class="stat">
+					<span class="stat-value" id="stat-dpr">—</span>
+					<span class="stat-unit">DPR</span>
+					<span class="stat-label">Device pixel ratio</span>
+				</div>
+			</div>
+		</section>
 
-    document.getElementById('presetSelect').addEventListener('change', function () {
-      if (this.value === 'custom') {
-        document.getElementById('displayForm').reset();
-        document.getElementById('arcMinuteResults').style.display = 'none';
-      } else {
-        const preset = presetMap[this.value];
-        document.getElementById('pixelWidth').value = preset.width;
-        document.getElementById('pixelHeight').value = preset.height;
-        document.getElementById('diagonal').value = preset.diagonal;
-        document.getElementById('scaleFactor').value = preset.dpr || 1;
+		<section class="results-section" id="arc-section">
+			<h2>Compliance at <span id="arc-dist-display"></span> cm</h2>
+			<p class="section-intro">Minimum character height for each ISO 9241-303 threshold. The
+				<strong>7×9 matrix</strong> column flags whether the cap height also meets the
+				standard's minimum pixel matrix requirement (9 px tall).</p>
+			<div class="table-wrap">
+				<table class="arc-table">
+					<thead>
+						<tr>
+							<th>Threshold</th>
+							<th>Meaning</th>
+							<th>dpx</th>
+							<th>CSS px</th>
+							<th>mm</th>
+							<th>7×9 matrix</th>
+						</tr>
+					</thead>
+					<tbody id="arc-tbody"></tbody>
+				</table>
+			</div>
+		</section>
 
-        // Auto-fill distance and matching radio
-        const dist = categoryDistMap[preset.category];
-        if (dist !== undefined) {
-          document.getElementById('viewingDistance').value = dist;
-          document.querySelectorAll('input[name="screenType"]').forEach(r => {
-            r.checked = r.dataset.category === preset.category;
-          });
-        }
+		<section class="results-section" id="range-section">
+			<h2>Across viewing distances</h2>
+			<p class="section-intro">Required dpx for the 20′ threshold (ISO minimum) and 22′
+				(recommended) at varying distances. As the user leans back, more dpx are needed.</p>
+			<div class="table-wrap">
+				<table class="range-table">
+					<thead>
+						<tr>
+							<th>Distance</th>
+							<th>20′ minimum</th>
+							<th>22′ recommended</th>
+						</tr>
+					</thead>
+					<tbody id="range-tbody"></tbody>
+				</table>
+			</div>
+		</section>
 
-        // Auto-calculate
-        document.getElementById('displayForm').dispatchEvent(
-          new Event('submit', { cancelable: true })
-        );
-      }
-      updateFieldsetDisabled();
-    });
+		<section class="results-section" id="zoom-section">
+			<h2>Character height by browser zoom</h2>
+			<p class="section-intro">Physical character height in mm for cap heights of 8–11 dpx
+				across browser zoom levels. The ISO target is <strong>3.2 mm</strong>; a ±10%
+				tolerance band determines pass / acceptable / below colouring.</p>
+			<div class="table-wrap">
+				<table class="zoom-table" id="zoom-table">
+					<caption id="zoom-caption"></caption>
+					<thead>
+						<tr>
+							<th>Cap height</th>
+							<th>100%</th>
+							<th>125%</th>
+							<th>150%</th>
+							<th>175%</th>
+							<th>200%</th>
+						</tr>
+					</thead>
+					<tbody id="zoom-tbody"></tbody>
+				</table>
+			</div>
+		</section>
 
-    // --- Form Defaults ---
-    document.getElementById('pixelWidth').value = '';
-    document.getElementById('pixelHeight').value = '';
-    document.getElementById('diagonal').value = '';
+		<section class="results-section" id="lineheight-section">
+			<h2>Recommended line height</h2>
+			<p class="section-intro">Based on the 20′ minimum cap height. Use at least 1.4× the
+				cap height; 1.5–1.6× is preferred for sustained reading.</p>
+			<div class="lineheight-grid" id="lineheight-grid"></div>
+		</section>
 
-    // --- Calculation Functions ---
-    function calcPixelPitch(width, height, diagonal) {
-      const pixelDiagonal = Math.sqrt(width * width + height * height);
-      return diagonal * 25.4 / pixelDiagonal; // mm per pixel
-    }
-    function calcPPI(width, height, diagonal) {
-      const pixelDiagonal = Math.sqrt(width * width + height * height);
-      return pixelDiagonal / diagonal;
-    }
-    function calcArcMinuteThreshold(pixelPitchMm, viewingDistCm, thresholdArcMin) {
-      const distMm = viewingDistCm * 10;
-      for (let n = 1; n < 100; n++) {
-        const charMm = n * pixelPitchMm;
-        const arcMin = (2 * Math.atan(charMm / 2 / distMm) * 180 / Math.PI) * 60;
-        if (arcMin > thresholdArcMin) return n;
-      }
-      return '>99';
-    }
-    function charSizeMm(pixelPitch, dpx, zoom) {
-      return pixelPitch * dpx * zoom;
-    }
-    function getCharClassAndIcon(val, target, threshold) {
-      const lower = target * (1 - threshold);
-      if (val >= target) {
-        return { cls: 'char-green', icon: '✅', label: 'Fulfilled' };
-      } else if (val >= lower) {
-        return { cls: 'char-yellow', icon: '☑️', label: 'Acceptable' };
-      } else {
-        return { cls: 'char-red', icon: '❌', label: 'Below target' };
-      }
-    }
+		<section class="results-section" id="visual-section">
+			<h2>Visual reference</h2>
+			<p class="section-intro">Bars rendered at physical millimetre sizes using CSS
+				<code>mm</code> units. Accurate <strong>only at 100 % browser zoom</strong> and on
+				a screen that reports correct DPI to the OS — otherwise the on-screen size
+				will not match. Hold a ruler against your screen to verify.</p>
+			<div class="ruler" aria-hidden="true">
+				<div class="ruler-bar" style="height: 3.2mm">3.2 mm — ISO target</div>
+				<div class="ruler-bar" style="height: 2.5mm">2.5 mm — minimum</div>
+				<div class="ruler-bar" style="height: 5mm">5 mm — comfortable</div>
+			</div>
+		</section>
 
-    if (typeof navigator.clipboard?.write !== 'function') {
-      document.getElementById("copy-screenshot").style.display = "none";
-    }
+		<section class="results-section" id="export-section">
+			<h2>Share &amp; export</h2>
+			<div class="export-actions">
+				<button type="button" id="copy-link" class="secondary">Copy permalink</button>
+				<button type="button" id="copy-screenshot" class="secondary">Copy screenshot</button>
+				<button type="button" id="download-screenshot" class="secondary">Download screenshot</button>
+			</div>
+			<output id="export-status" aria-live="polite"></output>
+		</section>
 
-    // --- Cache DOM Elements ---
-    const charTable = document.getElementById("charTable");
-    const successMessage = document.getElementById("success-message");
-    const iframeHint = document.getElementById("iframe-hint");
-    const altTextInput = document.getElementById("alt-text");
-    const copyScreenshotBtn = document.getElementById("copy-screenshot");
-    const downloadScreenshotBtn = document.getElementById("download-screenshot");
+	</div>
 
-    // --- Screenshot/Download Buttons State ---
-    function updateActionButtons() {
-      const visible = charTable.style.display !== "none";
-      copyScreenshotBtn.disabled = !visible;
-      downloadScreenshotBtn.disabled = !visible;
-    }
-
-    // --- Table Generation ---
-    document.getElementById('displayForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const width = parseInt(document.getElementById('pixelWidth').value, 10);
-      const height = parseInt(document.getElementById('pixelHeight').value, 10);
-      const diagonal = parseFloat(document.getElementById('diagonal').value);
-      const viewingDist = parseFloat(document.getElementById('viewingDistance').value) || 0;
-      if (
-        isNaN(width) || isNaN(height) || isNaN(diagonal) ||
-        width <= 0 || height <= 0 || diagonal <= 0
-      ) {
-        document.getElementById('result').innerHTML = '<span style="color:#b20000;font-weight:bold;">Please fill in all fields with valid numbers.</span>';
-        charTable.style.display = 'none';
-        updateActionButtons();
-        return;
-      }
-      const pixelPitch = calcPixelPitch(width, height, diagonal);
-      const ppi = calcPPI(width, height, diagonal);
-      const dpr = parseFloat(document.getElementById('scaleFactor').value) || 1;
-      const cssPixelPitch = pixelPitch * dpr;
-      document.getElementById('result').innerHTML =
-        `<strong>Pixel Pitch:</strong> ${pixelPitch.toFixed(3)} mm &nbsp;&nbsp;` +
-        `<strong>PPI:</strong> ${ppi.toFixed(1)} &nbsp;&nbsp;` +
-        `<strong>Scale Factor:</strong> ${dpr}× &nbsp;&nbsp;` +
-        `<strong>CSS px pitch:</strong> ${cssPixelPitch.toFixed(3)} mm`;
-      // Table
-      const zooms = [1, 1.25, 1.5, 1.75, 2];
-      const zoomLabels = ['100%', '125%', '150%', '175%', '200%'];
-      const dpxs = [8, 9, 10, 11];
-      const targetCharHeight = 3.2;
-      const threshold = 0.10; // 10%
-      const tbody = charTable.querySelector('tbody');
-      tbody.innerHTML = '';
-      let acceptableZoomsFor9dpx = [];
-      // Use DocumentFragment for efficient DOM updates
-      const fragment = document.createDocumentFragment();
-      dpxs.forEach((dpx, rowIdx) => {
-        const row = document.createElement('tr');
-        row.setAttribute('tabindex', '0');
-        row.setAttribute('aria-label', `Row for character height ${dpx} dpx`);
-        const th = document.createElement('th');
-        th.textContent = `${dpx} dpx`;
-        row.appendChild(th);
-        zooms.forEach((zoom, colIdx) => {
-          const val = charSizeMm(pixelPitch, dpx, zoom);
-          const { cls, icon, label } = getCharClassAndIcon(val, targetCharHeight, threshold);
-          const td = document.createElement('td');
-          td.className = cls;
-          td.setAttribute('aria-label', label);
-          td.innerHTML = `<span class="char-icon" aria-hidden="true">${icon}</span>${Math.round(dpx * zoom)} dpx (${Math.ceil(dpx * zoom / dpr)} CSS px) · ${val.toFixed(2)} mm`;
-          row.appendChild(td);
-          if (dpx === 9 && (label === 'Acceptable' || label === 'Fulfilled')) {
-            acceptableZoomsFor9dpx.push(zoomLabels[colIdx]);
-          }
-        });
-        fragment.appendChild(row);
-      });
-      tbody.appendChild(fragment);
-      // Dynamic caption summarising acceptable zoom levels for 9 dpx
-      const caption = document.getElementById('charTableCaption');
-      let captionText = '';
-      if (acceptableZoomsFor9dpx.length > 0) {
-        captionText = `Acceptable character size for 9 dpx starts at: ${acceptableZoomsFor9dpx[0]} zoom level${acceptableZoomsFor9dpx.length > 1 ? 's' : ''}.`;
-      } else {
-        captionText = 'No zoom level achieves the acceptable character size for 9 dpx.';
-      }
-      caption.textContent = captionText;
-      altTextInput.value = captionText;
-      // Arc-minute thresholds (only if viewing distance is provided)
-      const arcSection = document.getElementById('arcMinuteResults');
-      if (viewingDist > 0) {
-        [
-          { dpxId: 'arc16', cssId: 'arc16css', arcMin: 16 },
-          { dpxId: 'arc20', cssId: 'arc20css', arcMin: 20 },
-          { dpxId: 'arc22', cssId: 'arc22css', arcMin: 22 },
-        ].forEach(({ dpxId, cssId, arcMin }) => {
-          const dpxVal = calcArcMinuteThreshold(pixelPitch, viewingDist, arcMin);
-          document.getElementById(dpxId).textContent = dpxVal + ' dpx';
-          document.getElementById(cssId).textContent =
-            typeof dpxVal === 'number' ? Math.ceil(dpxVal / dpr) + ' CSS px' : dpxVal;
-        });
-        document.getElementById('arcDistDisplay').textContent = viewingDist;
-        arcSection.style.display = '';
-      } else {
-        arcSection.style.display = 'none';
-      }
-
-      charTable.style.display = '';
-      updateActionButtons();
-      // Focus first row for accessibility
-      const firstRow = charTable.querySelector('tbody tr');
-      if (firstRow) firstRow.focus();
-    });
-
-    // --- Table Keyboard Navigation (Event Delegation) ---
-    charTable.addEventListener('keydown', function(e) {
-      if (e.target.tagName === 'TR' && e.target.hasAttribute('tabindex')) {
-        const rows = Array.from(this.querySelectorAll('tbody tr[tabindex="0"]'));
-        const idx = rows.indexOf(e.target);
-        if (idx !== -1) {
-          if (e.key === 'ArrowDown' && idx < rows.length - 1) {
-            rows[idx + 1].focus();
-            e.preventDefault();
-          } else if (e.key === 'ArrowUp' && idx > 0) {
-            rows[idx - 1].focus();
-            e.preventDefault();
-          }
-        }
-      }
-    });
-
-    // Screen type radio → auto-fill distance
-    document.querySelectorAll('input[name="screenType"]').forEach(radio => {
-      radio.addEventListener('change', function () {
-        document.getElementById('viewingDistance').value = this.value;
-      });
-    });
-
-    // Typing in distance → clear radio selection
-    document.getElementById('viewingDistance').addEventListener('input', function () {
-      document.querySelectorAll('input[name="screenType"]').forEach(r => r.checked = false);
-    });
-
-    // --- Screenshot & Clipboard ---
-    copyScreenshotBtn.addEventListener("click", () => {
-      html2canvas(charTable, {
-        backgroundColor: "#ffffff",
-        logging: false,
-        useCORS: true,
-        ignoreElements: (element) => element.id === "charTableCaption"
-      }).then((canvas) => {
-        canvas.toBlob((blob) => {
-          navigator.clipboard
-            .write([new ClipboardItem({ "image/png": blob })])
-            .then(() => {
-              successMessage.textContent =
-                "Screenshot successfully copied to clipboard!";
-            })
-            .catch((err) => {
-              console.error("Could not copy screenshot: ", err);
-              successMessage.textContent =
-                "Could not copy screenshot. This feature may not be supported in your browser or context. Please use the Download Screenshot button instead.";
-              iframeHint.classList.remove("hidden");
-            });
-        });
-      });
-    });
-
-    downloadScreenshotBtn.addEventListener("click", () => {
-      html2canvas(charTable, {
-        backgroundColor: "#ffffff",
-        logging: false,
-        useCORS: true,
-        ignoreElements: (element) => element.id === "charTableCaption"
-      }).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = "character-size-table.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
-    });
-
-    document.getElementById("copy-alt-text").addEventListener("click", () => {
-      const altTextValue = altTextInput.value;
-      navigator.clipboard
-        .writeText(altTextValue)
-        .then(() => {
-          successMessage.textContent =
-            "Caption text successfully copied to clipboard!";
-        })
-        .catch((err) => {
-          console.error("Could not copy caption text: ", err);
-        });
-    });
-
-    // --- Iframe Hint ---
-    if (window.self !== window.top) {
-      iframeHint.classList.remove("hidden");
-    }
-
-    // --- Reset ---
-    document.getElementById('resetBtn').addEventListener('click', function () {
-      document.getElementById('displayForm').reset();
-      document.getElementById('result').innerHTML = '';
-      charTable.style.display = 'none';
-      document.getElementById('arcMinuteResults').style.display = 'none';
-      altTextInput.value = '';
-      document.getElementById('presetSelect').value = 'custom';
-      document.querySelectorAll('input[name="screenType"]').forEach(r => r.checked = false);
-      updateFieldsetDisabled();
-      updateActionButtons();
-    });
-  </script>
 	<a href="../index.html" class="back">← Back to projects</a>
+
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+	<script src="scripts.js"></script>
 </body>
+
 </html>
