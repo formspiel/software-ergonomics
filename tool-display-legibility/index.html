@@ -172,6 +172,34 @@
 			</div>
 		</section>
 
+		<section class="results-section" id="font-section">
+			<h2>Font compliance check</h2>
+			<p class="section-intro">Test whether a specific font and size meets the ISO thresholds
+				on this screen at this distance. Cap-height ratios are based on published font
+				metrics — verify on the target platform before relying on the result.</p>
+
+			<div class="font-form">
+				<label>Font
+					<select id="font-name"></select>
+				</label>
+				<label>Size
+					<input type="number" id="font-size" min="6" max="72" step="0.5" value="16">
+				</label>
+				<label>Unit
+					<select id="font-unit">
+						<option value="px">CSS px</option>
+						<option value="pt">pt</option>
+					</select>
+				</label>
+			</div>
+
+			<div class="font-result" id="font-result"></div>
+
+			<div class="font-output" id="font-output"></div>
+
+			<p class="font-hint" id="font-hint"></p>
+		</section>
+
 		<section class="results-section" id="lineheight-section">
 			<h2>Recommended line height</h2>
 			<p class="section-intro">Based on the 20′ minimum cap height. Use at least 1.4× the

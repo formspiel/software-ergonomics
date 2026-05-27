@@ -6,6 +6,31 @@
 
 const STORAGE_KEY = 'tool-display-legibility:custom-presets';
 
+/* Cap-height-to-em ratios from published font metrics.
+ * cap_height_px = font_size_css_px × capRatio
+ * Hinting quality: 'excellent' | 'good' | 'verify' | 'issues'  */
+const FONTS = [
+	{ name: 'Arial',         capRatio: 0.716, hinting: 'good',      notes: 'Well-hinted for Windows.' },
+	{ name: 'Verdana',       capRatio: 0.728, hinting: 'good',      notes: 'Designed for on-screen readability.' },
+	{ name: 'Segoe UI',      capRatio: 0.700, hinting: 'excellent', notes: 'x-axis hinted; primary Windows UI font.' },
+	{ name: 'Calibri',       capRatio: 0.638, hinting: 'good',      notes: 'ClearType-optimised.' },
+	{ name: 'Tahoma',        capRatio: 0.725, hinting: 'verify',    notes: 'Older Windows screen font; verify on target.' },
+	{ name: 'Aptos',         capRatio: 0.694, hinting: 'verify',    notes: 'Modern Microsoft default; verify rendering at small sizes.' },
+	{ name: 'Consolas',      capRatio: 0.633, hinting: 'good',      notes: 'Monospace; well-hinted for code.' },
+	{ name: 'Helvetica',     capRatio: 0.717, hinting: 'verify',    notes: 'macOS native; less optimised on Windows.' },
+	{ name: 'San Francisco', capRatio: 0.700, hinting: 'good',      notes: 'macOS / iOS system font.' },
+	{ name: 'Roboto',        capRatio: 0.711, hinting: 'verify',    notes: 'Android default; web rendering varies.' },
+	{ name: 'Times New Roman', capRatio: 0.662, hinting: 'verify',  notes: 'Serif; verify rendering at small sizes.' },
+	{ name: 'Georgia',       capRatio: 0.692, hinting: 'good',      notes: 'Serif designed for screen.' },
+];
+
+const HINTING_BADGES = {
+	excellent: { cls: 'badge-ok',   text: 'Excellent' },
+	good:      { cls: 'badge-ok',   text: 'Good' },
+	verify:    { cls: 'badge-warn', text: 'Verify' },
+	issues:    { cls: 'badge-err',  text: 'Known issues' },
+};
+
 const CATEGORY_DISTANCE = {
 	'Office Display': 50,
 	'Laptop': 40,
@@ -40,6 +65,13 @@ const DOM = {
 	zoomTbody:      document.getElementById('zoom-tbody'),
 	zoomCaption:    document.getElementById('zoom-caption'),
 	lineheightGrid: document.getElementById('lineheight-grid'),
+
+	fontName:       document.getElementById('font-name'),
+	fontSize:       document.getElementById('font-size'),
+	fontUnit:       document.getElementById('font-unit'),
+	fontResult:     document.getElementById('font-result'),
+	fontOutput:     document.getElementById('font-output'),
+	fontHint:       document.getElementById('font-hint'),
 
 	copyLink:       document.getElementById('copy-link'),
 	copyShot:       document.getElementById('copy-screenshot'),
@@ -344,6 +376,110 @@ function renderZoomTable(pitch, cfg) {
 		: `No zoom level in this table achieves the 3.2 mm target for 9 dpx.`;
 }
 
+let currentPitch = null;
+let currentCfg = null;
+
+function populateFontSelect() {
+	DOM.fontName.innerHTML = '';
+	FONTS.forEach(f => {
+		const o = document.createElement('option');
+		o.value = f.name;
+		o.textContent = f.name;
+		DOM.fontName.appendChild(o);
+	});
+}
+
+function renderFontSection() {
+	if (!currentPitch || !currentCfg) return;
+	const font = FONTS.find(f => f.name === DOM.fontName.value);
+	if (!font) return;
+
+	const sizeRaw = parseFloat(DOM.fontSize.value);
+	if (!sizeRaw || sizeRaw <= 0) {
+		DOM.fontResult.innerHTML = '';
+		DOM.fontOutput.innerHTML = '';
+		DOM.fontHint.textContent = '';
+		return;
+	}
+
+	const sizeCssPx = DOM.fontUnit.value === 'pt' ? sizeRaw * 1.333 : sizeRaw;
+	const capCssPx  = sizeCssPx * font.capRatio;
+	const capDpx    = capCssPx * currentCfg.dpr;
+	const capMm     = capDpx * currentPitch;
+
+	// Compliance against each arc-minute threshold
+	const rows = ARC_LEVELS.map(({ arcMin, label, meaning }) => {
+		const requiredDpx = arcMinDpx(currentPitch, currentCfg.distance, arcMin);
+		let badge;
+		if (requiredDpx === null) badge = '<span class="badge badge-err">N/A</span>';
+		else if (capDpx >= requiredDpx) badge = '<span class="badge badge-ok">Pass</span>';
+		else badge = '<span class="badge badge-err">Fail</span>';
+		return `<tr>
+			<td>${label}</td>
+			<td>${meaning}</td>
+			<td>${requiredDpx === null ? '—' : requiredDpx + ' dpx'}</td>
+			<td>${badge}</td>
+		</tr>`;
+	}).join('');
+
+	const hintBadge = HINTING_BADGES[font.hinting];
+
+	DOM.fontResult.innerHTML = `
+		<div class="stats-grid">
+			<div class="stat">
+				<span class="stat-value">${capCssPx.toFixed(1)}</span>
+				<span class="stat-unit">CSS px cap height</span>
+				<span class="stat-label">${font.name} at ${sizeRaw} ${DOM.fontUnit.value}</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">${capDpx.toFixed(1)}</span>
+				<span class="stat-unit">dpx cap height</span>
+				<span class="stat-label">CSS px × DPR ${currentCfg.dpr}</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">${capMm.toFixed(2)}</span>
+				<span class="stat-unit">mm cap height</span>
+				<span class="stat-label">Target ≥ 3.2 mm</span>
+			</div>
+		</div>
+		<div class="table-wrap">
+			<table class="arc-table">
+				<thead><tr>
+					<th>Threshold</th><th>Meaning</th><th>Required</th><th>Status</th>
+				</tr></thead>
+				<tbody>${rows}</tbody>
+			</table>
+		</div>
+		<div class="hinting-row">
+			<span class="hinting-label">Hinting quality:</span>
+			<span class="badge ${hintBadge.cls}">${hintBadge.text}</span>
+			<span class="hinting-notes">${font.notes}</span>
+		</div>`;
+
+	// CSS output
+	const sizeCssPxRounded = Math.round(sizeCssPx * 100) / 100;
+	const rem = (sizeCssPx / 16).toFixed(3).replace(/\.?0+$/, '');
+	const tooSmall = sizeCssPx < 9;
+	DOM.fontOutput.innerHTML = `
+		<h3>CSS output</h3>
+		<pre><code>font-family: "${font.name}", sans-serif;
+font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
+/* Cap height: ${capCssPx.toFixed(2)} CSS px · ${capDpx.toFixed(2)} dpx · ${capMm.toFixed(2)} mm */</code></pre>
+		${tooSmall ? '<p class="font-warning">⚠ Below the 9 CSS px floor that some browsers enforce as a minimum render size.</p>' : ''}`;
+
+	// Suggested minimum
+	const required20 = arcMinDpx(currentPitch, currentCfg.distance, 20);
+	if (required20 !== null) {
+		const minCssPx = required20 / currentCfg.dpr / font.capRatio;
+		const minPt = minCssPx / 1.333;
+		DOM.fontHint.innerHTML = capDpx >= required20
+			? `<strong>OK.</strong> ${font.name} at ${sizeRaw} ${DOM.fontUnit.value} meets the 20′ minimum on this screen.`
+			: `<strong>Suggested minimum:</strong> to meet the 20′ ISO minimum, set ${font.name} to at least <strong>${minCssPx.toFixed(1)} CSS px</strong> (${minPt.toFixed(1)} pt).`;
+	} else {
+		DOM.fontHint.textContent = '';
+	}
+}
+
 function renderLineHeight(pitch, cfg) {
 	DOM.lineheightGrid.innerHTML = '';
 	const dpx20 = arcMinDpx(pitch, cfg.distance, 20);
@@ -393,6 +529,10 @@ function calculate() {
 	renderZoomTable(pitch, cfg);
 	renderLineHeight(pitch, cfg);
 
+	currentPitch = pitch;
+	currentCfg = cfg;
+	renderFontSection();
+
 	DOM.results.hidden = false;
 }
 
@@ -428,6 +568,11 @@ DOM.form.addEventListener('submit', e => {
 });
 
 DOM.savePresetBtn.addEventListener('click', saveCurrentAsPreset);
+
+[DOM.fontName, DOM.fontSize, DOM.fontUnit].forEach(el => {
+	el.addEventListener('input', renderFontSection);
+	el.addEventListener('change', renderFontSection);
+});
 
 DOM.resetBtn.addEventListener('click', () => {
 	DOM.form.reset();
@@ -507,4 +652,5 @@ fetch('presets.json')
 		setError('Could not load presets.json — make sure you are using a local HTTP server.');
 	});
 
+populateFontSelect();
 updateShortcutButtons();
