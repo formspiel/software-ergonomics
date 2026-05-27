@@ -175,8 +175,15 @@
 		<section class="results-section" id="font-section">
 			<h2>Font compliance check</h2>
 			<p class="section-intro">Test whether a specific font and size meets the ISO thresholds
-				on this screen at this distance. Cap-height ratios are based on published font
-				metrics — verify on the target platform before relying on the result.</p>
+				on this screen at this distance.</p>
+			<p class="section-intro"><strong>Cap-height ratios</strong> are approximations —
+				published per-em values, not values measured at specific point sizes on specific
+				platforms or rendering environments. Numbers will be in the right ballpark, but
+				anyone doing certification work should verify by measuring on the actual target.
+				The hinting quality badge indicates where extra caution is warranted.</p>
+			<p class="section-intro"><strong>px ↔ pt conversion</strong> uses the CSS convention
+				1 pt = 1.333 CSS px (96 ÷ 72). Native desktop applications that work with physical
+				points may differ slightly from this figure.</p>
 
 			<div class="font-form">
 				<label>Font
