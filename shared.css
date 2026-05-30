@@ -28,6 +28,11 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: var(--accent);
+  color: light-dark(#fff, #111);
+}
+
 body {
   font-family: system-ui, sans-serif;
   line-height: 1.5;
