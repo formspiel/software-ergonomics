@@ -76,49 +76,45 @@ details[open] summary {
   gap: 0.4rem;
 }
 
-.weight-group {
+.controls > div > span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.diag-unit-toggle {
   display: flex;
-  gap: 0.5rem;
-}
-
-.weight-btn {
-  background: transparent;
   border: 1px solid var(--border);
-  color: var(--text);
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
-.weight-btn[aria-pressed="true"] {
-  background: light-dark(rgba(0, 102, 153, 0.12), rgba(0, 191, 217, 0.15));
-  border-color: var(--accent);
-  color: var(--accent);
+.diag-unit-btn {
+  background: var(--surface);
+  color: var(--muted);
+  border: none;
+  border-right: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.3em 0.6em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.diag-unit-btn:first-child { border-radius: 3px 0 0 3px; }
+.diag-unit-btn:last-child  { border-right: none; border-radius: 0 3px 3px 0; }
+
+.diag-unit-btn[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
 }
 
 .compliance-note {
   font-size: 0.85rem;
   color: var(--muted);
   margin-bottom: 1.5rem;
-}
-
-.col3-type {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.col3-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.75rem;
-  padding: 0.2em 0.6em;
-  border-radius: 4px;
-  cursor: pointer;
-  line-height: 1.5;
-}
-
-.col3-btn[aria-pressed="true"] {
-  background: light-dark(rgba(0, 102, 153, 0.12), rgba(0, 191, 217, 0.15));
-  border-color: var(--accent);
-  color: var(--accent);
 }
 
 .grid {
