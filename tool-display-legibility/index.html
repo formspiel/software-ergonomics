@@ -324,19 +324,30 @@
 		<details class="device-note">
 			<summary>Minimum pixel grids for non-Latin scripts</summary>
 			<div class="device-note-body">
-				<p>ISO 9241-303 was written with Latin, Cyrillic, and Greek alphabets in mind. Its 7×9 minimum matrix applies to those scripts. Different scripts have different structural demands:</p>
-				<h3>CJK (Chinese, Japanese, Korean)</h3>
-				<p>Ideographic characters have far more strokes than Latin letters. A 7×9 matrix cannot resolve them — key stroke intersections and enclosed spaces collapse into noise. Industry practice recognises:</p>
+				<p>ISO 9241-303 was written with <strong>Latin, Cyrillic, and Greek</strong> alphabets in mind. Its 7×9 minimum matrix applies to those three scripts. All other major scripts have different structural demands and require higher pixel counts.</p>
+				<p>The four non-Latin scripts most relevant to digital UIs, by number of users:</p>
+
+				<h3>CJK — Chinese, Japanese, Korean (~1.3 billion users)</h3>
+				<p>Ideographic characters fill a square em box with far more strokes, intersections, and enclosed spaces than Latin letters. A 7×9 matrix cannot resolve them. Industry practice (GB/T 5199, 1985; modern CJK font tooling) recognises:</p>
 				<ul>
-					<li><strong>16×16 px</strong> — historical minimum for screen Chinese fonts (GB/T 5199, 1985); displays ~99 % of common characters but some strokes must be simplified</li>
-					<li><strong>24×24 px</strong> — step-up that preserves complex characters and traditional variants without stroke omission</li>
-					<li><strong>12×12 px</strong> — threshold of legibility; some characters become unrecognisable</li>
+					<li><strong>12×12 px</strong> — threshold of legibility; some characters become unrecognisable at this size</li>
+					<li><strong>16×16 px</strong> — historical minimum; ~99 % of common characters are readable, but some strokes must be simplified</li>
+					<li><strong>24×24 px</strong> — recommended minimum; complex characters and traditional variants survive without stroke omission</li>
 				</ul>
-				<p>At equivalent angular size, a CJK character therefore needs roughly <strong>2–3× more device pixels per dimension</strong> than a Latin character to achieve comparable legibility.</p>
-				<h3>Arabic</h3>
-				<p>Arabic is a cursive script: most characters change shape depending on their position in a word, and many share a base form distinguished only by dot placement. Research on Arabic dot-matrix displays (IEEE, 1991) used a <strong>5×7 matrix</strong> for basic letter discrimination, but this is considered a floor for symbol identification, not comfortable reading. Practical Arabic text rendering typically requires at minimum the equivalent of the Latin 7×9 threshold, and preferably more — dot diacritics become indistinguishable at low resolution even when the base letterform survives.</p>
-				<p>No single unified international standard currently specifies different arc-minute thresholds or pixel grids for CJK or Arabic. ISO 24509:2019 covers minimum legible font size across age groups and includes non-Latin provisions (Annex F), but the full text requires purchase.</p>
-				<p><em>This calculator currently applies the ISO 9241-303 Latin thresholds only. Support for CJK and Arabic minimum grids may be added in a future version.</em></p>
+				<p>At equivalent angular size, a CJK character needs roughly <strong>2–3× more device pixels per dimension</strong> than a Latin letter to achieve comparable legibility.</p>
+
+				<h3>Arabic (~830 million users)</h3>
+				<p>Arabic is a cursive abjad: characters change shape depending on word position (initial, medial, final, isolated), and many share a base form distinguished only by dot diacritics. Research on Arabic dot-matrix displays (IEEE, 1991) established a <strong>5×7 matrix</strong> as a floor for symbol identification — not comfortable reading. In practice, dot diacritics become indistinguishable at low resolution even when the base letterform survives, so Arabic requires at least the Latin 7×9 equivalent, and preferably more.</p>
+
+				<h3>Devanagari (~600 million users — Hindi and ~120 other languages)</h3>
+				<p>Devanagari is an abugida: consonants carry an inherent vowel, and vowel marks are attached above, below, or beside the base character. A horizontal bar (shirorekha) runs across the top of most letters and is used for word segmentation. Consonant clusters form conjunct characters that must remain visually distinct. These stacked forms and diacritics need significantly more vertical pixels than Latin; a minimum of approximately <strong>16 px height</strong> is commonly cited for comfortable reading.</p>
+
+				<h3>Hebrew (~10 million native + 200 million second-language users)</h3>
+				<p>Hebrew is a right-to-left abjad similar in structure to Arabic but with block letterforms rather than cursive. It is less complex than Arabic at low resolutions but shares the diacritic vulnerability (nikud vowel points). The Latin 7×9 matrix is generally considered sufficient for unpointed (niqqud-free) Hebrew text used in most UIs.</p>
+
+				<h3>Standards gap</h3>
+				<p>No single international standard specifies different arc-minute thresholds or pixel grids for CJK, Arabic, or Devanagari. ISO 24509:2019 covers minimum legible font size across age groups and includes non-Latin provisions in Annex F. DIN 1450 (German legibility standard) addresses stroke-to-height ratios and confusable character pairs but does not specify pixel grids and does not address non-Latin scripts.</p>
+				<p><em>This calculator currently applies the ISO 9241-303 Latin/Cyrillic/Greek thresholds only. CJK, Arabic, and Devanagari support may be added in a future version.</em></p>
 			</div>
 		</details>
 
