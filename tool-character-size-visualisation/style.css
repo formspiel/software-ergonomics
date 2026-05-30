@@ -93,6 +93,34 @@ details[open] summary {
   color: var(--accent);
 }
 
+.compliance-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.col3-type {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.col3-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.col3-btn[aria-pressed="true"] {
+  background: light-dark(rgba(0, 102, 153, 0.12), rgba(0, 191, 217, 0.15));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

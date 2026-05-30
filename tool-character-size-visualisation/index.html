@@ -7,7 +7,7 @@
   <title>Font Size Visualisation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Figtree:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Inter:ital,wght@0,300;0,400;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared.css">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -45,13 +45,20 @@
         <button class="weight-btn" data-weight="700" aria-pressed="false">Bold</button>
       </div>
     </div>
+    <div>
+      <span id="styleLabel">Style</span>
+      <div class="weight-group" role="group" aria-labelledby="styleLabel">
+        <button class="style-btn" data-style="normal" aria-pressed="true">Normal</button>
+        <button class="style-btn" data-style="italic" aria-pressed="false">Italic</button>
+      </div>
+    </div>
   </div>
 </details>
 
 <nav class="tab-strip" aria-label="Font column" role="tablist">
   <button class="tab-btn" data-col="0" aria-selected="true" role="tab">System</button>
   <button class="tab-btn" data-col="1" aria-selected="false" role="tab">Google</button>
-  <button class="tab-btn" data-col="2" aria-selected="false" role="tab">Allianz</button>
+  <button class="tab-btn" data-col="2" aria-selected="false" role="tab" id="tab-col2">Allianz</button>
 </nav>
 
 <div class="grid">
@@ -88,12 +95,17 @@
       <label class="visually-hidden" for="gooSelect">Google font family</label>
       <select id="gooSelect">
         <optgroup label="Sans-serif">
+          <option value="'Inter', sans-serif">Inter</option>
+          <option value="'IBM Plex Sans', sans-serif">IBM Plex Sans</option>
           <option value="'Open Sans', sans-serif" selected>Open Sans</option>
           <option value="Roboto, sans-serif">Roboto</option>
           <option value="'Noto Sans', sans-serif">Noto Sans</option>
           <option value="Lato, sans-serif">Lato</option>
           <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
           <option value="'DM Sans', sans-serif">DM Sans</option>
+          <option value="'Nunito Sans', sans-serif">Nunito Sans</option>
+          <option value="'Figtree', sans-serif">Figtree</option>
+          <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans</option>
         </optgroup>
         <optgroup label="Serif">
           <option value="'Playfair Display', serif">Playfair Display</option>
@@ -108,29 +120,70 @@
   <section class="col" id="col2" aria-labelledby="col2-label">
     <div class="col-head">
       <div class="col-label" id="col2-label">Allianz Neo W04</div>
-      <label class="visually-hidden" for="azSelect">Allianz Neo variant</label>
-      <select id="azSelect">
-        <optgroup label="Regular">
-          <option value="AllianzNeo|300|normal">Light</option>
-          <option value="AllianzNeo|300|italic">Light Italic</option>
-          <option value="AllianzNeo|400|normal" selected>Regular</option>
-          <option value="AllianzNeo|400|italic">Italic</option>
-          <option value="AllianzNeo|600|normal">SemiBold</option>
-          <option value="AllianzNeo|600|italic">SemiBold Italic</option>
-          <option value="AllianzNeo|700|normal">Bold</option>
-          <option value="AllianzNeo|700|italic">Bold Italic</option>
-        </optgroup>
-        <optgroup label="Condensed">
-          <option value="AllianzNeoCondensed|300|normal">Condensed Light</option>
-          <option value="AllianzNeoCondensed|400|normal">Condensed Regular</option>
-          <option value="AllianzNeoCondensed|700|normal">Condensed Bold</option>
-        </optgroup>
-      </select>
+      <div class="col3-type" role="group" aria-label="Third column font source">
+        <button class="col3-btn" data-type="allianz" aria-pressed="true">Allianz Neo</button>
+        <button class="col3-btn" data-type="other" aria-pressed="false">Other</button>
+      </div>
+      <div id="col3-allianz-ctrl">
+        <label class="visually-hidden" for="azSelect">Allianz Neo variant</label>
+        <select id="azSelect">
+          <optgroup label="Regular">
+            <option value="AllianzNeo|300|normal">Light</option>
+            <option value="AllianzNeo|300|italic">Light Italic</option>
+            <option value="AllianzNeo|400|normal" selected>Regular</option>
+            <option value="AllianzNeo|400|italic">Italic</option>
+            <option value="AllianzNeo|600|normal">SemiBold</option>
+            <option value="AllianzNeo|600|italic">SemiBold Italic</option>
+            <option value="AllianzNeo|700|normal">Bold</option>
+            <option value="AllianzNeo|700|italic">Bold Italic</option>
+          </optgroup>
+          <optgroup label="Condensed">
+            <option value="AllianzNeoCondensed|300|normal">Condensed Light</option>
+            <option value="AllianzNeoCondensed|400|normal">Condensed Regular</option>
+            <option value="AllianzNeoCondensed|700|normal">Condensed Bold</option>
+          </optgroup>
+        </select>
+      </div>
+      <div id="col3-other-ctrl" hidden>
+        <label class="visually-hidden" for="otherSelect">Comparison font family</label>
+        <select id="otherSelect">
+          <optgroup label="System — Sans-serif">
+            <option value="Arial, Helvetica, sans-serif">Arial</option>
+            <option value="Verdana, sans-serif">Verdana</option>
+            <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+            <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">System UI</option>
+          </optgroup>
+          <optgroup label="System — Serif">
+            <option value="Georgia, serif">Georgia</option>
+            <option value="'Times New Roman', serif">Times New Roman</option>
+          </optgroup>
+          <optgroup label="Google — Sans-serif">
+            <option value="'Inter', sans-serif" selected>Inter</option>
+            <option value="'IBM Plex Sans', sans-serif">IBM Plex Sans</option>
+            <option value="'Open Sans', sans-serif">Open Sans</option>
+            <option value="Roboto, sans-serif">Roboto</option>
+            <option value="'Noto Sans', sans-serif">Noto Sans</option>
+            <option value="Lato, sans-serif">Lato</option>
+            <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
+            <option value="'DM Sans', sans-serif">DM Sans</option>
+            <option value="'Nunito Sans', sans-serif">Nunito Sans</option>
+            <option value="'Figtree', sans-serif">Figtree</option>
+            <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans</option>
+          </optgroup>
+          <optgroup label="Google — Serif">
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="Merriweather, serif">Merriweather</option>
+            <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+          </optgroup>
+        </select>
+      </div>
     </div>
     <div class="rows" id="rows2"></div>
   </section>
 
 </div>
+
+<p class="compliance-note">To check ISO 9241-303 size compliance for your device and font combination, use the <a href="../tool-display-legibility/">Display Character Size Calculator</a>.</p>
 
 <a class="back" href="../index.html">← Back to projects</a>
 
@@ -139,6 +192,8 @@ const SIZES = [8, 10, 12, 14, 16, 18, 20, 24];
 const DEFAULT_SAMPLE = 'E aecg · Il1ij · 0Oo · bd · rn/m — Hamburgefons';
 
 let currentWeight = 400;
+let currentStyle = 'normal';
+let col3Type = 'allianz';
 let currentSample = DEFAULT_SAMPLE;
 let activeCol = 0;
 
@@ -146,18 +201,26 @@ const sampleInput = document.getElementById('sampleInput');
 const sysSelect   = document.getElementById('sysSelect');
 const gooSelect   = document.getElementById('gooSelect');
 const azSelect    = document.getElementById('azSelect');
+const otherSelect = document.getElementById('otherSelect');
 
 function parseAz() {
   const [fam, w, sty] = azSelect.value.split('|');
   return { family: `'${fam}', sans-serif`, weight: parseInt(w, 10), style: sty };
 }
 
+function getCol2Config() {
+  if (col3Type === 'allianz') {
+    const az = parseAz();
+    return { family: az.family, weight: az.weight, style: az.style };
+  }
+  return { family: otherSelect.value, weight: currentWeight, style: currentStyle };
+}
+
 function getConfigs() {
-  const az = parseAz();
   return [
-    { rowsId: 'rows0', family: sysSelect.value, weight: currentWeight, style: 'normal' },
-    { rowsId: 'rows1', family: gooSelect.value, weight: currentWeight, style: 'normal' },
-    { rowsId: 'rows2', family: az.family,        weight: az.weight,    style: az.style  },
+    { rowsId: 'rows0', family: sysSelect.value, weight: currentWeight, style: currentStyle },
+    { rowsId: 'rows1', family: gooSelect.value, weight: currentWeight, style: currentStyle },
+    { rowsId: 'rows2', ...getCol2Config() },
   ];
 }
 
@@ -209,10 +272,36 @@ document.querySelectorAll('.weight-btn').forEach(btn => {
   });
 });
 
+// Style toggle
+document.querySelectorAll('.style-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentStyle = btn.dataset.style;
+    document.querySelectorAll('.style-btn').forEach(b => {
+      b.setAttribute('aria-pressed', String(b === btn));
+    });
+    updateSamples();
+  });
+});
+
+// Third column type switcher
+document.querySelectorAll('.col3-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    col3Type = btn.dataset.type;
+    document.querySelectorAll('.col3-btn').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    const isAllianz = col3Type === 'allianz';
+    document.getElementById('col3-allianz-ctrl').hidden = !isAllianz;
+    document.getElementById('col3-other-ctrl').hidden = isAllianz;
+    document.getElementById('col2-label').textContent = isAllianz ? 'Allianz Neo W04' : 'Comparison font';
+    document.getElementById('tab-col2').textContent = isAllianz ? 'Allianz' : 'Other';
+    buildAll();
+  });
+});
+
 // Font selects — each updates its own column via updateSamples()
 sysSelect.addEventListener('change', updateSamples);
 gooSelect.addEventListener('change', updateSamples);
 azSelect.addEventListener('change',  updateSamples);
+otherSelect.addEventListener('change', updateSamples);
 
 // Sample text
 sampleInput.addEventListener('input', () => {
