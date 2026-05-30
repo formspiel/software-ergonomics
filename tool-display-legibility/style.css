@@ -80,6 +80,10 @@ details.about[open] summary::before { content: '▼  '; }
 	margin: 0;
 }
 
+.config-section fieldset + fieldset {
+	margin-top: 1rem;
+}
+
 .config-section legend {
 	padding: 0 0.4rem;
 	font-weight: 600;
