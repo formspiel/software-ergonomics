@@ -257,16 +257,16 @@
 		<section class="results-section" id="validate-section">
 			<h2>Measure &amp; verify</h2>
 			<p class="section-intro">Cap-height ratios are estimates. For ground truth: take a
-				screenshot at 100 % browser zoom, measure the height of the capital E below in an
-				image editor, then enter the result. The render target always uses a white background
-				so it is easy to isolate in any screenshot tool.</p>
+				screenshot at 100 % browser zoom, measure the height of the capital E
+				(the first character) in an image editor, then enter the result. The render
+				target always uses a white background so it is easy to isolate in any screenshot tool.</p>
 			<p class="section-intro">On macOS, <kbd>⌘⇧4</kbd> captures at device pixels (dpx) — use
 				the dpx toggle. On Windows Snipping Tool and most web-based tools, 1 screenshot pixel
 				= 1 CSS px — use CSS px.</p>
 
 			<div class="validate-stage">
-				<div class="validate-render-area" title="Render target — screenshot and measure this E">
-					<span id="validate-char" aria-hidden="true">E</span>
+				<div class="validate-render-area" title="Render target — screenshot and measure the capital E">
+					<span id="validate-char" aria-hidden="true">E aecg · Il1ij · 0Oo · bd · rn/m</span>
 				</div>
 				<p id="validate-render-label" class="validate-render-label">Configure the Font compliance section above first.</p>
 			</div>
@@ -334,6 +334,33 @@
 				<p><strong>dpx</strong> means <em>display pixels</em> — physical pixels on the panel.
 					It is distinct from CSS px, which the browser scales by the device pixel ratio (DPR).
 					High-DPR screens (Retina, modern phones) render 1 CSS px as several dpx.</p>
+			</div>
+		</details>
+
+		<details class="device-note">
+			<summary>Cap-height ratio</summary>
+			<div class="device-note-body">
+				<p>The <strong>cap height</strong> of a font is the distance from the baseline to the
+					top of a flat capital letter (E, H, I). It is the typographic measure that
+					determines whether text meets the ISO 9241-303 minimum — the standard specifies
+					arc-minute thresholds that convert to a minimum physical height in mm, which must
+					be met by the cap height of the rendered character, not the full em size.</p>
+				<p>The <strong>cap-height ratio</strong> is cap height divided by the font size, both
+					in the same unit:</p>
+				<pre><code>cap height (CSS px) = font size (CSS px) × cap ratio
+e.g. Arial 14 px × 0.716 = 10.0 CSS px cap height</code></pre>
+				<p>Ratios typically fall between 0.63 and 0.73 depending on the typeface. A font with
+					a high cap ratio (e.g. Verdana 0.728) produces taller capitals at the same point
+					size than one with a low ratio (e.g. Calibri 0.638). This means two fonts set at
+					the same CSS px size can differ by over 10 % in actual cap height — and therefore
+					in ISO compliance.</p>
+				<p>The values stored in this calculator are <strong>published per-em approximations</strong>
+					from font metrics, not values measured on a specific platform or rendering engine.
+					Hinting, ClearType, anti-aliasing, and OS-level font scaling all affect the final
+					rendered height. Use the <strong>Measure &amp; verify</strong> section to determine
+					the actual cap height on your screen.</p>
+				<p>The ratio concept applies to Latin, Cyrillic, and Greek fonts. CJK, Arabic, and
+					Devanagari use different vertical metrics — see the non-Latin scripts note below.</p>
 			</div>
 		</details>
 

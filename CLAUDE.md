@@ -56,7 +56,7 @@ The root `index.html` is a project index linking to all tools and demos. `shared
 
 ## Calculator Architecture
 
-All calculator logic lives in `tool-display-legibility/scripts.js`. The page has a **Screen** input section, a Calculate / Reset action row, eight rendered results sections, and a permanent **Notes** section at the bottom.
+All calculator logic lives in `tool-display-legibility/scripts.js`. The page has a **Screen** input section, a Calculate / Reset action row, nine rendered results sections, and a permanent **Notes** section at the bottom.
 
 ### Input section — Screen
 
@@ -74,7 +74,8 @@ Viewing distance fieldset sits below the source panels inside the same `<section
 - **Compliance at distance** — minimum dpx for 16′/20′/22′ ISO thresholds. Formula: `arcMin = (2 × atan((n × pitchMm / 2) / distMm) × 180 / PI) × 60`. Each row shows dpx, CSS px = `ceil(dpx / dpr)`, mm, and 7×9 matrix badge (pass if dpx ≥ 9).
 - **Across viewing distances** — 20′/22′ thresholds across 30–80 cm; configured distance row highlighted.
 - **Character height by browser zoom** — physical mm for 8–11 dpx at 100–200% zoom. Target 3.2 mm ±10% determines cell colour.
-- **Font compliance check** — font + size + unit (px/pt; 1 pt = 1.333 CSS px). Cap height in CSS px / dpx / mm checked against thresholds. Hinting badge (`excellent | good | verify | issues`). CSS output snippet. Suggested minimum size. Cap-height ratios in `FONTS[]` are published per-em estimates — not measured per platform.
+- **Font compliance check** — font + size + unit (px/pt; 1 pt = 1.333 CSS px). Cap height in CSS px / dpx / mm checked against thresholds. Hinting badge (`excellent | good | verify | issues`). CSS output snippet. Suggested minimum size. Cap-height ratios in `FONTS[]` are published per-em estimates — not measured per platform. `system-ui` is listed first and uses `cssFamily: 'system-ui, sans-serif'` (unquoted CSS keyword); other fonts use `"FontName", sans-serif`.
+- **Measure & verify** — live render of the legibility test string `E aecg · Il1ij · 0Oo · bd · rn/m` at the configured font/size (white background for screenshot clarity). User takes screenshot, measures capital E height in an image editor, enters the pixel count (CSS px / dpx toggle). Shows actual mm, ISO pass/fail per threshold, and measured cap-height ratio vs. stored estimate.
 - **Recommended line height** — 1.4× / 1.5× / 1.6× based on 20′ cap height.
 - **Visual reference** — CSS `mm`-unit bars at 2.5 / 3.2 / 5 mm; accurate only at 100% zoom on a correctly calibrated screen.
 - **Share & export** — permalink (URL hash `w, h, d, s, v`; loads into Manual mode on page load). Screenshot copy/download via `html2canvas` CDN.
@@ -86,6 +87,31 @@ Permanent section below results (always visible). Contains collapsible `<details
 - **Apple iPhone Pro / Pro Max** — documents the three-layer rendering pipeline (CSS px → rendered buffer → physical panel) and why browser auto-detection under-reports resolution on these devices.
 
 Add further device-specific entries here as `<details class="device-note">` elements.
+
+## Planned Extensions
+
+### Non-Latin script support (`tool-display-legibility`)
+
+The calculator currently applies ISO 9241-303 Latin/Cyrillic/Greek thresholds only.
+Planned additions when standards research is complete:
+
+**Script selector UI** — Latin (default, active) / CJK / Arabic / Devanagari. Non-Latin options disabled initially; enabled as thresholds are confirmed.
+
+**Per-script minimum pixel grids (research baseline):**
+- CJK: 12×12 px legibility floor; 16×16 px historical minimum (GB/T 5199, 1985); 24×24 px recommended for complex characters
+- Arabic: ≥ Latin 7×9 equivalent; dot diacritics require more; cursive contextual forms demand higher resolution
+- Devanagari: ~16 px height minimum; shirorekha (horizontal bar) and conjunct consonants need clear separation
+- Hebrew: Latin 7×9 generally sufficient for unpointed UI text
+- Cyrillic and Greek: already within ISO 9241-303 scope
+
+**Measure & verify integration per script:**
+- Reference character: `E` (Latin), `国` (CJK — structurally complex, full em box), `ب` (Arabic baa — base letterform with dot), `क` (Devanagari ka — includes shirorekha)
+- What to measure: cap height (Latin/Cyrillic/Greek), full em box height (CJK), baseline-to-top (Arabic), baseline-to-shirorekha (Devanagari)
+- Cap-height ratio concept does not apply to CJK or Arabic; measurement is the primary compliance path, not a fallback from an estimate
+
+**Standards gap:** No unified ISO pixel grid for non-Latin scripts. ISO 24509:2019 Annex F covers non-Latin minimum legible font sizes (purchase required). DIN 1450 covers Latin/Cyrillic legibility principles (stroke ratios, confusable pairs) but specifies no pixel grids and does not address non-Latin.
+
+---
 
 ## Adding Device Presets
 
