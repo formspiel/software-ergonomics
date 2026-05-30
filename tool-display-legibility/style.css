@@ -66,6 +66,12 @@ details.about[open] summary::before { content: '▼  '; }
 	margin-bottom: 1.5rem;
 }
 
+.config-section h2 {
+	color: var(--accent);
+	margin-top: 0;
+	margin-bottom: 0.75rem;
+}
+
 .config-section fieldset {
 	border: 1px solid var(--border);
 	border-radius: 6px;
@@ -82,7 +88,6 @@ details.about[open] summary::before { content: '▼  '; }
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	margin-bottom: 0.75rem;
 }
 
 .config-row label {
@@ -112,7 +117,7 @@ details.about[open] summary::before { content: '▼  '; }
 	font-size: 1rem;
 }
 
-.preset-actions {
+.panel-actions {
 	margin-top: 0.75rem;
 	display: flex;
 	flex-wrap: wrap;
@@ -146,14 +151,6 @@ details.about[open] summary::before { content: '▼  '; }
 .source-btn[aria-pressed="true"] {
 	background: var(--accent);
 	color: #fff;
-}
-
-/* ---- Source panels ---- */
-
-.source-panel {
-	border: 1px solid var(--border);
-	border-radius: 6px;
-	padding: 1rem 1.25rem;
 }
 
 /* ---- Detect grid ---- */
@@ -232,9 +229,6 @@ details.about[open] summary::before { content: '▼  '; }
 	margin: 0 0 0.5rem;
 }
 
-.detect-actions {
-	margin-top: 0.25rem;
-}
 
 /* ---- Diagonal unit toggle (shared by detect + manual panels) ---- */
 

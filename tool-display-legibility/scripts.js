@@ -52,14 +52,13 @@ const DOM = {
 	useDetectedBtn:  document.getElementById('use-detected'),
 	preset:          document.getElementById('preset'),
 	displayFields:   document.getElementById('display-fields'),
-	presetActions:   document.getElementById('preset-actions'),
 	width:           document.getElementById('width'),
 	height:          document.getElementById('height'),
 	diagonal:        document.getElementById('diagonal'),
 	dpr:             document.getElementById('dpr'),
 	distance:        document.getElementById('distance'),
 	shortcutBtns:    document.querySelectorAll('.distance-shortcuts button'),
-	savePresetBtn:   document.getElementById('save-preset'),
+	savePresetBtns:  document.querySelectorAll('.save-preset-btn'),
 	resetBtn:        document.getElementById('reset-btn'),
 	error:           document.getElementById('error'),
 	results:         document.getElementById('results'),
@@ -116,10 +115,9 @@ function switchSource(source) {
 	DOM.sourceBtns.forEach(btn => {
 		btn.setAttribute('aria-pressed', btn.dataset.source === source ? 'true' : 'false');
 	});
-	DOM.panelDetect.hidden    = source !== 'detect';
-	DOM.panelPreset.hidden    = source !== 'preset';
-	DOM.displayFields.hidden  = source !== 'manual';
-	DOM.presetActions.hidden  = source === 'detect';
+	DOM.panelDetect.hidden   = source !== 'detect';
+	DOM.panelPreset.hidden   = source !== 'preset';
+	DOM.displayFields.hidden = source !== 'manual';
 }
 
 function useDetectedValues() {
@@ -249,6 +247,14 @@ function applyPreset(key) {
 }
 
 function saveCurrentAsPreset() {
+	if (currentSource === 'detect') {
+		const diagRaw = parseFloat(DOM.detectDiag.value);
+		if (!diagRaw || diagRaw <= 0) {
+			DOM.detectDiagError.hidden = false;
+			DOM.detectDiag.focus();
+			return;
+		}
+	}
 	const label = prompt('Name for this preset:');
 	if (!label) return;
 	const cfg = readConfig();
@@ -661,7 +667,7 @@ DOM.form.addEventListener('submit', e => {
 	calculate();
 });
 
-DOM.savePresetBtn.addEventListener('click', saveCurrentAsPreset);
+DOM.savePresetBtns.forEach(btn => btn.addEventListener('click', saveCurrentAsPreset));
 
 [DOM.fontName, DOM.fontSize, DOM.fontUnit].forEach(el => {
 	el.addEventListener('input', renderFontSection);

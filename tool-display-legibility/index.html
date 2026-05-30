@@ -14,23 +14,10 @@
 	<h1>Display Character Size Calculator <span class="status status-draft">Draft</span></h1>
 	<p class="subtitle">ISO 9241-303 — minimum legible character height on screen</p>
 
-	<details class="about">
-		<summary>About this calculator</summary>
-		<div class="about-body">
-			<p>The calculator answers the question: <em>given a display and a viewing distance,
-				how tall must a character be on screen to remain legible?</em> ISO 9241-303 defines
-				three arc-minute thresholds (16′ / 20′ / 22′) that translate viewing distance into a
-				minimum physical character height — the calculator converts those into dpx and
-				CSS px for your specific screen.</p>
-			<p><strong>dpx</strong> means <em>display pixels</em> — physical pixels on the panel.
-				It is distinct from CSS px, which the browser scales by the device pixel ratio (DPR).
-				High-DPR screens (Retina, modern phones) render 1 CSS px as several dpx.</p>
-		</div>
-	</details>
-
 	<form id="config-form" novalidate>
 
 		<section class="config-section">
+			<h2>Screen</h2>
 
 			<!-- Source selector -->
 			<div class="source-selector" role="group" aria-label="Display input source">
@@ -40,7 +27,8 @@
 			</div>
 
 			<!-- Panel A: This screen -->
-			<div id="panel-detect" class="source-panel">
+			<fieldset id="panel-detect" class="source-panel">
+				<legend>Browser detection</legend>
 				<div class="detect-grid">
 					<div class="detect-card">
 						<span class="detect-value" id="d-viewport">—</span>
@@ -49,7 +37,7 @@
 					</div>
 					<div class="detect-card">
 						<span class="detect-value" id="d-resolution">—</span>
-						<span class="detect-label">Rendered resolution</span>
+						<span class="detect-label">Resolution</span>
 						<span class="detect-sub">CSS px × DPR · may differ from hardware px</span>
 					</div>
 					<div class="detect-card">
@@ -76,18 +64,20 @@
 					<p class="detect-note">Diagonal cannot be detected automatically — enter it from your monitor's specifications or box.</p>
 				</div>
 				<p class="detect-error" id="detect-diag-error" hidden>Please enter the screen diagonal to continue.</p>
-				<div class="detect-actions">
+				<div class="panel-actions">
 					<button type="button" id="use-detected" class="primary">Use these values</button>
+					<button type="button" class="save-preset-btn secondary">Save as preset</button>
 				</div>
-			</div>
+			</fieldset>
 
 			<!-- Panel B: Preset -->
-			<div id="panel-preset" class="source-panel" hidden>
+			<fieldset id="panel-preset" class="source-panel" hidden>
+				<legend>Device preset</legend>
 				<div class="config-row">
 					<label for="preset">Preset</label>
 					<select id="preset"></select>
 				</div>
-			</div>
+			</fieldset>
 
 			<!-- Panel C: Manual -->
 			<fieldset id="display-fields" class="source-panel display-fields" hidden>
@@ -112,19 +102,16 @@
 						<input type="number" id="dpr" min="1" max="4" step="0.25" value="1" required>
 					</label>
 				</div>
+				<div class="panel-actions">
+					<button type="button" class="save-preset-btn secondary">Save as preset</button>
+				</div>
 			</fieldset>
-
-			<!-- Shared preset actions (preset + manual modes) -->
-			<div class="preset-actions" id="preset-actions" hidden>
-				<button type="button" id="save-preset" class="secondary">Save current as custom preset</button>
-				<button type="button" id="manage-presets" class="secondary" hidden>Manage custom presets</button>
-			</div>
 
 		</section>
 
 		<section class="config-section">
+			<h2>Viewing distance</h2>
 			<fieldset>
-				<legend>Viewing distance</legend>
 				<div class="distance-row">
 					<label>Distance (cm)
 						<input type="number" id="distance" min="10" max="300" step="1" value="50">
@@ -301,11 +288,23 @@
 
 	</div>
 
+	<!-- ====== Notes ====== -->
 	<section class="device-notes" aria-labelledby="device-notes-heading">
-		<h2 id="device-notes-heading">Device rendering notes</h2>
-		<p class="section-intro">Known rendering quirks that affect auto-detection accuracy on specific devices.
-			Where a device is listed, use <strong>Preset</strong> or <strong>Manual</strong> entry for
-			accurate calculations.</p>
+		<h2 id="device-notes-heading">Notes</h2>
+
+		<details class="device-note">
+			<summary>About this calculator</summary>
+			<div class="device-note-body">
+				<p>The calculator answers the question: <em>given a display and a viewing distance,
+					how tall must a character be on screen to remain legible?</em> ISO 9241-303 defines
+					three arc-minute thresholds (16′ / 20′ / 22′) that translate viewing distance into a
+					minimum physical character height — the calculator converts those into dpx and
+					CSS px for your specific screen.</p>
+				<p><strong>dpx</strong> means <em>display pixels</em> — physical pixels on the panel.
+					It is distinct from CSS px, which the browser scales by the device pixel ratio (DPR).
+					High-DPR screens (Retina, modern phones) render 1 CSS px as several dpx.</p>
+			</div>
+		</details>
 
 		<details class="device-note">
 			<summary>Apple iPhone Pro / Pro Max</summary>
