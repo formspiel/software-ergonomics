@@ -31,12 +31,66 @@
 	<form id="config-form" novalidate>
 
 		<section class="config-section">
-			<div class="config-row">
-				<label for="preset">Preset</label>
-				<select id="preset"></select>
+
+			<!-- Source selector -->
+			<div class="source-selector" role="group" aria-label="Display input source">
+				<button type="button" class="source-btn" data-source="detect" aria-pressed="true">This screen</button>
+				<button type="button" class="source-btn" data-source="preset" aria-pressed="false">Preset</button>
+				<button type="button" class="source-btn" data-source="manual" aria-pressed="false">Manual</button>
 			</div>
 
-			<fieldset class="display-fields" id="display-fields">
+			<!-- Panel A: This screen -->
+			<div id="panel-detect" class="source-panel">
+				<div class="detect-grid">
+					<div class="detect-card">
+						<span class="detect-value" id="d-viewport">—</span>
+						<span class="detect-label">Viewport (live)</span>
+						<span class="detect-sub">CSS px · changes when you resize</span>
+					</div>
+					<div class="detect-card">
+						<span class="detect-value" id="d-resolution">—</span>
+						<span class="detect-label">Screen resolution</span>
+						<span class="detect-sub">Physical px · fixed</span>
+					</div>
+					<div class="detect-card">
+						<span class="detect-value" id="d-dpr">—</span>
+						<span class="detect-label">Pixel density (DPR)</span>
+						<span class="detect-sub">≥ 2× = HiDPI / Retina</span>
+					</div>
+					<div class="detect-card">
+						<span class="detect-value" id="d-depth">—</span>
+						<span class="detect-label">Color depth</span>
+						<span class="detect-sub">Bits per pixel</span>
+					</div>
+				</div>
+				<div class="detect-diagonal-row">
+					<label for="detect-diag">Screen diagonal
+						<div class="diag-input-wrap">
+							<input type="number" id="detect-diag" min="1" step="0.1" placeholder="e.g. 27">
+							<div class="diag-unit-toggle" role="group" aria-label="Diagonal unit">
+								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="in" aria-pressed="true">in</button>
+								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="mm" aria-pressed="false">mm</button>
+							</div>
+						</div>
+					</label>
+					<p class="detect-note">Diagonal cannot be detected automatically — enter it from your monitor's specifications or box.</p>
+				</div>
+				<p class="detect-error" id="detect-diag-error" hidden>Please enter the screen diagonal to continue.</p>
+				<div class="detect-actions">
+					<button type="button" id="use-detected" class="primary">Use these values</button>
+				</div>
+			</div>
+
+			<!-- Panel B: Preset -->
+			<div id="panel-preset" class="source-panel" hidden>
+				<div class="config-row">
+					<label for="preset">Preset</label>
+					<select id="preset"></select>
+				</div>
+			</div>
+
+			<!-- Panel C: Manual -->
+			<fieldset id="display-fields" class="source-panel display-fields" hidden>
 				<legend>Display parameters</legend>
 				<div class="config-grid">
 					<label>Width (px)
@@ -45,8 +99,14 @@
 					<label>Height (px)
 						<input type="number" id="height" min="1" required>
 					</label>
-					<label>Diagonal (in)
-						<input type="number" id="diagonal" step="0.01" min="1" required>
+					<label>Diagonal
+						<div class="diag-input-wrap">
+							<input type="number" id="diagonal" step="0.01" min="1" required>
+							<div class="diag-unit-toggle" role="group" aria-label="Diagonal unit">
+								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="in" aria-pressed="true">in</button>
+								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="mm" aria-pressed="false">mm</button>
+							</div>
+						</div>
 					</label>
 					<label>DPR (Scale)
 						<input type="number" id="dpr" min="1" max="4" step="0.25" value="1" required>
@@ -54,10 +114,12 @@
 				</div>
 			</fieldset>
 
-			<div class="preset-actions">
+			<!-- Shared preset actions (preset + manual modes) -->
+			<div class="preset-actions" id="preset-actions" hidden>
 				<button type="button" id="save-preset" class="secondary">Save current as custom preset</button>
 				<button type="button" id="manage-presets" class="secondary" hidden>Manage custom presets</button>
 			</div>
+
 		</section>
 
 		<section class="config-section">

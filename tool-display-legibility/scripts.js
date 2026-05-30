@@ -39,19 +39,30 @@ const CATEGORY_DISTANCE = {
 };
 
 const DOM = {
-	form:           document.getElementById('config-form'),
-	preset:         document.getElementById('preset'),
-	displayFields:  document.getElementById('display-fields'),
-	width:          document.getElementById('width'),
-	height:         document.getElementById('height'),
-	diagonal:       document.getElementById('diagonal'),
-	dpr:            document.getElementById('dpr'),
-	distance:       document.getElementById('distance'),
-	shortcutBtns:   document.querySelectorAll('.distance-shortcuts button'),
-	savePresetBtn:  document.getElementById('save-preset'),
-	resetBtn:       document.getElementById('reset-btn'),
-	error:          document.getElementById('error'),
-	results:        document.getElementById('results'),
+	form:            document.getElementById('config-form'),
+	sourceBtns:      document.querySelectorAll('.source-btn'),
+	panelDetect:     document.getElementById('panel-detect'),
+	panelPreset:     document.getElementById('panel-preset'),
+	dViewport:       document.getElementById('d-viewport'),
+	dResolution:     document.getElementById('d-resolution'),
+	dDpr:            document.getElementById('d-dpr'),
+	dDepth:          document.getElementById('d-depth'),
+	detectDiag:      document.getElementById('detect-diag'),
+	detectDiagError: document.getElementById('detect-diag-error'),
+	useDetectedBtn:  document.getElementById('use-detected'),
+	preset:          document.getElementById('preset'),
+	displayFields:   document.getElementById('display-fields'),
+	presetActions:   document.getElementById('preset-actions'),
+	width:           document.getElementById('width'),
+	height:          document.getElementById('height'),
+	diagonal:        document.getElementById('diagonal'),
+	dpr:             document.getElementById('dpr'),
+	distance:        document.getElementById('distance'),
+	shortcutBtns:    document.querySelectorAll('.distance-shortcuts button'),
+	savePresetBtn:   document.getElementById('save-preset'),
+	resetBtn:        document.getElementById('reset-btn'),
+	error:           document.getElementById('error'),
+	results:         document.getElementById('results'),
 
 	statPpi:        document.getElementById('stat-ppi'),
 	statPpiClass:   document.getElementById('stat-ppi-class'),
@@ -81,6 +92,57 @@ const DOM = {
 
 let presetData = [];
 const presetMap = {};
+
+let currentSource   = 'detect';
+let detectDiagUnit  = 'in';
+let manualDiagUnit  = 'in';
+
+/* ------------------------------------------------------------ *
+ * Screen detection                                             *
+ * ------------------------------------------------------------ */
+
+function detectCurrentScreen() {
+	const dpr   = window.devicePixelRatio || 1;
+	const physW = Math.round(screen.width  * dpr);
+	const physH = Math.round(screen.height * dpr);
+	DOM.dViewport.textContent   = `${window.innerWidth} × ${window.innerHeight}`;
+	DOM.dResolution.textContent = `${physW} × ${physH}`;
+	DOM.dDpr.textContent        = `${dpr}×`;
+	DOM.dDepth.textContent      = `${screen.colorDepth}-bit`;
+}
+
+function switchSource(source) {
+	currentSource = source;
+	DOM.sourceBtns.forEach(btn => {
+		btn.setAttribute('aria-pressed', btn.dataset.source === source ? 'true' : 'false');
+	});
+	DOM.panelDetect.hidden    = source !== 'detect';
+	DOM.panelPreset.hidden    = source !== 'preset';
+	DOM.displayFields.hidden  = source !== 'manual';
+	DOM.presetActions.hidden  = source === 'detect';
+}
+
+function useDetectedValues() {
+	const diagRaw = parseFloat(DOM.detectDiag.value);
+	if (!diagRaw || diagRaw <= 0) {
+		DOM.detectDiagError.hidden = false;
+		DOM.detectDiag.focus();
+		return;
+	}
+	DOM.detectDiagError.hidden = true;
+
+	const diagIn = detectDiagUnit === 'mm' ? diagRaw / 25.4 : diagRaw;
+	const dpr    = window.devicePixelRatio || 1;
+	const physW  = Math.round(screen.width  * dpr);
+	const physH  = Math.round(screen.height * dpr);
+
+	DOM.width.value    = physW;
+	DOM.height.value   = physH;
+	DOM.diagonal.value = diagIn.toFixed(3);
+	DOM.dpr.value      = dpr;
+
+	calculate();
+}
 
 /* ------------------------------------------------------------ *
  * Math                                                          *
@@ -168,7 +230,7 @@ function populatePresetSelect() {
 
 function applyPreset(key) {
 	if (key === 'custom') {
-		DOM.displayFields.disabled = false;
+		switchSource('manual');
 		return;
 	}
 	const p = presetMap[key];
@@ -177,7 +239,6 @@ function applyPreset(key) {
 	DOM.height.value   = p.height;
 	DOM.diagonal.value = p.diagonal;
 	DOM.dpr.value      = p.dpr || 1;
-	DOM.displayFields.disabled = true;
 
 	const dist = CATEGORY_DISTANCE[p.category];
 	if (dist) {
@@ -225,13 +286,12 @@ function applyPermalinkFromHash() {
 	if (!location.hash || location.hash.length < 2) return false;
 	const params = new URLSearchParams(location.hash.slice(1));
 	if (!params.has('w')) return false;
-	DOM.preset.value = 'custom';
-	DOM.displayFields.disabled = false;
 	DOM.width.value    = params.get('w') || '';
 	DOM.height.value   = params.get('h') || '';
 	DOM.diagonal.value = params.get('d') || '';
 	DOM.dpr.value      = params.get('s') || 1;
 	DOM.distance.value = params.get('v') || 50;
+	switchSource('manual');
 	updateShortcutButtons();
 	return true;
 }
@@ -243,9 +303,13 @@ function applyPermalinkFromHash() {
 function readConfig() {
 	const width    = parseInt(DOM.width.value, 10);
 	const height   = parseInt(DOM.height.value, 10);
-	const diagonal = parseFloat(DOM.diagonal.value);
+	let   diagonal = parseFloat(DOM.diagonal.value);
 	const dpr      = parseFloat(DOM.dpr.value) || 1;
 	const distance = parseFloat(DOM.distance.value) || 0;
+
+	if (currentSource === 'manual' && manualDiagUnit === 'mm') {
+		diagonal = diagonal / 25.4;
+	}
 
 	if (!width || !height || !diagonal || width <= 0 || height <= 0 || diagonal <= 0) {
 		return null;
@@ -540,6 +604,36 @@ function calculate() {
  * UI wiring                                                     *
  * ------------------------------------------------------------ */
 
+DOM.sourceBtns.forEach(btn => {
+	btn.addEventListener('click', () => switchSource(btn.dataset.source));
+});
+
+DOM.useDetectedBtn.addEventListener('click', useDetectedValues);
+
+// Diagonal unit toggles
+document.querySelectorAll('#panel-detect .diag-unit-btn').forEach(btn => {
+	btn.addEventListener('click', () => {
+		detectDiagUnit = btn.dataset.unit;
+		document.querySelectorAll('#panel-detect .diag-unit-btn').forEach(b => {
+			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+		});
+	});
+});
+
+document.querySelectorAll('#display-fields .diag-unit-btn').forEach(btn => {
+	btn.addEventListener('click', () => {
+		manualDiagUnit = btn.dataset.unit;
+		document.querySelectorAll('#display-fields .diag-unit-btn').forEach(b => {
+			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+		});
+	});
+});
+
+// Live viewport update
+window.addEventListener('resize', () => {
+	DOM.dViewport.textContent = `${window.innerWidth} × ${window.innerHeight}`;
+});
+
 function updateShortcutButtons() {
 	const v = parseInt(DOM.distance.value, 10);
 	DOM.shortcutBtns.forEach(btn => {
@@ -576,11 +670,13 @@ DOM.savePresetBtn.addEventListener('click', saveCurrentAsPreset);
 
 DOM.resetBtn.addEventListener('click', () => {
 	DOM.form.reset();
-	DOM.preset.value = 'custom';
-	DOM.displayFields.disabled = false;
+	DOM.detectDiag.value = '';
+	DOM.detectDiagError.hidden = true;
 	DOM.results.hidden = true;
 	setError('');
 	history.replaceState(null, '', location.pathname);
+	switchSource('detect');
+	detectCurrentScreen();
 	updateShortcutButtons();
 });
 
@@ -654,3 +750,4 @@ fetch('presets.json')
 
 populateFontSelect();
 updateShortcutButtons();
+detectCurrentScreen();
