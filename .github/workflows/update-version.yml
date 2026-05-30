@@ -1,0 +1,32 @@
+name: Update footer version
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update version in all HTML files
+        env:
+          HASH: ${{ github.sha }}
+          RUN:  ${{ github.run_number }}
+        run: |
+          SHORT=${HASH:0:7}
+          python3 .github/scripts/update_version.py "v${RUN}·${SHORT}"
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet && echo "Nothing to update" || (
+            git commit -m "chore: update footer version [skip ci]"
+            git push
+          )

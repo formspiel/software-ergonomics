@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cap-Height Ratio Verification — Test Sheet</title>
+	<style>
+		/* ---- Screen styles ---- */
+		body {
+			font-family: system-ui, sans-serif;
+			font-size: 14px;
+			line-height: 1.5;
+			color: #111;
+			background: #fff;
+			margin: 0;
+			padding: 2rem;
+			max-width: 860px;
+		}
+
+		h1 { font-size: 1.2rem; margin: 0 0 0.25rem; }
+		h2 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.25rem; }
+		h3 { font-size: 0.85rem; margin: 1rem 0 0.35rem; color: #555; }
+		p  { margin: 0 0 0.5rem; }
+
+		.subtitle { color: #555; font-size: 0.85rem; margin-bottom: 1rem; }
+		.tool-url { font-family: monospace; font-size: 0.8rem; background: #f0f0f0; padding: 0.2em 0.4em; border-radius: 3px; }
+
+		ol { margin: 0; padding-left: 1.4rem; }
+		ol li { margin-bottom: 0.35rem; }
+
+		kbd {
+			font-family: monospace;
+			font-size: 0.8em;
+			border: 1px solid #999;
+			border-bottom-width: 2px;
+			border-radius: 3px;
+			padding: 0.1em 0.35em;
+			background: #f5f5f5;
+		}
+
+		.callout {
+			border-left: 3px solid #006699;
+			padding: 0.5rem 0.75rem;
+			background: #f0f6fb;
+			margin: 0.75rem 0;
+			font-size: 0.85rem;
+		}
+
+		/* ---- Device info block ---- */
+		.device-info {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0.5rem 2rem;
+			margin: 0.75rem 0 1rem;
+		}
+		.field {
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+			font-size: 0.82rem;
+			color: #555;
+		}
+		.field-line {
+			border-bottom: 1px solid #999;
+			min-height: 1.4rem;
+		}
+
+		/* ---- Results table ---- */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.8rem;
+			margin-top: 0.5rem;
+		}
+		thead th {
+			background: #f0f0f0;
+			border: 1px solid #bbb;
+			padding: 0.4em 0.5em;
+			text-align: left;
+			font-weight: 600;
+			white-space: nowrap;
+		}
+		tbody td {
+			border: 1px solid #bbb;
+			padding: 0.35em 0.5em;
+			vertical-align: top;
+		}
+		tbody td.font-name { font-weight: 500; white-space: nowrap; }
+		tbody td.estimate  { color: #555; text-align: center; }
+		tbody td.write     { min-width: 70px; }
+		tbody td.wide-write { min-width: 120px; }
+
+		/* Row heights for writing space */
+		tbody tr { height: 1.8rem; }
+
+		.unit-choice { font-size: 0.75rem; color: #777; }
+		.note-row td { background: #fafafa; font-style: italic; color: #666; font-size: 0.75rem; }
+
+		/* ---- Notes area ---- */
+		.notes-box {
+			border: 1px solid #bbb;
+			border-radius: 4px;
+			min-height: 80px;
+			margin-top: 0.5rem;
+			padding: 0.5rem;
+		}
+
+		/* ---- Print styles ---- */
+		@media print {
+			body { padding: 1.5cm; font-size: 11pt; }
+			h2 { page-break-after: avoid; }
+			table { page-break-inside: avoid; }
+			.no-print { display: none; }
+			a { color: inherit; text-decoration: none; }
+			kbd { border: 1px solid #777; border-bottom-width: 2px; background: #f0f0f0; }
+		}
+
+		@page {
+			size: A4;
+			margin: 1.5cm;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Cap-Height Ratio Verification</h1>
+<p class="subtitle">Display Character Size Calculator · ISO 9241-303 · One sheet per device</p>
+
+<p>Cap-height ratios in the calculator are published per-em estimates. This sheet guides you through
+measuring the actual rendered cap height on a specific device and browser, so the estimates can be
+verified or corrected.</p>
+
+<div class="callout">
+	<strong>Tool URL:</strong> <span class="tool-url">http://localhost:8080/tool-display-legibility/</span>
+	&nbsp;(run <code>python3 -m http.server 8080</code> from the repo root, or open the deployed URL)
+</div>
+
+<h2>Equipment</h2>
+<ul>
+	<li>The device you are testing (any screen)</li>
+	<li>A browser on that device (note which one)</li>
+	<li>An image editor for measuring pixels: <strong>Preview</strong> (macOS) or <strong>Paint / Paint 3D</strong> (Windows)</li>
+</ul>
+
+<h2>Step-by-step instructions</h2>
+<ol>
+	<li>Open the tool on the device you are testing.</li>
+	<li>Select the device from the <strong>Preset</strong> list, or enter its specifications manually (width × height px, diagonal, DPR).</li>
+	<li>Set the <strong>Viewing distance</strong> appropriate for the device type.</li>
+	<li>Click <strong>Calculate</strong>.</li>
+	<li>Scroll to <strong>Font compliance check</strong>. Select the font you want to verify and set the size to <strong>16 CSS px</strong>.</li>
+	<li>Set browser zoom to exactly <strong>100 %</strong> — use <kbd>⌘</kbd><kbd>0</kbd> (macOS) or <kbd>Ctrl</kbd><kbd>0</kbd> (Windows).</li>
+	<li>Take a screenshot of the <em>render area</em> (the white box showing the test string):
+		<ul>
+			<li><strong>macOS:</strong> <kbd>⌘</kbd><kbd>⇧</kbd><kbd>4</kbd> → drag to select the render box → captures at <strong>dpx</strong></li>
+			<li><strong>Windows:</strong> <kbd>⊞</kbd><kbd>⇧</kbd><kbd>S</kbd> → drag to select → captures at <strong>CSS px</strong></li>
+		</ul>
+	</li>
+	<li>Open the screenshot in your image editor. Measure the height of the <strong>capital E</strong> (first character) in pixels — from the top of the letter to the baseline.</li>
+	<li>Enter this pixel value in the <strong>Measure &amp; verify</strong> section of the tool. Select the correct unit (CSS px or dpx).</li>
+	<li>Note the <strong>Measured cap ratio</strong> shown. Record it in the table below.</li>
+	<li>Repeat from step 5 for each additional font.</li>
+</ol>
+
+<div class="callout">
+	<strong>Tip — measuring in Preview (macOS):</strong> Open screenshot → Tools → Adjust Size to confirm dimensions,
+	or use the selection tool and note the H value in the info bar. In <strong>Pixelmator</strong> or <strong>Photoshop</strong>,
+	draw a selection from cap-top to baseline; read the height in the info panel.
+	<br><br>
+	<strong>Tip — measuring in Paint (Windows):</strong> Open screenshot → use the selection tool → drag from cap-top to baseline.
+	The status bar shows "W × H px". Note the H value.
+</div>
+
+<h2>Device information <span class="no-print" style="font-size:0.8rem;font-weight:normal;color:#888">(fill in)</span></h2>
+<div class="device-info">
+	<div class="field"><span>Device model</span><div class="field-line"></div></div>
+	<div class="field"><span>Operating system &amp; version</span><div class="field-line"></div></div>
+	<div class="field"><span>Browser &amp; version</span><div class="field-line"></div></div>
+	<div class="field"><span>Display preset used</span><div class="field-line"></div></div>
+	<div class="field"><span>Screen resolution (px × px)</span><div class="field-line"></div></div>
+	<div class="field"><span>DPR</span><div class="field-line"></div></div>
+	<div class="field"><span>Screenshot tool &amp; unit (CSS px / dpx)</span><div class="field-line"></div></div>
+	<div class="field"><span>Date</span><div class="field-line"></div></div>
+</div>
+
+<h2>Measurement results</h2>
+<p style="font-size:0.8rem;color:#555;margin-bottom:0.5rem">
+	Font size: 16 CSS px &nbsp;·&nbsp;
+	Measured cap ratio = E height (px) ÷ 16 (if CSS px) or ÷ (16 × DPR) (if dpx)
+</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Font</th>
+			<th>Est. ratio</th>
+			<th>E height (px)</th>
+			<th>Unit</th>
+			<th>Measured ratio</th>
+			<th>Notes</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="font-name">system-ui</td>
+			<td class="estimate">0.700</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr class="note-row"><td colspan="6">↑ On macOS = San Francisco · on Windows = Segoe UI · on Android = Roboto</td></tr>
+		<tr>
+			<td class="font-name">Segoe UI</td>
+			<td class="estimate">0.700</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">San Francisco</td>
+			<td class="estimate">0.700</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Roboto</td>
+			<td class="estimate">0.711</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Helvetica</td>
+			<td class="estimate">0.717</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Arial</td>
+			<td class="estimate">0.716</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Verdana</td>
+			<td class="estimate">0.728</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Calibri</td>
+			<td class="estimate">0.638</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Tahoma</td>
+			<td class="estimate">0.725</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Aptos</td>
+			<td class="estimate">0.694</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Consolas</td>
+			<td class="estimate">0.633</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Times New Roman</td>
+			<td class="estimate">0.662</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+		<tr>
+			<td class="font-name">Georgia</td>
+			<td class="estimate">0.692</td>
+			<td class="write"></td>
+			<td class="write"><span class="unit-choice">CSS px / dpx</span></td>
+			<td class="write"></td>
+			<td class="wide-write"></td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Notes</h2>
+<div class="notes-box"></div>
+
+<p style="margin-top:2rem;font-size:0.75rem;color:#888">
+	Display Character Size Calculator · <a href="https://github.com/formspiel/software-ergonomics">github.com/formspiel/software-ergonomics</a>
+</p>
+
+</body>
+</html>
