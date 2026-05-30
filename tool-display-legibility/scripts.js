@@ -162,8 +162,9 @@ const DOM = {
 	stickyDevice: document.getElementById('sticky-device'),
 	stickyStats:  document.getElementById('sticky-stats'),
 
-	copyLink:       document.getElementById('copy-link'),
-	exportStatus:   document.getElementById('export-status'),
+	copyLink:             document.getElementById('copy-link'),
+	exportPermalinkInput: document.getElementById('export-permalink-input'),
+	exportStatus:         document.getElementById('export-status'),
 
 	presetPermalinkRow:     document.getElementById('preset-permalink-row'),
 	presetPermalinkInput:   document.getElementById('preset-permalink-input'),
@@ -355,15 +356,19 @@ function applyPreset(key) {
 	calculate();
 }
 
-function showPresetPermalink(url) {
-	DOM.presetPermalinkInput.value = url;
-	DOM.presetPermalinkRow.hidden = false;
-	DOM.presetPermalinkInput.select();
+function copyLinkWithFeedback(url, btn) {
 	navigator.clipboard.writeText(url).then(() => {
-		const btn = DOM.presetPermalinkCopyBtn;
 		btn.textContent = 'Copied ✓';
 		setTimeout(() => { btn.textContent = 'Copy link'; }, 2500);
 	}).catch(() => {});
+}
+
+function showPresetPermalink(url) {
+	DOM.presetPermalinkInput.value = url;
+	DOM.exportPermalinkInput.value = url;
+	DOM.presetPermalinkRow.hidden = false;
+	DOM.presetPermalinkInput.select();
+	copyLinkWithFeedback(url, DOM.presetPermalinkCopyBtn);
 }
 
 function saveCurrentAsPreset() {
@@ -870,6 +875,7 @@ function calculate() {
 	currentCfg = cfg;
 	renderFontSection();
 	updateStickyBar(cfg, p);
+	DOM.exportPermalinkInput.value = encodePermalink(cfg, lastSavedPresetLabel);
 
 	DOM.results.hidden = false;
 }
@@ -987,6 +993,7 @@ DOM.resetBtn.addEventListener('click', () => {
 	if (validateCaptureEl) validateCaptureEl.hidden = true;
 	DOM.presetPermalinkRow.hidden = true;
 	DOM.presetLoadedNotice.hidden = true;
+	DOM.exportPermalinkInput.value = '';
 	lastSavedPresetLabel = null;
 	history.replaceState(null, '', location.pathname);
 	// Reset unit toggle states
@@ -1005,28 +1012,18 @@ DOM.resetBtn.addEventListener('click', () => {
 
 /* ---- Export ---- */
 
-DOM.copyLink.addEventListener('click', async () => {
-	const cfg = readConfig();
-	if (!cfg) return;
-	const url = encodePermalink(cfg, lastSavedPresetLabel);
+DOM.copyLink.addEventListener('click', () => {
+	const url = DOM.exportPermalinkInput.value;
+	if (!url) return;
 	history.replaceState(null, '', '#' + url.split('#')[1]);
-	try {
-		await navigator.clipboard.writeText(url);
-		DOM.exportStatus.textContent = lastSavedPresetLabel
-			? `Permalink copied — preset "${lastSavedPresetLabel}".`
-			: 'Permalink copied to clipboard.';
-	} catch {
-		DOM.exportStatus.textContent = 'Permalink in address bar — copy manually.';
-	}
+	DOM.exportPermalinkInput.select();
+	copyLinkWithFeedback(url, DOM.copyLink);
 });
 
 DOM.presetPermalinkCopyBtn.addEventListener('click', () => {
 	const url = DOM.presetPermalinkInput.value;
 	if (!url) return;
-	navigator.clipboard.writeText(url).then(() => {
-		DOM.presetPermalinkCopyBtn.textContent = 'Copied ✓';
-		setTimeout(() => { DOM.presetPermalinkCopyBtn.textContent = 'Copy link'; }, 2500);
-	}).catch(() => {});
+	copyLinkWithFeedback(url, DOM.presetPermalinkCopyBtn);
 });
 
 // Inline capture buttons for the zoom table

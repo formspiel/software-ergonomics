@@ -850,13 +850,6 @@ button.secondary:hover {
 
 /* ---- Share & export ---- */
 
-.export-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	margin-top: 1rem;
-}
-
 #export-status {
 	display: block;
 	margin-top: 0.75rem;
