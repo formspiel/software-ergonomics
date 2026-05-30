@@ -305,10 +305,30 @@
 		</details>
 
 		<details class="device-note">
-			<summary>Apple iPhone Pro / Pro Max</summary>
+			<summary>7×9 pixel matrix (ISO 9241-303)</summary>
 			<div class="device-note-body">
-				<p>These models use a three-layer rendering pipeline. The browser can only see the first two
-					layers — the hardware pixel count is invisible to JavaScript.</p>
+				<p>ISO 9241-303 requires that a legible character occupy at least a
+					<strong>7 columns × 9 rows</strong> pixel matrix. This is the minimum grid needed
+					to render all distinguishable characters of the Latin alphabet — enough pixels to
+					form ascenders, descenders, counters, and the strokes that separate similar
+					characters (e.g. <em>l</em>, <em>1</em>, <em>I</em>).</p>
+				<p>The calculator uses the <strong>9 row (height) constraint</strong> as the practical
+					floor: a cap height below 9 dpx is flagged as <em>Below 9 px</em> in the compliance
+					table. The column count is not checked separately — it is generally satisfied by any
+					proportional typeface once the height requirement is met.</p>
+				<p>At high DPR, 9 dpx can correspond to fewer CSS px (e.g. 3 CSS px at DPR 3), which
+					is why the table shows both values.</p>
+			</div>
+		</details>
+
+		<details class="device-note">
+			<summary>Apple iPhone Pro / Pro Max — rendering pipeline exception</summary>
+			<div class="device-note-body">
+				<p>Most iOS and iPadOS devices report a <code>devicePixelRatio</code> that matches
+					their hardware exactly — multiplying CSS pixels by DPR gives the true physical
+					resolution. <strong>iPhone Pro and Pro Max models are an exception.</strong></p>
+				<p>These models use a three-layer rendering pipeline. The browser can only see the
+					first two layers — the hardware pixel count is invisible to JavaScript.</p>
 				<div class="table-wrap">
 					<table class="device-note-table">
 						<thead>
@@ -339,8 +359,8 @@
 				</div>
 				<p>Because <code>devicePixelRatio</code> is the CSS-to-rendered ratio (3), not the
 					CSS-to-hardware ratio (~3.07), auto-detection reports the rendered resolution
-					rather than the true hardware resolution. This causes a roughly 6 % error in pixel pitch,
-					which in turn affects PPI, arc-minute thresholds, and mm character sizes.</p>
+					rather than the true hardware resolution. This causes a roughly 6 % error in
+					pixel pitch, which affects PPI, arc-minute thresholds, and mm character sizes.</p>
 				<p><strong>Recommendation:</strong> select the matching device from the
 					<strong>Preset</strong> list, or enter the hardware resolution and diagonal manually.</p>
 			</div>
