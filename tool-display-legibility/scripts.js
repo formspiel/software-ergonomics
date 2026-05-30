@@ -163,18 +163,22 @@ const DOM = {
 	stickyStats:  document.getElementById('sticky-stats'),
 
 	copyLink:       document.getElementById('copy-link'),
-	copyShot:       document.getElementById('copy-screenshot'),
-	downloadShot:   document.getElementById('download-screenshot'),
 	exportStatus:   document.getElementById('export-status'),
+
+	presetPermalinkRow:     document.getElementById('preset-permalink-row'),
+	presetPermalinkInput:   document.getElementById('preset-permalink-input'),
+	presetPermalinkCopyBtn: document.getElementById('preset-permalink-copy-btn'),
+	presetLoadedNotice:     document.getElementById('preset-loaded-notice'),
 };
 
 let presetData = [];
 const presetMap = {};
 
-let currentSource   = 'detect';
-let detectDiagUnit  = 'in';
-let manualDiagUnit  = 'in';
-let measureUnit     = 'csspx';
+let currentSource          = 'detect';
+let detectDiagUnit         = 'in';
+let manualDiagUnit         = 'in';
+let measureUnit            = 'csspx';
+let lastSavedPresetLabel   = null;
 
 /* Roving tabindex + arrow key navigation for exclusive button groups.
  * Follows the ARIA tabs / radio group keyboard pattern:
@@ -351,6 +355,17 @@ function applyPreset(key) {
 	calculate();
 }
 
+function showPresetPermalink(url) {
+	DOM.presetPermalinkInput.value = url;
+	DOM.presetPermalinkRow.hidden = false;
+	DOM.presetPermalinkInput.select();
+	navigator.clipboard.writeText(url).then(() => {
+		const btn = DOM.presetPermalinkCopyBtn;
+		btn.textContent = 'Copied ✓';
+		setTimeout(() => { btn.textContent = 'Copy link'; }, 2500);
+	}).catch(() => {});
+}
+
 function saveCurrentAsPreset() {
 	if (currentSource === 'detect') {
 		const diagRaw = parseFloat(DOM.detectDiag.value);
@@ -378,18 +393,21 @@ function saveCurrentAsPreset() {
 	saveCustomPresets(list);
 	populatePresetSelect();
 	DOM.preset.value = key;
+	lastSavedPresetLabel = label;
+	showPresetPermalink(encodePermalink(cfg, label));
 }
 
 /* ------------------------------------------------------------ *
  * Permalink                                                     *
  * ------------------------------------------------------------ */
 
-function encodePermalink(cfg) {
+function encodePermalink(cfg, label) {
 	const params = new URLSearchParams({
 		w: cfg.width, h: cfg.height,
 		d: cfg.diagonal, s: cfg.dpr,
 		v: cfg.distance,
 	});
+	if (label) params.set('n', label);
 	return `${location.origin}${location.pathname}#${params.toString()}`;
 }
 
@@ -404,6 +422,12 @@ function applyPermalinkFromHash() {
 	DOM.distance.value = params.get('v') || 50;
 	switchSource('manual');
 	updateShortcutButtons();
+	const label = params.get('n');
+	if (label) {
+		lastSavedPresetLabel = label;
+		DOM.presetLoadedNotice.textContent = `Loaded from shared link: "${label}"`;
+		DOM.presetLoadedNotice.hidden = false;
+	}
 	return true;
 }
 
@@ -961,6 +985,9 @@ DOM.resetBtn.addEventListener('click', () => {
 	DOM.validateLabel.textContent = 'Configure the font and size above first.';
 	DOM.validateChar.removeAttribute('style');
 	if (validateCaptureEl) validateCaptureEl.hidden = true;
+	DOM.presetPermalinkRow.hidden = true;
+	DOM.presetLoadedNotice.hidden = true;
+	lastSavedPresetLabel = null;
 	history.replaceState(null, '', location.pathname);
 	// Reset unit toggle states
 	detectDiagUnit = 'in';
@@ -981,42 +1008,26 @@ DOM.resetBtn.addEventListener('click', () => {
 DOM.copyLink.addEventListener('click', async () => {
 	const cfg = readConfig();
 	if (!cfg) return;
-	const url = encodePermalink(cfg);
+	const url = encodePermalink(cfg, lastSavedPresetLabel);
 	history.replaceState(null, '', '#' + url.split('#')[1]);
 	try {
 		await navigator.clipboard.writeText(url);
-		DOM.exportStatus.textContent = 'Permalink copied to clipboard.';
+		DOM.exportStatus.textContent = lastSavedPresetLabel
+			? `Permalink copied — preset "${lastSavedPresetLabel}".`
+			: 'Permalink copied to clipboard.';
 	} catch {
 		DOM.exportStatus.textContent = 'Permalink in address bar — copy manually.';
 	}
 });
 
-function captureResults() {
-	return captureElement(DOM.results);
-}
-
-DOM.copyShot.addEventListener('click', () => {
-	if (typeof window.html2canvas !== 'function') return;
-	const blobPromise = captureResults()
-		.then(canvas => new Promise(resolve => canvas.toBlob(resolve, 'image/png')));
-	navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })])
-		.then(() => { DOM.exportStatus.textContent = 'Screenshot copied to clipboard.'; })
-		.catch(() => { DOM.exportStatus.textContent = 'Could not copy — try Download instead.'; });
+DOM.presetPermalinkCopyBtn.addEventListener('click', () => {
+	const url = DOM.presetPermalinkInput.value;
+	if (!url) return;
+	navigator.clipboard.writeText(url).then(() => {
+		DOM.presetPermalinkCopyBtn.textContent = 'Copied ✓';
+		setTimeout(() => { DOM.presetPermalinkCopyBtn.textContent = 'Copy link'; }, 2500);
+	}).catch(() => {});
 });
-
-DOM.downloadShot.addEventListener('click', async () => {
-	if (typeof window.html2canvas !== 'function') return;
-	const canvas = await captureResults();
-	const link = document.createElement('a');
-	link.download = 'display-legibility-result.png';
-	link.href = canvas.toDataURL('image/png');
-	link.click();
-	DOM.exportStatus.textContent = 'Screenshot downloaded.';
-});
-
-if (typeof navigator.clipboard?.write !== 'function') {
-	DOM.copyShot.hidden = true;
-}
 
 // Inline capture buttons for the zoom table
 const zoomCapture = createCaptureActions(DOM.zoomTable, 'character-height-zoom.png');

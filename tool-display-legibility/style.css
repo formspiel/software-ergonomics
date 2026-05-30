@@ -812,6 +812,42 @@ button.secondary:hover {
 	margin-left: 0.25rem;
 }
 
+/* ---- Preset permalink row (inside Screen section) ---- */
+
+.preset-permalink-row {
+	margin-top: 1rem;
+	padding: 0.75rem 0.85rem;
+	background-color: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+}
+
+.preset-permalink-label {
+	font-size: 0.85rem;
+	color: var(--muted);
+	margin: 0 0 0.5rem;
+}
+
+.preset-permalink-copy {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.preset-permalink-copy input {
+	flex: 1;
+	min-width: 0;
+	font-family: ui-monospace, monospace;
+	font-size: 0.78rem;
+	color: var(--accent);
+}
+
+.preset-loaded-notice {
+	font-size: 0.82rem;
+	color: var(--accent);
+	margin: 0.5rem 0 0;
+}
+
 /* ---- Share & export ---- */
 
 .export-actions {
