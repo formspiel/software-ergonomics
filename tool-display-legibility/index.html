@@ -20,14 +20,17 @@
 			<h2>Screen</h2>
 
 			<!-- Source selector -->
-			<div class="source-selector" role="group" aria-label="Display input source">
-				<button type="button" class="source-btn" data-source="detect" aria-pressed="true">This screen</button>
-				<button type="button" class="source-btn" data-source="preset" aria-pressed="false">Preset</button>
-				<button type="button" class="source-btn" data-source="manual" aria-pressed="false">Manual</button>
+			<div class="source-selector" role="tablist" aria-label="Display input source">
+				<button type="button" class="source-btn" role="tab" id="tab-detect"
+				        data-source="detect" aria-selected="true" aria-controls="panel-detect" tabindex="0">This screen</button>
+				<button type="button" class="source-btn" role="tab" id="tab-preset"
+				        data-source="preset" aria-selected="false" aria-controls="panel-preset" tabindex="-1">Preset</button>
+				<button type="button" class="source-btn" role="tab" id="tab-manual"
+				        data-source="manual" aria-selected="false" aria-controls="display-fields" tabindex="-1">Manual</button>
 			</div>
 
 			<!-- Panel A: This screen -->
-			<fieldset id="panel-detect" class="source-panel">
+			<fieldset id="panel-detect" role="tabpanel" aria-labelledby="tab-detect" class="source-panel">
 				<legend>Browser detection</legend>
 				<div class="detect-grid">
 					<div class="detect-card">
@@ -56,8 +59,8 @@
 						<div class="diag-input-wrap">
 							<input type="number" id="detect-diag" min="1" step="0.1" placeholder="e.g. 27">
 							<div class="diag-unit-toggle" role="group" aria-label="Diagonal unit">
-								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="in" aria-pressed="true">in</button>
-								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="mm" aria-pressed="false">mm</button>
+								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="in" aria-pressed="true" tabindex="0">in</button>
+								<button type="button" class="diag-unit-btn" data-panel="detect" data-unit="mm" aria-pressed="false" tabindex="-1">mm</button>
 							</div>
 						</div>
 					</label>
@@ -71,7 +74,7 @@
 			</fieldset>
 
 			<!-- Panel B: Preset -->
-			<fieldset id="panel-preset" class="source-panel" hidden>
+			<fieldset id="panel-preset" role="tabpanel" aria-labelledby="tab-preset" class="source-panel" hidden>
 				<legend>Device preset</legend>
 				<div class="config-row">
 					<label for="preset">Preset</label>
@@ -80,7 +83,7 @@
 			</fieldset>
 
 			<!-- Panel C: Manual -->
-			<fieldset id="display-fields" class="source-panel display-fields" hidden>
+			<fieldset id="display-fields" role="tabpanel" aria-labelledby="tab-manual" class="source-panel display-fields" hidden>
 				<legend>Display parameters</legend>
 				<div class="config-grid">
 					<label>Width (px)
@@ -93,8 +96,8 @@
 						<div class="diag-input-wrap">
 							<input type="number" id="diagonal" step="0.01" min="1" required>
 							<div class="diag-unit-toggle" role="group" aria-label="Diagonal unit">
-								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="in" aria-pressed="true">in</button>
-								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="mm" aria-pressed="false">mm</button>
+								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="in" aria-pressed="true" tabindex="0">in</button>
+								<button type="button" class="diag-unit-btn" data-panel="manual" data-unit="mm" aria-pressed="false" tabindex="-1">mm</button>
 							</div>
 						</div>
 					</label>
@@ -114,10 +117,10 @@
 						<input type="number" id="distance" min="10" max="300" step="1" value="50">
 					</label>
 					<div class="distance-shortcuts" role="group" aria-label="Distance shortcuts">
-						<button type="button" data-dist="30">Phone · 30 cm</button>
-						<button type="button" data-dist="40">Laptop / Tablet · 40 cm</button>
-						<button type="button" data-dist="50">Monitor · 50 cm</button>
-						<button type="button" data-dist="70">Far · 70 cm</button>
+						<button type="button" data-dist="30" tabindex="-1">Phone · 30 cm</button>
+						<button type="button" data-dist="40" tabindex="-1">Laptop / Tablet · 40 cm</button>
+						<button type="button" data-dist="50" tabindex="-1">Monitor · 50 cm</button>
+						<button type="button" data-dist="70" tabindex="-1">Far · 70 cm</button>
 					</div>
 				</div>
 			</fieldset>
@@ -276,8 +279,8 @@
 					<div class="measure-input-wrap">
 						<input type="number" id="measure-capheight" min="1" step="0.5" placeholder="pixels">
 						<div class="measure-unit-toggle" role="group" aria-label="Pixel unit">
-							<button type="button" class="measure-unit-btn" data-unit="csspx" aria-pressed="true">CSS px</button>
-							<button type="button" class="measure-unit-btn" data-unit="dpx" aria-pressed="false">dpx</button>
+							<button type="button" class="measure-unit-btn" data-unit="csspx" aria-pressed="true" tabindex="0">CSS px</button>
+							<button type="button" class="measure-unit-btn" data-unit="dpx" aria-pressed="false" tabindex="-1">dpx</button>
 						</div>
 					</div>
 				</label>

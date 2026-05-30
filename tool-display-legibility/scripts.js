@@ -105,6 +105,29 @@ let detectDiagUnit  = 'in';
 let manualDiagUnit  = 'in';
 let measureUnit     = 'csspx';
 
+/* Roving tabindex + arrow key navigation for exclusive button groups.
+ * Follows the ARIA tabs / radio group keyboard pattern:
+ * ArrowRight/Down → next, ArrowLeft/Up → prev, Home → first, End → last.
+ * Calls onArrow(btn) immediately (automatic activation). */
+function rovingGroup(nodeList, onArrow) {
+	const btns = [...nodeList];
+	btns.forEach(btn => {
+		btn.addEventListener('keydown', e => {
+			const i = btns.indexOf(btn);
+			let next = -1;
+			if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  next = (i + 1) % btns.length;
+			if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    next = (i - 1 + btns.length) % btns.length;
+			if (e.key === 'Home') next = 0;
+			if (e.key === 'End')  next = btns.length - 1;
+			if (next === -1) return;
+			e.preventDefault();
+			btns.forEach((b, j) => b.setAttribute('tabindex', j === next ? '0' : '-1'));
+			btns[next].focus();
+			onArrow(btns[next]);
+		});
+	});
+}
+
 /* ------------------------------------------------------------ *
  * Screen detection                                             *
  * ------------------------------------------------------------ */
@@ -122,7 +145,9 @@ function detectCurrentScreen() {
 function switchSource(source) {
 	currentSource = source;
 	DOM.sourceBtns.forEach(btn => {
-		btn.setAttribute('aria-pressed', btn.dataset.source === source ? 'true' : 'false');
+		const active = btn.dataset.source === source;
+		btn.setAttribute('aria-selected', active ? 'true' : 'false');
+		btn.setAttribute('tabindex',      active ? '0'    : '-1');
 	});
 	DOM.panelDetect.hidden   = source !== 'detect';
 	DOM.panelPreset.hidden   = source !== 'preset';
@@ -694,27 +719,38 @@ function calculate() {
 DOM.sourceBtns.forEach(btn => {
 	btn.addEventListener('click', () => switchSource(btn.dataset.source));
 });
+rovingGroup(DOM.sourceBtns, btn => switchSource(btn.dataset.source));
 
 DOM.useDetectedBtn.addEventListener('click', useDetectedValues);
 
 // Diagonal unit toggles
-document.querySelectorAll('#panel-detect .diag-unit-btn').forEach(btn => {
-	btn.addEventListener('click', () => {
-		detectDiagUnit = btn.dataset.unit;
-		document.querySelectorAll('#panel-detect .diag-unit-btn').forEach(b => {
-			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
-		});
+function activateDiagUnit(btn, panel) {
+	if (panel === 'detect') detectDiagUnit = btn.dataset.unit;
+	else                    manualDiagUnit = btn.dataset.unit;
+	const siblings = [...document.querySelectorAll(
+		`${panel === 'detect' ? '#panel-detect' : '#display-fields'} .diag-unit-btn`
+	)];
+	siblings.forEach(b => {
+		b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+		b.setAttribute('tabindex',     b === btn ? '0'    : '-1');
 	});
+}
+
+document.querySelectorAll('#panel-detect .diag-unit-btn').forEach(btn => {
+	btn.addEventListener('click', () => activateDiagUnit(btn, 'detect'));
 });
+rovingGroup(
+	document.querySelectorAll('#panel-detect .diag-unit-btn'),
+	btn => activateDiagUnit(btn, 'detect')
+);
 
 document.querySelectorAll('#display-fields .diag-unit-btn').forEach(btn => {
-	btn.addEventListener('click', () => {
-		manualDiagUnit = btn.dataset.unit;
-		document.querySelectorAll('#display-fields .diag-unit-btn').forEach(b => {
-			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
-		});
-	});
+	btn.addEventListener('click', () => activateDiagUnit(btn, 'manual'));
 });
+rovingGroup(
+	document.querySelectorAll('#display-fields .diag-unit-btn'),
+	btn => activateDiagUnit(btn, 'manual')
+);
 
 // Live viewport update
 window.addEventListener('resize', () => {
@@ -723,22 +759,19 @@ window.addEventListener('resize', () => {
 
 function updateShortcutButtons() {
 	const v = parseInt(DOM.distance.value, 10);
+	let hasMatch = false;
 	DOM.shortcutBtns.forEach(btn => {
+		if (parseInt(btn.dataset.dist, 10) === v) hasMatch = true;
+	});
+	DOM.shortcutBtns.forEach((btn, i) => {
 		const match = parseInt(btn.dataset.dist, 10) === v;
 		btn.setAttribute('aria-pressed', match ? 'true' : 'false');
+		btn.setAttribute('tabindex', (match || (!hasMatch && i === 0)) ? '0' : '-1');
 	});
 }
 
 DOM.preset.addEventListener('change', () => {
 	applyPreset(DOM.preset.value);
-});
-
-DOM.shortcutBtns.forEach(btn => {
-	btn.addEventListener('click', () => {
-		DOM.distance.value = btn.dataset.dist;
-		updateShortcutButtons();
-		if (DOM.width.value && DOM.height.value && DOM.diagonal.value) calculate();
-	});
 });
 
 DOM.distance.addEventListener('input', updateShortcutButtons);
@@ -755,16 +788,28 @@ DOM.savePresetBtns.forEach(btn => btn.addEventListener('click', saveCurrentAsPre
 	el.addEventListener('change', renderFontSection);
 });
 
-document.querySelectorAll('.measure-unit-btn').forEach(btn => {
+const measureUnitBtns = document.querySelectorAll('.measure-unit-btn');
+measureUnitBtns.forEach(btn => {
 	btn.addEventListener('click', () => {
 		measureUnit = btn.dataset.unit;
-		document.querySelectorAll('.measure-unit-btn').forEach(b => {
+		measureUnitBtns.forEach(b => {
 			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+			b.setAttribute('tabindex',     b === btn ? '0'    : '-1');
 		});
 	});
 });
+rovingGroup(measureUnitBtns, btn => btn.click());
 
 DOM.verifyBtn.addEventListener('click', renderVerifyResult);
+
+DOM.shortcutBtns.forEach(btn => {
+	btn.addEventListener('click', () => {
+		DOM.distance.value = btn.dataset.dist;
+		updateShortcutButtons();
+		if (DOM.width.value && DOM.height.value && DOM.diagonal.value) calculate();
+	});
+});
+rovingGroup(DOM.shortcutBtns, btn => btn.click());
 
 DOM.resetBtn.addEventListener('click', () => {
 	DOM.form.reset();
@@ -776,6 +821,15 @@ DOM.resetBtn.addEventListener('click', () => {
 	DOM.validateLabel.textContent = 'Configure the Font compliance section above first.';
 	DOM.validateChar.removeAttribute('style');
 	history.replaceState(null, '', location.pathname);
+	// Reset unit toggle states
+	detectDiagUnit = 'in';
+	manualDiagUnit = 'in';
+	measureUnit    = 'csspx';
+	[...document.querySelectorAll('.diag-unit-btn, .measure-unit-btn')].forEach(b => {
+		const isDefault = b.dataset.unit === 'in' || b.dataset.unit === 'csspx';
+		b.setAttribute('aria-pressed', isDefault ? 'true' : 'false');
+		b.setAttribute('tabindex',     isDefault ? '0'    : '-1');
+	});
 	switchSource('detect');
 	detectCurrentScreen();
 	updateShortcutButtons();

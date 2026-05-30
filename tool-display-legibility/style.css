@@ -136,7 +136,6 @@ details.about[open] summary::before { content: '▼  '; }
 	margin-bottom: 1rem;
 	border: 1px solid var(--border);
 	border-radius: 6px;
-	overflow: hidden;
 }
 
 .source-btn {
@@ -145,15 +144,17 @@ details.about[open] summary::before { content: '▼  '; }
 	color: var(--muted);
 	border: none;
 	border-right: 1px solid var(--border);
+	border-radius: 0;
 	padding: 0.55em 0.75em;
 	font-size: 0.9rem;
 	font-weight: 500;
 	transition: background 0.15s, color 0.15s;
 }
 
-.source-btn:last-child { border-right: none; }
+.source-btn:first-child { border-radius: 5px 0 0 5px; }
+.source-btn:last-child  { border-right: none; border-radius: 0 5px 5px 0; }
 
-.source-btn[aria-pressed="true"] {
+.source-btn[aria-selected="true"] {
 	background: var(--accent);
 	color: #fff;
 }
@@ -253,7 +254,6 @@ details.about[open] summary::before { content: '▼  '; }
 	display: flex;
 	border: 1px solid var(--border);
 	border-radius: 4px;
-	overflow: hidden;
 	flex-shrink: 0;
 }
 
@@ -262,6 +262,7 @@ details.about[open] summary::before { content: '▼  '; }
 	color: var(--muted);
 	border: none;
 	border-right: 1px solid var(--border);
+	border-radius: 0;
 	padding: 0.3em 0.6em;
 	font-size: 0.8rem;
 	font-weight: 600;
@@ -269,7 +270,8 @@ details.about[open] summary::before { content: '▼  '; }
 	transition: background 0.15s, color 0.15s;
 }
 
-.diag-unit-btn:last-child { border-right: none; }
+.diag-unit-btn:first-child { border-radius: 3px 0 0 3px; }
+.diag-unit-btn:last-child  { border-right: none; border-radius: 0 3px 3px 0; }
 
 .diag-unit-btn[aria-pressed="true"] {
 	background: var(--accent);
@@ -843,7 +845,6 @@ button.secondary:hover {
 	display: flex;
 	border: 1px solid var(--border);
 	border-radius: 4px;
-	overflow: hidden;
 	flex-shrink: 0;
 }
 
@@ -852,6 +853,7 @@ button.secondary:hover {
 	color: var(--muted);
 	border: none;
 	border-right: 1px solid var(--border);
+	border-radius: 0;
 	padding: 0.3em 0.6em;
 	font-size: 0.8rem;
 	font-weight: 600;
@@ -859,7 +861,8 @@ button.secondary:hover {
 	transition: background 0.15s, color 0.15s;
 }
 
-.measure-unit-btn:last-child { border-right: none; }
+.measure-unit-btn:first-child { border-radius: 3px 0 0 3px; }
+.measure-unit-btn:last-child  { border-right: none; border-radius: 0 3px 3px 0; }
 
 .measure-unit-btn[aria-pressed="true"] {
 	background: var(--accent);
