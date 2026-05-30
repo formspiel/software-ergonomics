@@ -496,6 +496,13 @@ function populateFontSelect() {
 	});
 }
 
+function isFontAvailable(font) {
+	// Skip availability check for CSS generic keywords and platform-bundled fonts
+	if (font.cssFamily) return true;       // system-ui and any future generics
+	if (font.name === 'San Francisco') return true;  // macOS/iOS system font, not loadable
+	return document.fonts.check(`16px "${font.name}"`);
+}
+
 function renderFontSection() {
 	if (!currentPitch || !currentCfg) return;
 	const font = FONTS.find(f => f.name === DOM.fontName.value);
@@ -505,9 +512,16 @@ function renderFontSection() {
 	if (!sizeRaw || sizeRaw <= 0) {
 		DOM.fontResult.innerHTML = '';
 		DOM.fontOutput.innerHTML = '';
-		DOM.validateLabel.textContent = 'Enter a font size in the Font compliance section above.';
+		DOM.validateLabel.textContent = 'Configure the font and size above first.';
 		return;
 	}
+
+	const fontAvailable = isFontAvailable(font);
+	const unavailableWarning = fontAvailable ? '' :
+		`<div class="font-unavailable" role="status">
+			<span>⚠</span>
+			<span><strong>${font.name}</strong> doesn't appear to be installed on this device — the render target will show your system fallback font, so measurements won't match the estimates above.</span>
+		</div>`;
 
 	const sizeCssPx = DOM.fontUnit.value === 'pt' ? sizeRaw * 1.333 : sizeRaw;
 	const capCssPx  = sizeCssPx * font.capRatio;
@@ -532,7 +546,7 @@ function renderFontSection() {
 	const hintBadge = HINTING_BADGES[font.hinting];
 
 	DOM.fontResult.innerHTML = `
-		<div class="stats-grid">
+		${unavailableWarning}<div class="stats-grid">
 			<div class="stat">
 				<span class="stat-value">${capCssPx.toFixed(1)}</span>
 				<span class="stat-unit">CSS px cap height</span>
@@ -844,7 +858,7 @@ DOM.resetBtn.addEventListener('click', () => {
 	setError('');
 	DOM.stickyBar.classList.remove('sticky-visible');
 	DOM.verifyResult.innerHTML = '';
-	DOM.validateLabel.textContent = 'Configure the Font compliance section above first.';
+	DOM.validateLabel.textContent = 'Configure the font and size above first.';
 	DOM.validateChar.removeAttribute('style');
 	history.replaceState(null, '', location.pathname);
 	// Reset unit toggle states

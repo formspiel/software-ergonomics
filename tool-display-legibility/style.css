@@ -866,7 +866,33 @@ button.secondary:hover {
 
 .device-note-hardware td:first-child { font-style: normal; }
 
-/* ---- Measure & verify ---- */
+/* ---- Measure & verify (sub-section inside font-section) ---- */
+
+.verify-subsection {
+	border-top: 1px solid var(--border);
+	margin-top: 2rem;
+	padding-top: 1.75rem;
+}
+
+.verify-subsection h3 {
+	margin-top: 0;
+	margin-bottom: 0.75rem;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--accent);
+}
+
+.font-unavailable {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	padding: 0.6rem 0.75rem;
+	border-radius: 4px;
+	background-color: var(--warn-bg);
+	color: var(--warn);
+	font-size: 0.85rem;
+	margin-bottom: 1rem;
+}
 
 .validate-stage {
 	display: flex;
