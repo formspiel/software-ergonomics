@@ -84,6 +84,7 @@ const DOM = {
 	fontResult:     document.getElementById('font-result'),
 	fontOutput:     document.getElementById('font-output'),
 
+	thresholdRenders: document.getElementById('threshold-renders'),
 	validateChar:   document.getElementById('validate-char'),
 	validateLabel:  document.getElementById('validate-render-label'),
 	measureInput:   document.getElementById('measure-capheight'),
@@ -512,6 +513,7 @@ function renderFontSection() {
 	if (!sizeRaw || sizeRaw <= 0) {
 		DOM.fontResult.innerHTML = '';
 		DOM.fontOutput.innerHTML = '';
+		DOM.thresholdRenders.innerHTML = '';
 		DOM.validateLabel.textContent = 'Configure the font and size above first.';
 		return;
 	}
@@ -603,8 +605,28 @@ font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 /* Cap height: ${capCssPx.toFixed(2)} CSS px · ${capDpx.toFixed(2)} dpx · ${capMm.toFixed(2)} mm */</code></pre>
 		${tooSmall ? '<p class="font-warning">⚠ Below the 9 CSS px floor that some browsers enforce as a minimum render size.</p>' : ''}`;
 
+	// Threshold reference renders
+	const thresholdBoxes = ARC_LEVELS.map(({ arcMin, label }) => {
+		const minDpx = arcMinDpx(currentPitch, currentCfg.distance, arcMin);
+		if (minDpx === null) return '';
+		const minFontCssPx = (minDpx / currentCfg.dpr) / font.capRatio;
+		const pass = capDpx >= minDpx;
+		return `<div class="threshold-render-item">
+			<div class="validate-render-area" aria-hidden="true">
+				<span style="font-family: ${cssFamily}; font-size: ${minFontCssPx.toFixed(2)}px; display: block; line-height: 1;">E aecg · Il1ij · 0Oo · bd · rn/m</span>
+			</div>
+			<p class="threshold-render-label">
+				<strong>${label}</strong> · min. ${minFontCssPx.toFixed(1)} CSS px
+				<span class="badge ${pass ? 'badge-ok' : 'badge-err'}">${pass ? 'Pass' : 'Fail'}</span>
+			</p>
+		</div>`;
+	}).join('');
+	DOM.thresholdRenders.innerHTML = `
+		<p class="threshold-renders-intro">Minimum sizes at ${currentCfg.distance} cm — your configured size shown below</p>
+		<div class="threshold-renders-grid">${thresholdBoxes}</div>`;
+
 	// Update validation render target
-	DOM.validateChar.style.fontFamily = font.cssFamily || `"${font.name}", sans-serif`;
+	DOM.validateChar.style.fontFamily = cssFamily;
 	DOM.validateChar.style.fontSize   = sizeCssPx + 'px';
 	DOM.validateLabel.textContent     = `${font.name} · ${sizeRaw} ${DOM.fontUnit.value} = ${sizeCssPx.toFixed(1)} CSS px`;
 	DOM.verifyResult.innerHTML        = '';
@@ -858,6 +880,7 @@ DOM.resetBtn.addEventListener('click', () => {
 	setError('');
 	DOM.stickyBar.classList.remove('sticky-visible');
 	DOM.verifyResult.innerHTML = '';
+	DOM.thresholdRenders.innerHTML = '';
 	DOM.validateLabel.textContent = 'Configure the font and size above first.';
 	DOM.validateChar.removeAttribute('style');
 	history.replaceState(null, '', location.pathname);
