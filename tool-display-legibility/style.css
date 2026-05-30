@@ -72,12 +72,6 @@ details.about[open] summary::before { content: '▼  '; }
 	margin-bottom: 0.75rem;
 }
 
-.config-section h3 {
-	color: var(--accent);
-	font-size: 1rem;
-	margin-top: 1.25rem;
-	margin-bottom: 0.5rem;
-}
 
 .config-section fieldset {
 	border: 1px solid var(--border);
