@@ -91,6 +91,10 @@ const DOM = {
 	verifyBtn:      document.getElementById('verify-btn'),
 	verifyResult:   document.getElementById('verify-result'),
 
+	stickyBar:    document.getElementById('sticky-bar'),
+	stickyDevice: document.getElementById('sticky-device'),
+	stickyStats:  document.getElementById('sticky-stats'),
+
 	copyLink:       document.getElementById('copy-link'),
 	copyShot:       document.getElementById('copy-screenshot'),
 	downloadShot:   document.getElementById('download-screenshot'),
@@ -681,6 +685,26 @@ function renderLineHeight(pitch, cfg) {
 	});
 }
 
+function updateStickyBar(cfg, ppiValue) {
+	let device;
+	if (currentSource === 'preset' && DOM.preset.value !== 'custom') {
+		device = presetMap[DOM.preset.value]?.label ?? 'Preset';
+	} else if (currentSource === 'detect') {
+		device = 'This screen';
+	} else {
+		device = `${cfg.width} × ${cfg.height} px`;
+	}
+	DOM.stickyDevice.textContent = device;
+
+	const stats = [
+		`${ppiValue.toFixed(0)} PPI`,
+		`${cfg.width} × ${cfg.height}`,
+		`DPR ${cfg.dpr}×`,
+		`${cfg.distance} cm`,
+	];
+	DOM.stickyStats.innerHTML = stats.map(s => `<span>${s}</span>`).join('');
+}
+
 /* ------------------------------------------------------------ *
  * Calculate                                                     *
  * ------------------------------------------------------------ */
@@ -699,7 +723,7 @@ function calculate() {
 	}
 	setError('');
 
-	const { pitch } = renderProfile(cfg);
+	const { pitch, p } = renderProfile(cfg);
 	renderArcTable(pitch, cfg);
 	renderRangeTable(pitch, cfg);
 	renderZoomTable(pitch, cfg);
@@ -708,6 +732,7 @@ function calculate() {
 	currentPitch = pitch;
 	currentCfg = cfg;
 	renderFontSection();
+	updateStickyBar(cfg, p);
 
 	DOM.results.hidden = false;
 }
@@ -817,6 +842,7 @@ DOM.resetBtn.addEventListener('click', () => {
 	DOM.detectDiagError.hidden = true;
 	DOM.results.hidden = true;
 	setError('');
+	DOM.stickyBar.classList.remove('sticky-visible');
 	DOM.verifyResult.innerHTML = '';
 	DOM.validateLabel.textContent = 'Configure the Font compliance section above first.';
 	DOM.validateChar.removeAttribute('style');
@@ -906,3 +932,9 @@ fetch('presets.json')
 populateFontSelect();
 updateShortcutButtons();
 detectCurrentScreen();
+
+/* Sticky bar: show when the form scrolls out of view and results exist */
+new IntersectionObserver(([entry]) => {
+	DOM.stickyBar.classList.toggle('sticky-visible',
+		!entry.isIntersecting && currentCfg !== null);
+}, { threshold: 0 }).observe(DOM.form);
