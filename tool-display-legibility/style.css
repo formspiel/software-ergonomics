@@ -771,6 +771,45 @@ button.secondary:hover {
 
 /* ---- Export ---- */
 
+/* ---- Inline capture (copy / download) icon buttons ---- */
+
+.capture-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-top: 0.5rem;
+}
+
+.capture-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	background: transparent;
+	color: var(--muted);
+	border: 1px solid var(--border);
+	border-bottom-width: 1px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: color 0.15s, border-color 0.15s;
+}
+
+.capture-btn:hover {
+	opacity: 1;
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+.capture-status {
+	font-size: 0.78rem;
+	color: var(--muted);
+	margin-left: 0.25rem;
+}
+
+/* ---- Share & export ---- */
+
 .export-actions {
 	display: flex;
 	flex-wrap: wrap;

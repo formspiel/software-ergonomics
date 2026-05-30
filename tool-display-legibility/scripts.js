@@ -40,6 +40,74 @@ const CATEGORY_DISTANCE = {
 	'Smartphone': 30,
 };
 
+const SVG_COPY = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="1.5" width="9" height="11" rx="1.25"/><rect x="1.5" y="3.5" width="9" height="10" rx="1.25"/></svg>`;
+const SVG_DOWNLOAD = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 2v8"/><path d="M4 8l3.5 3.5L11 8"/><path d="M2 13h11"/></svg>`;
+
+function captureElement(el) {
+	return window.html2canvas(el, {
+		backgroundColor: getComputedStyle(document.body).backgroundColor,
+		logging: false,
+		useCORS: true,
+	});
+}
+
+function createCaptureActions(captureEl, filename) {
+	if (typeof window.html2canvas !== 'function') return null;
+
+	const wrap = document.createElement('div');
+	wrap.className = 'capture-actions';
+
+	const statusEl = document.createElement('output');
+	statusEl.setAttribute('aria-live', 'polite');
+	statusEl.className = 'capture-status';
+	let statusTimer;
+	function showStatus(msg) {
+		clearTimeout(statusTimer);
+		statusEl.textContent = msg;
+		statusTimer = setTimeout(() => { statusEl.textContent = ''; }, 3000);
+	}
+
+	if (typeof navigator.clipboard?.write === 'function') {
+		const copyBtn = document.createElement('button');
+		copyBtn.type = 'button';
+		copyBtn.className = 'capture-btn';
+		copyBtn.title = 'Copy as image';
+		copyBtn.setAttribute('aria-label', 'Copy as image');
+		copyBtn.innerHTML = SVG_COPY;
+		copyBtn.addEventListener('click', async () => {
+			try {
+				const canvas = await captureElement(captureEl);
+				canvas.toBlob(blob =>
+					navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+						.then(() => showStatus('Copied.'))
+						.catch(() => showStatus('Could not copy.'))
+				);
+			} catch { showStatus('Capture failed.'); }
+		});
+		wrap.appendChild(copyBtn);
+	}
+
+	const dlBtn = document.createElement('button');
+	dlBtn.type = 'button';
+	dlBtn.className = 'capture-btn';
+	dlBtn.title = 'Download as PNG';
+	dlBtn.setAttribute('aria-label', 'Download as PNG');
+	dlBtn.innerHTML = SVG_DOWNLOAD;
+	dlBtn.addEventListener('click', async () => {
+		try {
+			const canvas = await captureElement(captureEl);
+			const a = document.createElement('a');
+			a.download = filename;
+			a.href = canvas.toDataURL('image/png');
+			a.click();
+			showStatus('Downloaded.');
+		} catch { showStatus('Capture failed.'); }
+	});
+	wrap.appendChild(dlBtn);
+	wrap.appendChild(statusEl);
+	return wrap;
+}
+
 const DOM = {
 	form:            document.getElementById('config-form'),
 	sourceBtns:      document.querySelectorAll('.source-btn'),
@@ -85,8 +153,10 @@ const DOM = {
 	fontOutput:     document.getElementById('font-output'),
 
 	thresholdRenders: document.getElementById('threshold-renders'),
-	validateChar:   document.getElementById('validate-char'),
-	validateLabel:  document.getElementById('validate-render-label'),
+	validateChar:       document.getElementById('validate-char'),
+	validateLabel:      document.getElementById('validate-render-label'),
+	validateStage:      document.querySelector('.validate-stage'),
+	validateRenderArea: document.querySelector('.validate-render-area'),
 	measureInput:   document.getElementById('measure-capheight'),
 	verifyBtn:      document.getElementById('verify-btn'),
 	verifyResult:   document.getElementById('verify-result'),
@@ -497,6 +567,8 @@ function populateFontSelect() {
 	});
 }
 
+let validateCaptureEl = null;
+
 function isFontAvailable(font) {
 	// Skip availability check for CSS generic keywords and platform-bundled fonts
 	if (font.cssFamily) return true;       // system-ui and any future generics
@@ -515,6 +587,7 @@ function renderFontSection() {
 		DOM.fontOutput.innerHTML = '';
 		DOM.thresholdRenders.innerHTML = '';
 		DOM.validateLabel.textContent = 'Configure the font and size above first.';
+		if (validateCaptureEl) validateCaptureEl.hidden = true;
 		return;
 	}
 
@@ -630,6 +703,13 @@ font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 	DOM.validateChar.style.fontSize   = sizeCssPx + 'px';
 	DOM.validateLabel.textContent     = `${font.name} · ${sizeRaw} ${DOM.fontUnit.value} = ${sizeCssPx.toFixed(1)} CSS px`;
 	DOM.verifyResult.innerHTML        = '';
+
+	// Lazily create capture buttons for the render target
+	if (!validateCaptureEl) {
+		validateCaptureEl = createCaptureActions(DOM.validateRenderArea, 'measure-verify.png');
+		if (validateCaptureEl) DOM.validateStage.after(validateCaptureEl);
+	}
+	if (validateCaptureEl) validateCaptureEl.hidden = false;
 }
 
 function renderVerifyResult() {
@@ -883,6 +963,7 @@ DOM.resetBtn.addEventListener('click', () => {
 	DOM.thresholdRenders.innerHTML = '';
 	DOM.validateLabel.textContent = 'Configure the font and size above first.';
 	DOM.validateChar.removeAttribute('style');
+	if (validateCaptureEl) validateCaptureEl.hidden = true;
 	history.replaceState(null, '', location.pathname);
 	// Reset unit toggle states
 	detectDiagUnit = 'in';
@@ -914,11 +995,7 @@ DOM.copyLink.addEventListener('click', async () => {
 });
 
 function captureResults() {
-	return window.html2canvas(DOM.results, {
-		backgroundColor: getComputedStyle(document.body).backgroundColor,
-		logging: false,
-		useCORS: true,
-	});
+	return captureElement(DOM.results);
 }
 
 DOM.copyShot.addEventListener('click', async () => {
@@ -948,6 +1025,10 @@ DOM.downloadShot.addEventListener('click', async () => {
 if (typeof navigator.clipboard?.write !== 'function') {
 	DOM.copyShot.hidden = true;
 }
+
+// Inline capture buttons for the zoom table
+const zoomCapture = createCaptureActions(DOM.zoomTable, 'character-height-zoom.png');
+if (zoomCapture) document.querySelector('#zoom-section .table-wrap').after(zoomCapture);
 
 /* ------------------------------------------------------------ *
  * Init                                                          *
