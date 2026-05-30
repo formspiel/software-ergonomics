@@ -111,6 +111,18 @@ Planned additions when standards research is complete:
 
 **Standards gap:** No unified ISO pixel grid for non-Latin scripts. ISO 24509:2019 Annex F covers non-Latin minimum legible font sizes (purchase required). DIN 1450 covers Latin/Cyrillic legibility principles (stroke ratios, confusable pairs) but specifies no pixel grids and does not address non-Latin.
 
+### Custom preset permalinks (`tool-display-legibility`)
+
+To keep the built-in `presets.json` clean and avoid accumulating user-specific devices, custom presets should be shareable via URL rather than requiring a PR to the repo.
+
+**Planned behaviour:** when the user saves a custom preset, in addition to writing it to `localStorage`, the tool generates a permalink — a URL hash encoding the preset's parameters (width, height, diagonal, DPR, label, category). Opening that URL restores the preset directly into the calculator without touching `localStorage` on the recipient's device.
+
+**Implementation notes:**
+- Extend the existing hash parameter set (`w, h, d, s, v`) with `label` and `dpr` fields, or use a dedicated `preset=…` hash key that triggers preset-mode on load rather than manual-mode
+- "Save as preset" button shows the generated URL alongside the confirmation, with a copy-to-clipboard action
+- Received preset URLs load into the Preset panel (not Manual), so the label is visible and the category distance is applied
+- Local custom presets (localStorage) and URL-delivered presets coexist; no conflict
+
 ---
 
 ## Adding Device Presets
