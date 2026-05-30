@@ -760,7 +760,7 @@ button.secondary:hover {
 
 .ruler-bar {
 	background-color: var(--accent);
-	color: #fff;
+	color: light-dark(#fff, #111);
 	font-size: 0.7rem;
 	padding: 0 0.5rem;
 	border-radius: 2px;
