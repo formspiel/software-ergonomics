@@ -83,6 +83,12 @@ const DOM = {
 	fontOutput:     document.getElementById('font-output'),
 	fontHint:       document.getElementById('font-hint'),
 
+	validateChar:   document.getElementById('validate-char'),
+	validateLabel:  document.getElementById('validate-render-label'),
+	measureInput:   document.getElementById('measure-capheight'),
+	verifyBtn:      document.getElementById('verify-btn'),
+	verifyResult:   document.getElementById('verify-result'),
+
 	copyLink:       document.getElementById('copy-link'),
 	copyShot:       document.getElementById('copy-screenshot'),
 	downloadShot:   document.getElementById('download-screenshot'),
@@ -95,6 +101,7 @@ const presetMap = {};
 let currentSource   = 'detect';
 let detectDiagUnit  = 'in';
 let manualDiagUnit  = 'in';
+let measureUnit     = 'csspx';
 
 /* ------------------------------------------------------------ *
  * Screen detection                                             *
@@ -469,6 +476,7 @@ function renderFontSection() {
 		DOM.fontResult.innerHTML = '';
 		DOM.fontOutput.innerHTML = '';
 		DOM.fontHint.textContent = '';
+		DOM.validateLabel.textContent = 'Enter a font size in the Font compliance section above.';
 		return;
 	}
 
@@ -548,6 +556,76 @@ font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 	} else {
 		DOM.fontHint.textContent = '';
 	}
+
+	// Update validation render target
+	DOM.validateChar.style.fontFamily = `"${font.name}", sans-serif`;
+	DOM.validateChar.style.fontSize   = sizeCssPx + 'px';
+	DOM.validateLabel.textContent     = `${font.name} · ${sizeRaw} ${DOM.fontUnit.value} = ${sizeCssPx.toFixed(1)} CSS px`;
+	DOM.verifyResult.innerHTML        = '';
+}
+
+function renderVerifyResult() {
+	if (!currentPitch || !currentCfg) return;
+	const raw = parseFloat(DOM.measureInput.value);
+	if (!raw || raw <= 0) {
+		DOM.verifyResult.innerHTML = '<p class="font-warning">Enter a measured pixel height to verify.</p>';
+		return;
+	}
+
+	const capCssPx = measureUnit === 'dpx' ? raw / currentCfg.dpr : raw;
+	const capDpx   = capCssPx * currentCfg.dpr;
+	const capMm    = capDpx * currentPitch;
+
+	const font      = FONTS.find(f => f.name === DOM.fontName.value);
+	const sizeRaw   = parseFloat(DOM.fontSize.value);
+	const sizeCssPx = DOM.fontUnit.value === 'pt' ? sizeRaw * 1.333 : sizeRaw;
+	const measuredRatio = (font && sizeCssPx > 0) ? capCssPx / sizeCssPx : null;
+
+	const rows = ARC_LEVELS.map(({ arcMin, label, meaning }) => {
+		const requiredDpx = arcMinDpx(currentPitch, currentCfg.distance, arcMin);
+		let badge;
+		if (requiredDpx === null) badge = '<span class="badge badge-err">N/A</span>';
+		else if (capDpx >= requiredDpx) badge = '<span class="badge badge-ok">Pass</span>';
+		else badge = '<span class="badge badge-err">Fail</span>';
+		return `<tr>
+			<td>${label}</td><td>${meaning}</td>
+			<td>${requiredDpx === null ? '—' : requiredDpx + ' dpx'}</td>
+			<td>${badge}</td>
+		</tr>`;
+	}).join('');
+
+	const ratioNote = measuredRatio !== null
+		? `<p class="font-hint">Measured cap ratio: <strong>${measuredRatio.toFixed(3)}</strong>` +
+		  (font ? ` &nbsp;· estimate for ${font.name}: ${font.capRatio.toFixed(3)}` : '') + `</p>`
+		: '';
+
+	DOM.verifyResult.innerHTML = `
+		<div class="stats-grid">
+			<div class="stat">
+				<span class="stat-value">${capCssPx.toFixed(1)}</span>
+				<span class="stat-unit">CSS px cap height</span>
+				<span class="stat-label">Measured (from screenshot)</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">${capDpx.toFixed(1)}</span>
+				<span class="stat-unit">dpx cap height</span>
+				<span class="stat-label">CSS px × DPR ${currentCfg.dpr}</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">${capMm.toFixed(2)}</span>
+				<span class="stat-unit">mm cap height</span>
+				<span class="stat-label">Target ≥ 3.2 mm</span>
+			</div>
+		</div>
+		<div class="table-wrap">
+			<table class="arc-table">
+				<thead><tr>
+					<th>Threshold</th><th>Meaning</th><th>Required</th><th>Status</th>
+				</tr></thead>
+				<tbody>${rows}</tbody>
+			</table>
+		</div>
+		${ratioNote}`;
 }
 
 function renderLineHeight(pitch, cfg) {
@@ -674,12 +752,26 @@ DOM.savePresetBtns.forEach(btn => btn.addEventListener('click', saveCurrentAsPre
 	el.addEventListener('change', renderFontSection);
 });
 
+document.querySelectorAll('.measure-unit-btn').forEach(btn => {
+	btn.addEventListener('click', () => {
+		measureUnit = btn.dataset.unit;
+		document.querySelectorAll('.measure-unit-btn').forEach(b => {
+			b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+		});
+	});
+});
+
+DOM.verifyBtn.addEventListener('click', renderVerifyResult);
+
 DOM.resetBtn.addEventListener('click', () => {
 	DOM.form.reset();
 	DOM.detectDiag.value = '';
 	DOM.detectDiagError.hidden = true;
 	DOM.results.hidden = true;
 	setError('');
+	DOM.verifyResult.innerHTML = '';
+	DOM.validateLabel.textContent = 'Configure the Font compliance section above first.';
+	DOM.validateChar.removeAttribute('style');
 	history.replaceState(null, '', location.pathname);
 	switchSource('detect');
 	detectCurrentScreen();

@@ -254,6 +254,39 @@
 			<p class="font-hint" id="font-hint"></p>
 		</section>
 
+		<section class="results-section" id="validate-section">
+			<h2>Measure &amp; verify</h2>
+			<p class="section-intro">Cap-height ratios are estimates. For ground truth: take a
+				screenshot at 100 % browser zoom, measure the height of the capital E below in an
+				image editor, then enter the result. The render target always uses a white background
+				so it is easy to isolate in any screenshot tool.</p>
+			<p class="section-intro">On macOS, <kbd>⌘⇧4</kbd> captures at device pixels (dpx) — use
+				the dpx toggle. On Windows Snipping Tool and most web-based tools, 1 screenshot pixel
+				= 1 CSS px — use CSS px.</p>
+
+			<div class="validate-stage">
+				<div class="validate-render-area" title="Render target — screenshot and measure this E">
+					<span id="validate-char" aria-hidden="true">E</span>
+				</div>
+				<p id="validate-render-label" class="validate-render-label">Configure the Font compliance section above first.</p>
+			</div>
+
+			<div class="validate-form">
+				<label for="measure-capheight">Measured cap height
+					<div class="measure-input-wrap">
+						<input type="number" id="measure-capheight" min="1" step="0.5" placeholder="pixels">
+						<div class="measure-unit-toggle" role="group" aria-label="Pixel unit">
+							<button type="button" class="measure-unit-btn" data-unit="csspx" aria-pressed="true">CSS px</button>
+							<button type="button" class="measure-unit-btn" data-unit="dpx" aria-pressed="false">dpx</button>
+						</div>
+					</div>
+				</label>
+				<button type="button" id="verify-btn" class="secondary">Verify</button>
+			</div>
+
+			<div id="verify-result"></div>
+		</section>
+
 		<section class="results-section" id="lineheight-section">
 			<h2>Recommended line height</h2>
 			<p class="section-intro">Based on the 20′ minimum cap height. Use at least 1.4× the

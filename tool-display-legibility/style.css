@@ -775,6 +775,88 @@ button.secondary:hover {
 
 .device-note-hardware td:first-child { font-style: normal; }
 
+/* ---- Measure & verify ---- */
+
+.validate-stage {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.6rem;
+	margin-bottom: 1.25rem;
+}
+
+.validate-render-area {
+	display: inline-block;
+	background: #fff;
+	color: #111;
+	border: 1px solid #bbb;
+	border-radius: 4px;
+	padding: 0.5rem 1rem;
+	user-select: none;
+}
+
+#validate-char {
+	display: block;
+	line-height: 1;
+}
+
+.validate-render-label {
+	font-size: 0.8rem;
+	color: var(--muted);
+	margin: 0;
+	font-family: ui-monospace, 'Courier New', monospace;
+}
+
+.validate-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.validate-form > label {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	font-size: 0.85rem;
+	color: var(--muted);
+}
+
+.measure-input-wrap {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-top: 0.1rem;
+}
+
+.measure-unit-toggle {
+	display: flex;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.measure-unit-btn {
+	background: var(--surface);
+	color: var(--muted);
+	border: none;
+	border-right: 1px solid var(--border);
+	padding: 0.3em 0.6em;
+	font-size: 0.8rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+}
+
+.measure-unit-btn:last-child { border-right: none; }
+
+.measure-unit-btn[aria-pressed="true"] {
+	background: var(--accent);
+	color: #fff;
+}
+
 /* ---- Print ---- */
 
 @media print {
