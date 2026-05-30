@@ -49,8 +49,8 @@
 					</div>
 					<div class="detect-card">
 						<span class="detect-value" id="d-resolution">—</span>
-						<span class="detect-label">Screen resolution</span>
-						<span class="detect-sub">Physical px · fixed</span>
+						<span class="detect-label">Rendered resolution</span>
+						<span class="detect-sub">CSS px × DPR · may differ from hardware px</span>
 					</div>
 					<div class="detect-card">
 						<span class="detect-value" id="d-dpr">—</span>
@@ -300,6 +300,55 @@
 		</section>
 
 	</div>
+
+	<section class="device-notes" aria-labelledby="device-notes-heading">
+		<h2 id="device-notes-heading">Device rendering notes</h2>
+		<p class="section-intro">Known rendering quirks that affect auto-detection accuracy on specific devices.
+			Where a device is listed, use <strong>Preset</strong> or <strong>Manual</strong> entry for
+			accurate calculations.</p>
+
+		<details class="device-note">
+			<summary>Apple iPhone Pro / Pro Max</summary>
+			<div class="device-note-body">
+				<p>These models use a three-layer rendering pipeline. The browser can only see the first two
+					layers — the hardware pixel count is invisible to JavaScript.</p>
+				<div class="table-wrap">
+					<table class="device-note-table">
+						<thead>
+							<tr>
+								<th>Layer</th>
+								<th>iPhone 17 Pro Max example</th>
+								<th>Source</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>CSS pixels</td>
+								<td>430 × 932</td>
+								<td><code>screen.width × screen.height</code></td>
+							</tr>
+							<tr>
+								<td>Rendered buffer</td>
+								<td>1290 × 2796</td>
+								<td>CSS px × DPR (3) — what the GPU draws</td>
+							</tr>
+							<tr class="device-note-hardware">
+								<td>Physical panel</td>
+								<td>1320 × 2868 @ 460 PPI</td>
+								<td>Hardware — not accessible via JS</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p>Because <code>devicePixelRatio</code> is the CSS-to-rendered ratio (3), not the
+					CSS-to-hardware ratio (~3.07), auto-detection reports the rendered resolution
+					rather than the true hardware resolution. This causes a roughly 6 % error in pixel pitch,
+					which in turn affects PPI, arc-minute thresholds, and mm character sizes.</p>
+				<p><strong>Recommendation:</strong> select the matching device from the
+					<strong>Preset</strong> list, or enter the hardware resolution and diagonal manually.</p>
+			</div>
+		</details>
+	</section>
 
 	<a href="../index.html" class="back">← Back to projects</a>
 
