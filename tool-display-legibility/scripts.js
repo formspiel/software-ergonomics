@@ -74,15 +74,12 @@ function createCaptureActions(captureEl, filename) {
 		copyBtn.title = 'Copy as image';
 		copyBtn.setAttribute('aria-label', 'Copy as image');
 		copyBtn.innerHTML = SVG_COPY;
-		copyBtn.addEventListener('click', async () => {
-			try {
-				const canvas = await captureElement(captureEl);
-				canvas.toBlob(blob =>
-					navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-						.then(() => showStatus('Copied.'))
-						.catch(() => showStatus('Could not copy.'))
-				);
-			} catch { showStatus('Capture failed.'); }
+		copyBtn.addEventListener('click', () => {
+			const blobPromise = captureElement(captureEl)
+				.then(canvas => new Promise(resolve => canvas.toBlob(resolve, 'image/png')));
+			navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })])
+				.then(() => showStatus('Copied.'))
+				.catch(() => showStatus('Could not copy.'));
 		});
 		wrap.appendChild(copyBtn);
 	}
@@ -998,18 +995,13 @@ function captureResults() {
 	return captureElement(DOM.results);
 }
 
-DOM.copyShot.addEventListener('click', async () => {
+DOM.copyShot.addEventListener('click', () => {
 	if (typeof window.html2canvas !== 'function') return;
-	try {
-		const canvas = await captureResults();
-		canvas.toBlob(blob => {
-			navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-				.then(() => DOM.exportStatus.textContent = 'Screenshot copied to clipboard.')
-				.catch(() => DOM.exportStatus.textContent = 'Could not copy — try Download instead.');
-		});
-	} catch {
-		DOM.exportStatus.textContent = 'Screenshot failed.';
-	}
+	const blobPromise = captureResults()
+		.then(canvas => new Promise(resolve => canvas.toBlob(resolve, 'image/png')));
+	navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })])
+		.then(() => { DOM.exportStatus.textContent = 'Screenshot copied to clipboard.'; })
+		.catch(() => { DOM.exportStatus.textContent = 'Could not copy — try Download instead.'; });
 });
 
 DOM.downloadShot.addEventListener('click', async () => {
