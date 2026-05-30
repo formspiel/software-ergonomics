@@ -10,16 +10,18 @@ const STORAGE_KEY = 'tool-display-legibility:custom-presets';
  * cap_height_px = font_size_css_px × capRatio
  * Hinting quality: 'excellent' | 'good' | 'verify' | 'issues'  */
 const FONTS = [
+	{ name: 'system-ui',     cssFamily: 'system-ui, sans-serif',
+	                         capRatio: 0.700, hinting: 'excellent', notes: 'Platform default UI font: San Francisco (macOS/iOS), Segoe UI (Windows), Roboto (Android). Cap ratio 0.700 matches SF and Segoe; Roboto is slightly higher (0.711). Use Measure & verify to confirm on your platform.' },
+	{ name: 'Segoe UI',      capRatio: 0.700, hinting: 'excellent', notes: 'x-axis hinted; primary Windows UI font.' },
+	{ name: 'San Francisco', capRatio: 0.700, hinting: 'good',      notes: 'macOS / iOS system font.' },
+	{ name: 'Roboto',        capRatio: 0.711, hinting: 'verify',    notes: 'Android default; web rendering varies.' },
+	{ name: 'Helvetica',     capRatio: 0.717, hinting: 'verify',    notes: 'macOS native; less optimised on Windows.' },
 	{ name: 'Arial',         capRatio: 0.716, hinting: 'good',      notes: 'Well-hinted for Windows.' },
 	{ name: 'Verdana',       capRatio: 0.728, hinting: 'good',      notes: 'Designed for on-screen readability.' },
-	{ name: 'Segoe UI',      capRatio: 0.700, hinting: 'excellent', notes: 'x-axis hinted; primary Windows UI font.' },
 	{ name: 'Calibri',       capRatio: 0.638, hinting: 'good',      notes: 'ClearType-optimised.' },
 	{ name: 'Tahoma',        capRatio: 0.725, hinting: 'verify',    notes: 'Older Windows screen font; verify on target.' },
 	{ name: 'Aptos',         capRatio: 0.694, hinting: 'verify',    notes: 'Modern Microsoft default; verify rendering at small sizes.' },
 	{ name: 'Consolas',      capRatio: 0.633, hinting: 'good',      notes: 'Monospace; well-hinted for code.' },
-	{ name: 'Helvetica',     capRatio: 0.717, hinting: 'verify',    notes: 'macOS native; less optimised on Windows.' },
-	{ name: 'San Francisco', capRatio: 0.700, hinting: 'good',      notes: 'macOS / iOS system font.' },
-	{ name: 'Roboto',        capRatio: 0.711, hinting: 'verify',    notes: 'Android default; web rendering varies.' },
 	{ name: 'Times New Roman', capRatio: 0.662, hinting: 'verify',  notes: 'Serif; verify rendering at small sizes.' },
 	{ name: 'Georgia',       capRatio: 0.692, hinting: 'good',      notes: 'Serif designed for screen.' },
 ];
@@ -538,9 +540,10 @@ function renderFontSection() {
 	const sizeCssPxRounded = Math.round(sizeCssPx * 100) / 100;
 	const rem = (sizeCssPx / 16).toFixed(3).replace(/\.?0+$/, '');
 	const tooSmall = sizeCssPx < 9;
+	const cssFamily = font.cssFamily || `"${font.name}", sans-serif`;
 	DOM.fontOutput.innerHTML = `
 		<h3>CSS output</h3>
-		<pre><code>font-family: "${font.name}", sans-serif;
+		<pre><code>font-family: ${cssFamily};
 font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 /* Cap height: ${capCssPx.toFixed(2)} CSS px · ${capDpx.toFixed(2)} dpx · ${capMm.toFixed(2)} mm */</code></pre>
 		${tooSmall ? '<p class="font-warning">⚠ Below the 9 CSS px floor that some browsers enforce as a minimum render size.</p>' : ''}`;
@@ -558,7 +561,7 @@ font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 	}
 
 	// Update validation render target
-	DOM.validateChar.style.fontFamily = `"${font.name}", sans-serif`;
+	DOM.validateChar.style.fontFamily = font.cssFamily || `"${font.name}", sans-serif`;
 	DOM.validateChar.style.fontSize   = sizeCssPx + 'px';
 	DOM.validateLabel.textContent     = `${font.name} · ${sizeRaw} ${DOM.fontUnit.value} = ${sizeCssPx.toFixed(1)} CSS px`;
 	DOM.verifyResult.innerHTML        = '';
