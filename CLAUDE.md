@@ -13,13 +13,13 @@ To run locally: open any `index.html` in a browser. Because `tool-display-legibi
 The root `index.html` is a project index linking to all tools and demos. `shared.css` provides base styles (CSS variables, typography, status badges, `.back` link) used by every page.
 
 **`tool-display-legibility/`** — the primary tool. Calculates minimum character sizes for ergonomic screen legibility (ISO 9241-303). Key files:
-- `index.html` — semantic markup; results sections are populated by `scripts.js`
-- `scripts.js` — all calculator logic (no inline JS); loads presets and renders the seven results sections
-- `presets.json` — 46 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`
+- `index.html` — semantic markup; input form + results sections populated by `scripts.js`; Notes section at bottom
+- `scripts.js` — all calculator logic (no inline JS); loads presets and renders eight results sections
+- `presets.json` — 27 device presets in 4 categories (`Office Display`, `Laptop`, `Tablet`, `Smartphone`), schema: `{ key, label, width, height, diagonal, dpr? }`; generics listed first within each category, named devices sorted by diagonal
 - `style.css` — page-specific styles; uses `light-dark()` CSS function for auto dark mode
 
 **`tool-character-size-visualisation/`** — side-by-side font comparison tool. Renders sample text at 8–24 px across three columns (System, Google, Allianz Neo W04) to judge rendering quality at small sizes. Key files:
-- `index.html` — all markup and inline JS; Google Fonts CDN link; `@font-face` rules loading Allianz Neo from `https://amh.me/allianz/fonts/`; no external scripts
+- `index.html` — all markup and inline JS; Google Fonts CDN link; `@font-face` rules loading Allianz Neo from `https://fonts.cdn.allianz.com/allianz-neo/` (official Allianz CDN, requires network access); no external scripts
 - `style.css` — tool-specific layout; `shared.css` handles base styles and theming
 - Controls: sample text input (default `E aecg · Il1ij · 0Oo · bd · rn/m — Hamburgefons`), Regular/Bold weight toggle (affects System and Google columns only; Allianz weight comes from its select)
 - Mobile (≤ 640 px): controls collapse into a `<details>` disclosure element; tab strip switches between columns; subtitle and Draft badge hidden
@@ -56,18 +56,37 @@ The root `index.html` is a project index linking to all tools and demos. `shared
 
 ## Calculator Architecture
 
-All calculator logic lives in `tool-display-legibility/scripts.js`. The page is structured into a configuration form, a single submit handler (`calculate()`), and seven rendered results sections:
+All calculator logic lives in `tool-display-legibility/scripts.js`. The page has a **Screen** input section, a Calculate / Reset action row, eight rendered results sections, and a permanent **Notes** section at the bottom.
 
-- **Presets** loaded via `fetch('presets.json')` into `presetData[]` and `presetMap{}`. Selecting a preset auto-fills display fields, sets viewing distance based on category, and triggers auto-calculate. Custom user presets persist in `localStorage` under `tool-display-legibility:custom-presets` and appear in their own optgroup at the top of the dropdown.
-- **Screen profile** — three stat cards showing PPI (with classification label: Low / Mid / High / Retina), pixel pitch in mm, and DPR.
-- **Arc-minute table** — minimum dpx for 16′/20′/22′ thresholds at the configured distance using: `arcMin = (2 * atan((n * pitch / 2) / distMm) * 180 / PI) * 60`. Each row also shows CSS px = `ceil(dpx / dpr)`, physical mm, and a 7×9 matrix badge (OK if dpx ≥ 9, warn otherwise — the ISO matrix requirement explains why 9 dpx is the practical floor).
-- **Distance range table** — same 20′/22′ thresholds across 30–80 cm in 10 cm steps. The row matching the configured distance is highlighted.
-- **Zoom table** — physical character sizes (mm) for 8–11 dpx at 100–200% zoom. Target 3.2 mm; ±10% tolerance determines pass/acceptable/below cell colouring.
-- **Font compliance check** — pick a font + size + unit (px/pt). Computes cap height in CSS px / dpx / mm, checks compliance against the three arc-minute thresholds, displays a hinting-quality badge, generates a CSS output snippet (px + rem with the cap-height comment), and suggests a minimum size to meet the 20′ minimum. Cap-height ratios are from the `FONTS` array (published metrics, not measured per platform). Hinting quality classifications: `excellent | good | verify | issues`.
-- **Line height** — three cards (1.4× minimum, 1.5× recommended, 1.6× comfortable) based on the 20′ cap height.
-- **Visual reference** — CSS `mm`-unit bars at 3.2 / 2.5 / 5 mm; accurate only at 100% browser zoom on a screen reporting correct DPI.
-- **Share & export** — permalink (URL hash with `w`, `h`, `d`, `s`, `v`); applied on page load if present. Screenshot copy/download via `html2canvas` CDN, capturing the entire `#results` section.
+### Input section — Screen
+
+Three source modes selected via a button group (`currentSource: 'detect' | 'preset' | 'manual'`):
+
+- **This screen** (`#panel-detect`) — reads `screen.width/height`, `window.devicePixelRatio`, `screen.colorDepth`, `window.innerWidth/Height` (viewport updates live on resize). Displays four stat cards. User must supply the screen diagonal (in or mm toggle; `detectDiagUnit` state). "Use these values" converts diagonal to inches, fills the hidden `#width/#height/#dpr/#diagonal` inputs, and calls `calculate()`. "Save as preset" checks diagonal first before prompting for a name. Note: on most platforms `screen.width × devicePixelRatio` equals the hardware resolution; iPhone Pro/Pro Max is an exception (see Notes section on the page).
+- **Preset** (`#panel-preset`) — dropdown populated from `presets.json` via `fetch()` into `presetData[]` / `presetMap{}`. Selecting a preset fills the hidden inputs, sets viewing distance by category (`CATEGORY_DISTANCE`), and auto-calculates. Selecting "custom" switches to Manual mode. Custom presets persist in `localStorage` under `tool-display-legibility:custom-presets`.
+- **Manual** (`#display-fields`) — direct entry of width, height, diagonal (in/mm toggle; `manualDiagUnit` state), DPR. `readConfig()` applies mm→in conversion only in this mode. "Save as preset" available here too.
+
+Viewing distance fieldset sits below the source panels inside the same `<section>`. Shortcut buttons set `aria-pressed` and trigger `calculate()` if display values are already present.
+
+### Results sections
+
+- **Screen profile** — PPI (classified: Low / Mid / High / Retina), pixel pitch in mm, DPR.
+- **Compliance at distance** — minimum dpx for 16′/20′/22′ ISO thresholds. Formula: `arcMin = (2 × atan((n × pitchMm / 2) / distMm) × 180 / PI) × 60`. Each row shows dpx, CSS px = `ceil(dpx / dpr)`, mm, and 7×9 matrix badge (pass if dpx ≥ 9).
+- **Across viewing distances** — 20′/22′ thresholds across 30–80 cm; configured distance row highlighted.
+- **Character height by browser zoom** — physical mm for 8–11 dpx at 100–200% zoom. Target 3.2 mm ±10% determines cell colour.
+- **Font compliance check** — font + size + unit (px/pt; 1 pt = 1.333 CSS px). Cap height in CSS px / dpx / mm checked against thresholds. Hinting badge (`excellent | good | verify | issues`). CSS output snippet. Suggested minimum size. Cap-height ratios in `FONTS[]` are published per-em estimates — not measured per platform.
+- **Recommended line height** — 1.4× / 1.5× / 1.6× based on 20′ cap height.
+- **Visual reference** — CSS `mm`-unit bars at 2.5 / 3.2 / 5 mm; accurate only at 100% zoom on a correctly calibrated screen.
+- **Share & export** — permalink (URL hash `w, h, d, s, v`; loads into Manual mode on page load). Screenshot copy/download via `html2canvas` CDN.
+
+### Notes section
+
+Permanent section below results (always visible). Contains collapsible `<details>` entries:
+- **About this calculator** — explains dpx vs CSS px and the three arc-minute thresholds.
+- **Apple iPhone Pro / Pro Max** — documents the three-layer rendering pipeline (CSS px → rendered buffer → physical panel) and why browser auto-detection under-reports resolution on these devices.
+
+Add further device-specific entries here as `<details class="device-note">` elements.
 
 ## Adding Device Presets
 
-Edit `tool-display-legibility/presets.json` directly. Use portrait orientation (height > width) for phones and tablets; landscape for monitors and laptops. The `dpr` field is optional (defaults to 1).
+Edit `tool-display-legibility/presets.json` directly. Place generics before named devices within each category; sort named devices by diagonal size. Use portrait orientation (height > width) for phones and tablets; landscape for monitors and laptops. The `dpr` field is optional (defaults to 1).
