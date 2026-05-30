@@ -776,8 +776,12 @@ button.secondary:hover {
 .capture-actions {
 	display: flex;
 	align-items: center;
-	gap: 0.4rem;
-	margin-top: 0.5rem;
+	margin-top: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.capture-btn + .capture-btn {
+	margin-left: 0.4rem;
 }
 
 .capture-btn {
