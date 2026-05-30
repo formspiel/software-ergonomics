@@ -38,10 +38,12 @@
   {
     "category": "Smartphone",
     "devices": [
-      { "key": "iphone_se",     "label": "Apple iPhone SE 4\" (old)", "width": 640,  "height": 1136, "diagonal": 4,    "dpr": 2 },
-      { "key": "iphone_17e",    "label": "Apple iPhone 17e 6.3\"",    "width": 1170, "height": 2532, "diagonal": 6.3,  "dpr": 3 },
-      { "key": "iphone_17_pro", "label": "Apple iPhone 17 Pro 6.9\"", "width": 1320, "height": 2868, "diagonal": 6.9,  "dpr": 3 },
-      { "key": "pixel_6",       "label": "Google Pixel 6 6.4\"",      "width": 1080, "height": 2400, "diagonal": 6.4,  "dpr": 3 }
+      { "key": "iphone_se",          "label": "Apple iPhone SE 4\" (old)",       "width": 640,  "height": 1136, "diagonal": 4,   "dpr": 2     },
+      { "key": "iphone_17e",         "label": "Apple iPhone 17e 6.3\"",           "width": 1170, "height": 2532, "diagonal": 6.3, "dpr": 3     },
+      { "key": "iphone_17_pro",      "label": "Apple iPhone 17 Pro 6.9\"",        "width": 1320, "height": 2868, "diagonal": 6.9, "dpr": 3     },
+      { "key": "pixel_6",            "label": "Google Pixel 6 6.4\"",             "width": 1080, "height": 2400, "diagonal": 6.4, "dpr": 3     },
+      { "key": "pixel_7_pro_fhd",    "label": "Google Pixel 7 Pro 6.7\" (FHD+)", "width": 1080, "height": 2340, "diagonal": 6.7, "dpr": 2.625 },
+      { "key": "pixel_7_pro_qhd",    "label": "Google Pixel 7 Pro 6.7\" (QHD+)", "width": 1440, "height": 3120, "diagonal": 6.7, "dpr": 3.5   }
     ]
   }
 ]
