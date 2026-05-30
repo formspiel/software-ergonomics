@@ -83,7 +83,6 @@ const DOM = {
 	fontUnit:       document.getElementById('font-unit'),
 	fontResult:     document.getElementById('font-result'),
 	fontOutput:     document.getElementById('font-output'),
-	fontHint:       document.getElementById('font-hint'),
 
 	validateChar:   document.getElementById('validate-char'),
 	validateLabel:  document.getElementById('validate-render-label'),
@@ -506,7 +505,6 @@ function renderFontSection() {
 	if (!sizeRaw || sizeRaw <= 0) {
 		DOM.fontResult.innerHTML = '';
 		DOM.fontOutput.innerHTML = '';
-		DOM.fontHint.textContent = '';
 		DOM.validateLabel.textContent = 'Enter a font size in the Font compliance section above.';
 		return;
 	}
@@ -554,40 +552,42 @@ function renderFontSection() {
 		<div class="table-wrap">
 			<table class="arc-table">
 				<thead><tr>
-					<th>Threshold</th><th>Meaning</th><th>Required</th><th>Status</th>
+					<th>Threshold</th><th>Meaning</th><th>Min. dpx</th><th>Status</th>
 				</tr></thead>
 				<tbody>${rows}</tbody>
 			</table>
 		</div>
-		<div class="hinting-row">
-			<span class="hinting-label">Hinting quality:</span>
-			<span class="badge ${hintBadge.cls}">${hintBadge.text}</span>
-			<span class="hinting-notes">${font.notes}</span>
-		</div>`;
+		${(() => {
+			const required20 = arcMinDpx(currentPitch, currentCfg.distance, 20);
+			let assessHtml = '';
+			if (required20 !== null) {
+				const minCssPx = required20 / currentCfg.dpr / font.capRatio;
+				const minPt    = minCssPx / 1.333;
+				assessHtml = capDpx >= required20
+					? `<span class="hinting-break"></span>
+					   <span class="hinting-assessment hinting-ok">${font.name} at ${sizeRaw} ${DOM.fontUnit.value} meets the 20′ minimum on this screen.</span>`
+					: `<span class="hinting-break"></span>
+					   <span class="hinting-assessment hinting-warn">Suggested minimum: ${font.name} needs at least <strong>${minCssPx.toFixed(1)} CSS px</strong> (${minPt.toFixed(1)} pt) for 20′ compliance.</span>`;
+			}
+			return `<div class="hinting-row">
+				<span class="hinting-label">Hinting:</span>
+				<span class="badge ${hintBadge.cls}">${hintBadge.text}</span>
+				<span class="hinting-notes">${font.notes}</span>
+				${assessHtml}
+			</div>`;
+		})()}`;
 
-	// CSS output
+	// CSS output — rendered in Share & export section
 	const sizeCssPxRounded = Math.round(sizeCssPx * 100) / 100;
 	const rem = (sizeCssPx / 16).toFixed(3).replace(/\.?0+$/, '');
 	const tooSmall = sizeCssPx < 9;
 	const cssFamily = font.cssFamily || `"${font.name}", sans-serif`;
 	DOM.fontOutput.innerHTML = `
-		<h3>CSS output</h3>
+		<h3>CSS snippet</h3>
 		<pre><code>font-family: ${cssFamily};
 font-size: ${sizeCssPxRounded}px;   /* or ${rem}rem at 16 px root */
 /* Cap height: ${capCssPx.toFixed(2)} CSS px · ${capDpx.toFixed(2)} dpx · ${capMm.toFixed(2)} mm */</code></pre>
 		${tooSmall ? '<p class="font-warning">⚠ Below the 9 CSS px floor that some browsers enforce as a minimum render size.</p>' : ''}`;
-
-	// Suggested minimum
-	const required20 = arcMinDpx(currentPitch, currentCfg.distance, 20);
-	if (required20 !== null) {
-		const minCssPx = required20 / currentCfg.dpr / font.capRatio;
-		const minPt = minCssPx / 1.333;
-		DOM.fontHint.innerHTML = capDpx >= required20
-			? `<strong>OK.</strong> ${font.name} at ${sizeRaw} ${DOM.fontUnit.value} meets the 20′ minimum on this screen.`
-			: `<strong>Suggested minimum:</strong> to meet the 20′ ISO minimum, set ${font.name} to at least <strong>${minCssPx.toFixed(1)} CSS px</strong> (${minPt.toFixed(1)} pt).`;
-	} else {
-		DOM.fontHint.textContent = '';
-	}
 
 	// Update validation render target
 	DOM.validateChar.style.fontFamily = font.cssFamily || `"${font.name}", sans-serif`;
@@ -652,7 +652,7 @@ function renderVerifyResult() {
 		<div class="table-wrap">
 			<table class="arc-table">
 				<thead><tr>
-					<th>Threshold</th><th>Meaning</th><th>Required</th><th>Status</th>
+					<th>Threshold</th><th>Meaning</th><th>Min. dpx</th><th>Status</th>
 				</tr></thead>
 				<tbody>${rows}</tbody>
 			</table>

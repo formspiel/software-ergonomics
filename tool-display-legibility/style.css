@@ -682,8 +682,24 @@ button.secondary:hover {
 	min-width: 200px;
 }
 
+.hinting-break {
+	width: 100%;
+	height: 0;
+	border-top: 1px solid var(--border);
+	margin: 0.25rem 0;
+}
+
+.hinting-assessment {
+	width: 100%;
+	font-size: 0.85rem;
+}
+
+.hinting-ok   { color: var(--ok); }
+.hinting-warn { color: var(--warn); }
+
 .font-output {
-	margin-top: 1.5rem;
+	margin-top: 0;
+	margin-bottom: 1.5rem;
 }
 
 .font-output h3 {
