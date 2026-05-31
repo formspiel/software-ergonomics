@@ -543,41 +543,41 @@ function renderRangeTable(pitch, cfg) {
 function renderZoomTable(pitch, cfg) {
 	const zooms = [1, 1.25, 1.5, 1.75, 2];
 	const zoomLabels = ['100%', '125%', '150%', '175%', '200%'];
-	const dpxs = [8, 9, 10, 11];
-	const target = 3.2;
+	const cssPxs = [8, 9, 10, 11];
+	const targetMm = 3.2 * (cfg.distance / 50);
 	const tolerance = 0.10;
 
 	DOM.zoomTbody.innerHTML = '';
 	const acceptable9 = [];
 
-	dpxs.forEach(dpx => {
+	cssPxs.forEach(cssPx => {
 		const tr = document.createElement('tr');
 		const th = document.createElement('th');
 		th.scope = 'row';
-		th.textContent = `${dpx} dpx`;
+		th.textContent = `${cssPx} CSS px`;
 		tr.appendChild(th);
 
 		zooms.forEach((zoom, i) => {
-			const mm = pitch * dpx * zoom;
-			const lower = target * (1 - tolerance);
+			const mm = pitch * cssPx * cfg.dpr * zoom;
+			const lower = targetMm * (1 - tolerance);
 			let cls = 'cell-err', state = 'below';
-			if (mm >= target)       { cls = 'cell-ok';   state = 'ok'; }
+			if (mm >= targetMm)     { cls = 'cell-ok';   state = 'ok'; }
 			else if (mm >= lower)   { cls = 'cell-warn'; state = 'acceptable'; }
 			const td = document.createElement('td');
 			td.className = cls;
-			const effectiveDpx = Math.round(dpx * zoom);
-			const cssPx        = Math.ceil(effectiveDpx / cfg.dpr);
+			const effectiveDpx  = Math.round(cssPx * cfg.dpr * zoom);
+			const effectiveCssPx = Math.round(cssPx * zoom);
 			td.innerHTML = `<strong>${mm.toFixed(2)} mm</strong><br>
-				<small>${effectiveDpx} dpx · ${cssPx} CSS px</small>`;
+				<small>${effectiveDpx} dpx · ${effectiveCssPx} CSS px</small>`;
 			tr.appendChild(td);
-			if (dpx === 9 && state !== 'below') acceptable9.push(zoomLabels[i]);
+			if (cssPx === 9 && state !== 'below') acceptable9.push(zoomLabels[i]);
 		});
 		DOM.zoomTbody.appendChild(tr);
 	});
 
 	DOM.zoomCaption.textContent = acceptable9.length
-		? `Acceptable character size for 9 dpx starts at ${acceptable9[0]} zoom.`
-		: `No zoom level in this table achieves the 3.2 mm target for 9 dpx.`;
+		? `9 CSS px meets the ${targetMm.toFixed(1)} mm target (${cfg.distance} cm) from ${acceptable9[0]} zoom.`
+		: `No zoom level achieves the ${targetMm.toFixed(1)} mm target for 9 CSS px at ${cfg.distance} cm.`;
 }
 
 let currentPitch = null;
