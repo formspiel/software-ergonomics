@@ -8,6 +8,7 @@
       { "key": "lg_ultrafine_24",    "label": "LG UltraFine 24\" 4K",      "width": 3840, "height": 2160, "diagonal": 24,   "dpr": 2 },
       { "key": "nec_2690wuxi",       "label": "NEC 2690WUXI 26\" WUXGA (ABS)", "width": 1920, "height": 1200, "diagonal": 26,   "dpr": 1 },
       { "key": "nec_ea273wmi",       "label": "NEC EA273WMi 27\" FHD",     "width": 1920, "height": 1080, "diagonal": 27,   "dpr": 1 },
+      { "key": "lenovo_p27qd40",    "label": "Lenovo ThinkVision P27QD-40 27\" QHD", "width": 2560, "height": 1440, "diagonal": 27,   "dpr": 1 },
       { "key": "dell_u2720q",        "label": "Dell U2720Q 27\" 4K",       "width": 3840, "height": 2160, "diagonal": 27,   "dpr": 1 },
       { "key": "nec_ea294wmi_29",    "label": "NEC EA294WMi 29\" UW-FHD",  "width": 2560, "height": 1080, "diagonal": 29,   "dpr": 1 },
       { "key": "asus_proart_32",     "label": "ASUS ProArt 32\" 4K",       "width": 3840, "height": 2160, "diagonal": 32,   "dpr": 1 }
