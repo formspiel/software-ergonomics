@@ -26,8 +26,9 @@ form.addEventListener('input', () => {
 	// form.elements is a live browser collection of all form controls.
 	const dirty = Array.from(form.elements).some(el => {
 		if (el.type === 'checkbox' || el.type === 'radio') return el.checked;
-		if (el.type === 'submit' || el.type === 'button') return false;
-		return el.value !== '';
+		// Skip elements without a real value (fieldset, submit/button, output, etc.);
+		// `<fieldset>.value` is undefined, which would spuriously test truthy below.
+		return typeof el.value === 'string' && el.value !== '' && el.type !== 'submit' && el.type !== 'button';
 	});
 	setUnsaved(dirty);
 });
